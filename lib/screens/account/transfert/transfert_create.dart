@@ -197,7 +197,7 @@ class _TransfertCreateScreenState extends State<TransfertCreateScreen> {
           'Nouveau transfert',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -211,15 +211,18 @@ class _TransfertCreateScreenState extends State<TransfertCreateScreen> {
                 //fit: BoxFit.cover,
               ),
               //decoration: BoxDecoration(color: Colors.green),
-              height: 120,
+              height: 70,
               //width: double.infinity,
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                'Cette opération vous permet de transférer une partie de votre solde dépôt à un autre utilisateur',
-                style: TextStyle(fontSize: 16),
+                'Cette opération vous permet de transférer une partie de vos gains à un autre utilisateur',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -265,13 +268,13 @@ class _TransfertCreateScreenState extends State<TransfertCreateScreen> {
                           CustomListSpaceBetwen(
                             label: 'Solde avant',
                             value:
-                                '${NumberHelper().formatNumber(thisUser.credits_balance)} FCFA',
+                                '${thisUser.key == '5555555' ? NumberHelper().formatNumber(thisUser.credits_balance) : NumberHelper().formatNumber(thisUser.ewallet_balance)} FCFA',
                           ),
                           CustomHorizontalDiver(),
                           CustomListSpaceBetwen(
                             label: 'Solde après',
                             value:
-                                '${NumberHelper().formatNumber(thisUser.credits_balance - _amount)} FCFA',
+                                '${thisUser.key == '5555555' ? NumberHelper().formatNumber(thisUser.credits_balance - _amount) : NumberHelper().formatNumber(thisUser.ewallet_balance - _amount)} FCFA',
                           ),
                         ],
                       )
@@ -283,10 +286,11 @@ class _TransfertCreateScreenState extends State<TransfertCreateScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: CustomFlatButtonRounded(
-                label: 'Transférer les fonds',
+                label: 'Valider le transfert',
                 borderRadius: 50,
                 function: _submitConfirm,
-                bgColor: MyColors().primary,
+                borderColor: Colors.transparent,
+                bgColor: Colors.green.withOpacity(0.6),
                 textColor: Colors.white,
               ),
             ),

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../screens/account/user/settings.dart';
 import '../../screens/account/dashboard.dart';
 import '../../services/user.dart';
 import '../../widgets/common/custom_alert.dart';
 import '../../config/configuration.dart';
-import '../../helpers/common.dart';
-import '../../widgets/common/custom_card.dart';
 import '../../styles/styles.dart';
 import '../../widgets/common/custom_list_vertical.dart';
-import '../../screens/public/static/conditions.dart';
 import '../../widgets/common/custom_flat_button_rounded.dart';
 import '../../models/user.dart';
 
@@ -46,8 +44,8 @@ class _UserContractScreenState extends State<UserContractScreen> {
           colorText: Colors.black,
         ).alert(
           context,
-          'Bienvenue!',
-          'Votre contrat a été signé avec succès. Mettez à profit votre période d\'essai de 7 jours!',
+          'Akwaba!',
+          'Nous vous souhaitons la bienvenue dans le programme $appName',
           false,
         );
 
@@ -56,8 +54,16 @@ class _UserContractScreenState extends State<UserContractScreen> {
 
         Navigator.of(context).pushReplacement(
           CubePageRoute(
-            enterPage: DashboardScreen(userObj: result),
-            exitPage: DashboardScreen(userObj: result),
+            enterPage: result.categories.length >= 3
+                ? DashboardScreen(userObj: result)
+                : UserSettingsScreen(
+                    user: result,
+                  ),
+            exitPage: result.categories.length >= 3
+                ? DashboardScreen(userObj: result)
+                : UserSettingsScreen(
+                    user: result,
+                  ),
             duration: const Duration(milliseconds: 300),
           ),
         );
@@ -73,10 +79,10 @@ class _UserContractScreenState extends State<UserContractScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'A lire attentivement!',
+          'Contrat d\'adhésion',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -92,76 +98,108 @@ class _UserContractScreenState extends State<UserContractScreen> {
                   //fit: BoxFit.cover,
                 ),
                 //decoration: BoxDecoration(color: Colors.green),
-                height: 120,
+                height: 70,
                 //width: double.infinity,
               ),
+              SizedBox(height: 10),
               Container(
                 child: Text(
-                  'Acceptation des conditions générales et signature du contrat d\'adhésion',
+                  'Acceptation des conditions Générales d\'Utilisation (CGU)',
                   style: TextStyle(
                     fontSize: 25,
                     fontFamily: MyFontFamily().family1,
-                    color: MyColors().danger,
+                    color: Colors.white,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(height: 10),
               Text(
-                  'Ci après l\'essentiel des conditions générales d\'utilisation de l\'application $appName. Vous devez lire et comprendre chaque point avant de continuer'),
-              SizedBox(height: 10),
-              Text(
-                  'Le fait de cliquer sur le bouton vert < J\'ACCEPTE >, implique de facto votre entière adhésion aux conditions générales d\'utilisation de $appName et ce, en toute connaissance de cause!'),
+                'Le fait de cliquer sur le bouton vert < J\'ACCEPTE >, implique de facto votre entière adhésion aux conditions générales d\'utilisation du programme $appName et ce, en toute connaissance de cause!',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
               SizedBox(height: 20),
               CustomListVertical(
-                label: '18 ANS ET PLUS',
+                label: '1- PRÉAMBULE',
                 value:
-                    'Vous ne pouvez pas utiliser $appName si vous êtes un mineur. Si vous validez les conditions, cela suppose que vous déclarez et pouvez éventuellement apporter la preuve que êtes âgé(e) de 18 ans ou plus. Si tel n\'est pas le cas, vous devez fermer immédiatement l\'application, et votre compte sera automatiquement supprimé au bout de 18 jours.',
+                    '$appName est un programme obtenu de la combinaison du Crowdfunding et du Marketing Digital permettant d\'une part aux entreprises de communiquer plus efficacement avec des cibles bien segmentées, et de récompenser financièrement et matériellement les participants d\'autres parts',
               ),
               CustomListVertical(
-                label: 'LA PÉRIODE D\'ESSAI (7 JOURS)',
+                label: '2- OBJET',
                 value:
-                    'Jusqu\'au ${DateHelper().formatTimeStampFull(widget.user.expiry)}, vous avez un accès sans limite à toutes les fonctionnalités et tester tous modules de l\'application $appName, entre autres les programmes et arrivées des courses PMU, le calendrier des matchs de Football, etc... Vous pouvez aussi faire des dépôts et parier sur toutes les courses PMU et tous les matchs de football, jouer au Jackpot 7jours/7, 24heures/24',
+                    'L\'objet des présentes CGU est de définir les conditions dans lesquelles le membre adhère, évolue et bénéficie du programme $appName',
               ),
               CustomListVertical(
-                label: 'LE RETRAIT DES GAINS',
+                label: '3- OBLIGATIONS',
                 value:
-                    'Pour lancer le retrait de vos gains, vous devez être un utilisateur actif. En d\'autres termes, vous ne pouvez pas lancer les retraits tant que vous n\'avez pas activé votre abonnement ou si celui-ci a expiré.',
+                    'Pour bénéficier pleinement du programme $appName, le membre doit dans un premier temps acheter un code de validation avec lequel il crée son compte, puis parrainer un minimum de 2 personnes pour commencer par effectuer des retraits de gains',
               ),
               CustomListVertical(
-                label: 'L\'ABONNEMENT',
+                label: '4- AUTOSHIP',
                 value:
-                    'Pendant ou après votre période d\'essai de 7 jours (${DateHelper().formatTimeStampFull(widget.user.expiry)}), vous devez activer l\'abonnement premium (5000 F par trimestre) pour continuer à accéder à toutes les fonctionnalités de l\'application.',
+                    'Pour maintenir le programme et le réseau actifs, chaque membre doit activer son autoship tous les 30 jours, soit en achetant un code d\'activation, soit avec ses gains (s\'il en dispose)',
               ),
-              CustomCard(
-                color: MyColors().danger,
-                content: Column(
-                  children: [
-                    Text(
-                      'Nous vous recommandons vivement de prendre le temps de lire et comprendre les conditions de $appName avant de revenir cliquer sur < J\'ACCEPTE >',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    SizedBox(height: 6),
-                    CustomFlatButtonRounded(
-                      label: 'Lire les termes et conditions!',
-                      borderRadius: 50,
-                      function: () {
-                        Navigator.of(context).push(
-                          CubePageRoute(
-                            enterPage: ConditionsScreen(),
-                            exitPage: ConditionsScreen(),
-                            duration: const Duration(milliseconds: 300),
-                          ),
-                        );
-                      },
-                      bgColor: MyColors().white,
-                      textColor: Colors.redAccent,
-                    ),
-                  ],
-                ),
+              CustomListVertical(
+                label: '5- GAINS',
+                value:
+                    'Après avoir inscrit son deuxième filleul, le membre actif recevra des gains de 3 500 FCFA à l\'infini en profondeur au fur et à mesure que son équipe se développe ou se renouvelle avec le paiement des autoships des membres existants',
+              ),
+              CustomListVertical(
+                label: '6- AWARDS',
+                value:
+                    '''Chaque membre recevra une fois 3 types d'Awards dès qu\'il cumule un certain nombre de membres dans son équipe:
+
+✅ 50 : Android (100 000 F max)
+✅ 350 : Moto (700 000 F max)
+✅ 2 500 : Voiture (5 Millions F max)''',
+              ),
+              CustomListVertical(
+                label: '7- RESPONSABILITÉS',
+                value:
+                    '''Le membre est seul responsable de l'utilisation de son compte. Toute connexion avec son nom d'utilisateur et mot de passe, ou transmission de données effectuée en utilisant son compte $appName sera réputée avoir été effectuée par le membre lui-même et sous sa responsabilité exclusive. Il s'engage donc à notifier à $appName toute utilisation non autorisée de son compte dès qu'il en a connaissance.
+
+En cas de non-respect par un membre des présentes CGU, $appName se réserve le droit de lui suspendre son accès.''',
+              ),
+              CustomListVertical(
+                label: '8- DONNÉES PERSONNELLES',
+                value:
+                    '''Le membre bénéficie d'un droit d'accès, de rectification et d'opposition à la cession de ses données personnelles qu'il peut exercer en adressant un message à l'adresse électronique suivante : novacash[at]novalead.dev''',
+              ),
+              CustomListVertical(
+                label: '9- NOTIFICATIONS',
+                value:
+                    '''Après son inscription, le membre doit définir 3 catégories dans son profil dans lesquelles il accepte librement recevoir des notifications (mails et/ou SMS) de la part des entreprises partenaires du programme $appName''',
+              ),
+              CustomListVertical(
+                label: '10- RETRAIT DES GAINS',
+                value:
+                    '''Le membre actif peut effectuer gratuitement le retrait de ses gains à tout moment par l'un des moyens fournis dans l'application: Mobile Money (Orange, Moov, Tmoney), Bitcoin, Ethereum, Ria, MoneyGram et Western Union avec un minimum requis: 
+  ✅ Mobile Money: 3 500 F
+  ✅ Crypto: 10 000 F
+  ✅ Autres: 10 000 F''',
+              ),
+              CustomListVertical(
+                label: '11- MODIFICATIONS',
+                value:
+                    '''Les CGU prennent effet à compter de leur publication sur la Plateforme $appName et restent en vigueur jusqu'à leur modification partielle ou totale.
+
+Le Membre devra donc se référer à la dernière version des CGU accessible à partir de son compte. $appName se réserve également le droit de modifier ou de faire évoluer à tout moment les conditions du programme. Ces modifications entreront en vigueur dès leur publication.
+
+Tout accès au backoffice après modification des CGU vaut acceptation pure et simple par le membre des nouvelles CGU.''',
+              ),
+              CustomListVertical(
+                label: '12- LOI APPLICABLE',
+                value:
+                    'Les CGU sont soumises pour leur validité, leur interprétation et leur exécution au droit burkinabé',
+              ),
+              CustomListVertical(
+                label: '13- MENTIONS LÉGALES',
+                value: '''(a) Editeur : NovaLead
+(b) Mise à jour des CGU : 20/02/2021
+(c) Contact : novacash@novalead.dev''',
               ),
               CustomFlatButtonRounded(
                 label: 'J\'ACCEPTE',

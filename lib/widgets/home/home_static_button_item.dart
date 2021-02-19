@@ -42,7 +42,7 @@ class HomeStaticButtonItem extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              decoration: BoxDecoration(
+              /*decoration: BoxDecoration(
                 boxShadow: [
                   BoxShadow(
                     color: Colors.white.withOpacity(0.3),
@@ -54,9 +54,9 @@ class HomeStaticButtonItem extends StatelessWidget {
                     ),
                   )
                 ],
-              ),
+              ),*/
               child: image,
-              width: 55,
+              width: 45,
             ),
             Text(
               label,
@@ -64,7 +64,7 @@ class HomeStaticButtonItem extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontFamily: MyFontFamily().family2,
                 color: MyColors().primary,
-                fontSize: 12,
+                fontSize: 14,
               ),
             ),
           ],

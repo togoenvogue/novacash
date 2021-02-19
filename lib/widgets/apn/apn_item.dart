@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
+import '../../config/configuration.dart';
 import '../../models/apn.dart';
 
 class ApnListItem extends StatelessWidget {
@@ -59,15 +60,27 @@ class ApnListItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                apn.fullName,
+                '${apn.firstName} ${apn.lastName}',
                 style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+              SizedBox(height: 3),
+              Text(
+                '+${apn.username}',
+                style: TextStyle(
+                  color: Colors.yellow,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 3),
-              Text('+${apn.username}'),
-              SizedBox(height: 3),
-              Text(apn.email),
+              Text(
+                apn.email,
+                style: TextStyle(
+                  color: Colors.white.withOpacity(0.6),
+                ),
+              ),
             ],
           ),
           Expanded(
@@ -78,7 +91,7 @@ class ApnListItem extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     FlutterOpenWhatsapp.sendSingleMessage(apn.whatsApp,
-                        'Bonjour, pouvez-vous m\'envoyer votre code d\'invitation pour me permettre de m\'inscrire sur l\'application mobile betNino? Merci!');
+                        'Bonjour, je vous écris à propos du programme $appName');
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(right: 12.0),

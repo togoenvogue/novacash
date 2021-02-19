@@ -1,18 +1,22 @@
 class ApnModel {
   final String key;
   final String userKey;
-  final String fullName;
+  final String firstName;
+  final String lastName;
   final String email;
   final String username;
   final String whatsApp;
   final String countryFlag;
+  final String countryName;
   final String picture;
   final String error;
 
   ApnModel({
     this.key,
     this.userKey,
-    this.fullName,
+    this.firstName,
+    this.lastName,
+    this.countryName,
     this.email,
     this.username,
     this.whatsApp,

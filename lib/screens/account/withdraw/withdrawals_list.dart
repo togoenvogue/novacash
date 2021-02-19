@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../../screens/account/withdraw/withdrawal_detail.dart';
 import '../../../helpers/common.dart';
 import '../../../models/withdrawal.dart';
 import '../../../styles/styles.dart';
@@ -9,48 +10,27 @@ class WithdrawalsList extends StatelessWidget {
 
   WithdrawalsList({this.obj});
 
+  void _openDetailModal({BuildContext ctx, WithdrawalModel retrait}) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return WithdrawalDetail(retrait: retrait);
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        _openDetailModal(ctx: context, retrait: obj);
+      },
       splashColor: MyColors().primary.withOpacity(0.3),
       child: Container(
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Container(
-                      child: Text(
-                        DateHelper().formatTimeStamp(obj.timeStamp),
-                        style: TextStyle(
-                          fontSize: 12,
-                        ),
-                      ),
-                    ),
-                    obj != null && obj.txid != null
-                        ? Container(
-                            child: Text(
-                              obj.txid.length <= 11
-                                  ? obj.txid
-                                  : obj.txid.substring(0, 11),
-                              style: TextStyle(
-                                color: MyColors().info,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            child: Text(''),
-                          ),
-                  ],
-                ),
-              ),
-            ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
@@ -58,18 +38,34 @@ class WithdrawalsList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-                      child: Text(obj.channel),
+                      child: Text(
+                        obj.channel,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                     obj != null && obj.account != null
                         ? Container(
-                            child: Text(
-                              obj.account.length <= 11
-                                  ? obj.account
-                                  : obj.account.substring(0, 11),
-                              style: TextStyle(
-                                color: MyColors().danger,
-                              ),
-                            ),
+                            child: obj.account != "null"
+                                ? Text(
+                                    obj.account.length <= 20
+                                        ? obj.account
+                                        : '${obj.account.substring(0, 20)} [...]',
+                                    style: TextStyle(
+                                      color: obj.status == 'Pending'
+                                          ? Colors.yellow
+                                          : Colors.greenAccent,
+                                    ),
+                                  )
+                                : Text(
+                                    '${obj.city} - ${obj.country}',
+                                    style: TextStyle(
+                                      color: obj.status == 'Pending'
+                                          ? Colors.yellow
+                                          : Colors.greenAccent,
+                                    ),
+                                  ),
                           )
                         : Container(
                             child: Text(''),
@@ -86,17 +82,18 @@ class WithdrawalsList extends StatelessWidget {
                   children: [
                     Container(
                       child: Text(
-                        '${NumberHelper().formatNumber(obj.amount).toString()} FCFA',
+                        '${NumberHelper().formatNumber(obj.amount).toString()} F',
                         style: TextStyle(
                           color: MyColors().primary,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     Container(
                       child: Text(
-                        'Tous frais déduits',
+                        DateHelper().formatTimeStamp(obj.timeStamp),
                         style: TextStyle(
-                          color: MyColors().normal.withOpacity(0.8),
+                          color: MyColors().primary,
                           fontSize: 12,
                         ),
                       ),

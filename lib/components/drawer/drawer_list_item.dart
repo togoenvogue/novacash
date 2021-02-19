@@ -23,15 +23,15 @@ class DrawerListItem extends StatelessWidget {
             children: [
               Image.asset(
                 imageUrl,
-                height: 60,
+                height: 45,
               ),
               Text(
                 label,
                 style: TextStyle(
                   fontFamily: MyFontFamily().family2,
-                  fontSize: 13.5,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.white,
                 ),
               ),
             ],
@@ -39,7 +39,6 @@ class DrawerListItem extends StatelessWidget {
         ),
       ),
       //height: 50,
-
       margin: EdgeInsets.all(8),
     );
   }

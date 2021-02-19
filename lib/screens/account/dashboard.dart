@@ -91,8 +91,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     }
 
     return Scaffold(
-      drawer: Drawer(
-        child: MainDrawer(userObj: widget.userObj),
+      drawer: Theme(
+        data: Theme.of(context).copyWith(
+          canvasColor: Color(0xFF26ab83),
+        ),
+        child: Drawer(
+          child: MainDrawer(userObj: widget.userObj),
+        ),
       ),
       appBar: AppBar(
         title: Row(
@@ -114,7 +119,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ),
           ],
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(
           color: Colors.white,
           size: 34,

@@ -30,6 +30,10 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
       setState(() {
         records = result;
       });
+    } else {
+      setState(() {
+        records = [];
+      });
     }
   }
 
@@ -79,7 +83,7 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
               : DateHelper().formatTimeStamp(_selectedDate),
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
         actions: [
@@ -105,14 +109,20 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height - 100,
-                      child: ListView.builder(
-                        itemBuilder: (ctx, index) {
-                          return AdminWithdrawalList(
-                            wdl: records[index],
-                          );
-                        },
-                        itemCount: records.length,
-                      ),
+                      child: records != null &&
+                              records.length > 0 &&
+                              isLoading == false
+                          ? ListView.builder(
+                              itemBuilder: (ctx, index) {
+                                return AdminWithdrawalList(
+                                  wdl: records[index],
+                                );
+                              },
+                              itemCount: records.length,
+                            )
+                          : EmptyFolder(
+                              isLoading: isLoading,
+                            ),
                     ),
                   ],
                 )

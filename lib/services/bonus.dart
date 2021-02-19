@@ -19,7 +19,8 @@ class BonusService {
                       status
                       toKey {
                         _key
-                        fullName
+                        firstName
+                        lastName
                         username
                         phone
                         countryFlag
@@ -27,7 +28,8 @@ class BonusService {
                       }
                       fromKey {
                         _key
-                        fullName
+                        firstName
+                        lastName
                         username
                         phone
                         countryFlag

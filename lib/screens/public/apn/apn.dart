@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../services/apn.dart';
+import '../../../services/country.dart';
 import '../../../config/configuration.dart';
 import '../../../models/apn.dart';
 import '../../../models/country.dart';
@@ -14,9 +16,51 @@ class ApnScreen extends StatefulWidget {
 }
 
 class _ApnScreenState extends State<ApnScreen> {
-  final List<CountryModel> countryList = [];
+  List<CountryModel> countryList = [];
+  bool isLoading = false;
 
   List<ApnModel> apnList = [];
+  String selectedCountryName;
+  String selectedCountryFlag;
+
+  void _getCountries() async {
+    setState(() {
+      isLoading = true;
+    });
+    var result = await CountryService().getApnCountries();
+    setState(() {
+      isLoading = false;
+    });
+    if (result != null && result[0].error != 'No data') {
+      setState(() {
+        countryList = result;
+      });
+    } else {
+      setState(() {
+        countryList = [];
+      });
+    }
+  }
+
+  void _getApns(String countryFlag) async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var result = await ApnService().getApns(flag: countryFlag);
+    setState(() {
+      isLoading = false;
+    });
+    if (result != null && result[0].error != 'No data') {
+      setState(() {
+        apnList = result;
+      });
+    } else {
+      setState(() {
+        apnList = [];
+      });
+    }
+  }
 
   void _getCountryFlag({String countryFlag, String countryName}) {
     setState(() {
@@ -24,14 +68,12 @@ class _ApnScreenState extends State<ApnScreen> {
       selectedCountryName = countryName;
     });
 
+    _getApns(countryFlag);
     Navigator.of(context).pop();
     // call the list of apn
   }
 
   void _openContryListModal(BuildContext ctx) {
-    setState(() {
-      apnList = [];
-    });
     showModalBottomSheet(
         context: ctx,
         builder: (_) {
@@ -42,18 +84,22 @@ class _ApnScreenState extends State<ApnScreen> {
         }).then((value) {});
   }
 
-  String selectedCountryName;
-  String selectedCountryFlag;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getCountries();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Contactez-nous',
+          'Points Focaux',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -62,17 +108,36 @@ class _ApnScreenState extends State<ApnScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 18.0),
         child: Column(
           children: [
+            Container(
+              child: Image.asset(
+                'assets/images/icon-location.png',
+              ),
+              //decoration: BoxDecoration(color: Colors.green),
+              height: 70,
+              //width: double.infinity,
+            ),
             SizedBox(
               height: 10,
             ),
             //Logo(),
-            Container(
-              child: Text(
-                'Pour créer votre compte $appName gratuitement, ayez la liberté de contacter un gestionnaire de votre choix qui vous communiquera son code d\'invitation',
-                style: MyStyles().paragraph,
-                textAlign: TextAlign.center,
+            Text(
+              'Pour acheter un code d\'activation, prenez contact avec l\'un de nos points focaux',
+              style: TextStyle(
+                color: Colors.white,
               ),
+              textAlign: TextAlign.center,
             ),
+            SizedBox(height: 10),
+
+            Text(
+              'NB: Si vous souhaitez devenir un point focal dans votre zone, alors contactez-nous pour en discuter',
+              style: TextStyle(
+                color: Color(0xffd4f7a6),
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+
             SizedBox(
               height: 10,
             ),
@@ -87,6 +152,7 @@ class _ApnScreenState extends State<ApnScreen> {
                           'Sélectionnez un pays',
                           style: TextStyle(
                             fontSize: 16,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
@@ -97,9 +163,14 @@ class _ApnScreenState extends State<ApnScreen> {
                           Container(
                             child: selectedCountryName == null
                                 ? Text('')
-                                : Image.network(
-                                    '$flagUrl/${selectedCountryFlag.toLowerCase()}.png',
-                                    height: 50,
+                                : InkWell(
+                                    onTap: () {
+                                      _openContryListModal(context);
+                                    },
+                                    child: Image.network(
+                                      '$flagUrl/${selectedCountryFlag.toLowerCase()}.png',
+                                      height: 50,
+                                    ),
                                   ),
                             height: 30,
                             decoration: BoxDecoration(
@@ -122,10 +193,10 @@ class _ApnScreenState extends State<ApnScreen> {
                               child: selectedCountryName == null
                                   ? Text('Cliquez ici')
                                   : Text(
-                                      selectedCountryName,
+                                      '$selectedCountryName',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
-                                        color: MyColors().primary,
+                                        color: Colors.black,
                                       ),
                                     ),
                             ),
@@ -139,7 +210,12 @@ class _ApnScreenState extends State<ApnScreen> {
             ),
             SizedBox(height: 8),
 
-            selectedCountryFlag != null ? ApnList(records: apnList) : Text(''),
+            selectedCountryName != null
+                ? ApnList(
+                    records: apnList,
+                    countryName: selectedCountryName,
+                  )
+                : Text(''),
           ],
         ),
       ),

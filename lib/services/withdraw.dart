@@ -6,14 +6,19 @@ import '../models/withdrawal.dart';
 
 class WithdrawService {
   // ignore: missing_return
-  Future<WithdrawalModel> withdraw(
-      {@required String userKey,
-      @required dynamic amount,
-      @required String channel,
-      @required String account,
-      @required bool isLocal,
-      @required int countryCode,
-      @required String mobileMoney}) async {
+  Future<WithdrawalModel> withdraw({
+    @required String userKey,
+    @required dynamic amount,
+    @required String channel,
+    @required String account,
+    @required bool isLocal,
+    @required int countryCode,
+    @required String mobileMoney,
+    String firstName,
+    String lastName,
+    String city,
+    String country,
+  }) async {
     var body = '''mutation {
                     withdrawalCreate(
                       userKey: "$userKey", 
@@ -22,7 +27,12 @@ class WithdrawService {
                       mobileMoney: "$mobileMoney",
                       account: "$account", 
                       isLocal: $isLocal, 
-                      countryCode: $countryCode) {
+                      countryCode: $countryCode,
+                      firstName: "$firstName",
+                      lastName: "$lastName",
+                      city: "$city",
+                      country: "$country"
+                      ) {
                       _key
                       timeStamp
                       channel
@@ -34,12 +44,17 @@ class WithdrawService {
                       balance_before
                       balance_after
                       status
+                      firstName
+                      lastName
+                      city
+                      country
                       countryCode
                       isLocal
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
+                        lastName
                         phone
                       }
                     }
@@ -73,6 +88,10 @@ class WithdrawService {
           countryCode: data['countryCode'] as int,
           isLocal: data['isLocal'] as bool,
           userKey: data['userKey'] as Object,
+          city: data['city'] as String,
+          country: data['country'] as String,
+          firstName: data['firstName'] as String,
+          lastName: data['lastName'] as String,
           error: null,
         );
         return obj;
@@ -94,6 +113,10 @@ class WithdrawService {
         amountCrypto: null,
         txid: null,
         userKey: null,
+        city: null,
+        country: null,
+        firstName: null,
+        lastName: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       return obj;
@@ -120,6 +143,10 @@ class WithdrawService {
                       amount
                       balance_before
                       balance_after
+                      firstName
+                      lastName
+                      city
+                      country
                       status
                       txid
                       countryCode
@@ -127,7 +154,8 @@ class WithdrawService {
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
+                        lastName
                         phone
                       }
                     }
@@ -166,6 +194,10 @@ class WithdrawService {
             countryCode: data['countryCode'] as int,
             isLocal: data['isLocal'] as bool,
             userKey: data['userKey'] as Object,
+            city: data['city'] as String,
+            country: data['country'] as String,
+            firstName: data['firstName'] as String,
+            lastName: data['lastName'] as String,
             error: null,
           );
           objArray.add(obj);
@@ -189,6 +221,10 @@ class WithdrawService {
           amountCrypto: null,
           txid: null,
           userKey: null,
+          city: null,
+          country: null,
+          firstName: null,
+          lastName: null,
           error: 'No data',
         );
         objArray.add(obj);
@@ -209,6 +245,10 @@ class WithdrawService {
         mobileMoney: null,
         txid: null,
         userKey: null,
+        city: null,
+        country: null,
+        firstName: null,
+        lastName: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       objArray.add(obj);

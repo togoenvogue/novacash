@@ -185,6 +185,10 @@ class UssdService {
                       amountCrypto
                       amount
                       txid
+                      firstName
+                      lastName
+                      city
+                      country
                       balance_before
                       balance_after
                       status
@@ -193,7 +197,8 @@ class UssdService {
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
+                        lastName
                         phone
                         countryCode
                         countryFlag
@@ -234,6 +239,10 @@ class UssdService {
             countryCode: data['countryCode'] as int,
             isLocal: data['isLocal'] as bool,
             userKey: data['userKey'] as Object,
+            city: data['city'] as String,
+            country: data['country'] as String,
+            firstName: data['firstName'] as String,
+            lastName: data['lastName'] as String,
             error: null,
           );
           objArray.add(obj);
@@ -257,6 +266,10 @@ class UssdService {
           amountCrypto: null,
           txid: null,
           userKey: null,
+          city: null,
+          country: null,
+          firstName: null,
+          lastName: null,
           error: 'No data',
         );
         objArray.add(obj);
@@ -277,6 +290,10 @@ class UssdService {
         amountCrypto: null,
         txid: null,
         userKey: null,
+        city: null,
+        country: null,
+        firstName: null,
+        lastName: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       objArray.add(obj);
@@ -299,12 +316,17 @@ class UssdService {
                       balance_before
                       balance_after
                       status
+                      firstName
+                      lastName
+                      city
+                      country
                       countryCode
                       isLocal
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
+                        lastName
                         phone
                       }
                     }
@@ -338,6 +360,10 @@ class UssdService {
           countryCode: data['countryCode'] as int,
           isLocal: data['isLocal'] as bool,
           userKey: data['userKey'] as Object,
+          city: data['city'] as String,
+          country: data['country'] as String,
+          firstName: data['firstName'] as String,
+          lastName: data['lastName'] as String,
           error: null,
         );
         return obj;
@@ -359,6 +385,10 @@ class UssdService {
         amountCrypto: null,
         txid: null,
         userKey: null,
+        city: null,
+        country: null,
+        firstName: null,
+        lastName: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       return obj;
@@ -380,6 +410,10 @@ class UssdService {
                       balance_before
                       balance_after
                       status
+                      firstName
+                      lastName
+                      city
+                      country
                       countryCode
                       isLocal
                       userKey {
@@ -419,6 +453,10 @@ class UssdService {
           countryCode: data['countryCode'] as int,
           isLocal: data['isLocal'] as bool,
           userKey: data['userKey'] as Object,
+          city: data['city'] as String,
+          country: data['country'] as String,
+          firstName: data['firstName'] as String,
+          lastName: data['lastName'] as String,
           error: null,
         );
         return obj;
@@ -440,6 +478,10 @@ class UssdService {
         amountCrypto: null,
         txid: null,
         userKey: null,
+        city: null,
+        country: null,
+        firstName: null,
+        lastName: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       return obj;

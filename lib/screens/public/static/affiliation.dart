@@ -51,8 +51,7 @@ class AffiliationScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: CustomListVertical(
                   label: '1 - Inscrivez-vous',
-                  value:
-                      'La première étape consiste à vous inscrire dans l\'application $appName (avec le code d\'invitation d\'un membre); puis activer votre abonnement de ${NumberHelper().formatNumber(app.expiration_cost)} F par trimestre (après une période d\'essai de 7 jours)',
+                  value: 'ddfdfd',
                 ),
               ),
               Padding(

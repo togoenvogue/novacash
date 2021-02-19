@@ -143,11 +143,11 @@ class _BonusScreenState extends State<BonusScreen> {
       appBar: AppBar(
         title: Text(
           _selectedDate == null
-              ? 'Mes Bonus'
-              : 'Mes Bonus : ${DateHelper().formatTimeStampShort(_selectedDate)}',
+              ? 'Mes gains'
+              : 'Mes gains : ${DateHelper().formatTimeStampShort(_selectedDate)}',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
         actions: [
@@ -172,11 +172,11 @@ class _BonusScreenState extends State<BonusScreen> {
             children: [
               Container(
                 child: Image.asset(
-                  'assets/images/icon-bonus.png',
+                  'assets/images/icon-wallet.png',
                   //fit: BoxFit.cover,
                 ),
                 //decoration: BoxDecoration(color: Colors.green),
-                height: 120,
+                height: 70,
                 //width: double.infinity,
               ),
               Container(

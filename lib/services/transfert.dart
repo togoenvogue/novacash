@@ -21,12 +21,14 @@ class TransfertService {
                   benefBalanceAfter
                   fromKey {
                     _key
-                    fullName
+                    firstName
+                    lastName
                     username
                   }
                   toKey {
                     _key
-                    fullName
+                    firstName
+                    lastName
                     username
                   }
                 }
@@ -124,12 +126,14 @@ class TransfertService {
                       benefBalanceAfter
                       fromKey {
                         _key
-                        fullName
+                        firstName
+                        lastName
                         username
                       }
                       toKey {
                         _key
-                        fullName
+                        firstName
+                        lastName
                         username
                       }
                     }

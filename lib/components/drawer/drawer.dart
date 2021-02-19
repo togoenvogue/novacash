@@ -9,16 +9,14 @@ class MainDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      
       children: [
         Container(
           child: Column(
-            
             children: [
-              SizedBox(height: 30),
+              SizedBox(height: 50),
               Image.asset(
-                'assets/images/novabets_logo.png',
-                height: 70,
+                'assets/images/logo_app.png',
+                height: 60,
               ),
               SizedBox(height: 10)
               /*  UserProfilePicture(
@@ -51,11 +49,8 @@ class MainDrawer extends StatelessWidget {
           ),
           width: double.infinity,
         ),
-        SizedBox(height: 1),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 1),
-          child: DrawerList(userObj: userObj),
-        ),
+        //SizedBox(height: 1),
+        DrawerList(userObj: userObj),
       ],
     );
   }

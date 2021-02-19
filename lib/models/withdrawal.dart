@@ -14,6 +14,10 @@ class WithdrawalModel {
   final String error;
   final int countryCode;
   final bool isLocal;
+  final String firstName;
+  final String lastName;
+  final String city;
+  final String country;
 
   WithdrawalModel({
     this.key,
@@ -29,5 +33,9 @@ class WithdrawalModel {
     this.error,
     this.countryCode,
     this.isLocal,
+    this.city,
+    this.country,
+    this.firstName,
+    this.lastName,
   });
 }

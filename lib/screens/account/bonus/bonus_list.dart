@@ -33,7 +33,10 @@ class BonusList extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
                 child: Text(
-                  DateHelper().formatTimeStamp(bonus.timeStamp),
+                  '${DateHelper().formatTimeStamp(bonus.timeStamp)}',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -41,7 +44,12 @@ class BonusList extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
                 child: Container(
-                  child: Text(bonus.type),
+                  child: Text(
+                    bonus.type,
+                    style: TextStyle(
+                      color: Colors.yellow[400],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -52,6 +60,7 @@ class BonusList extends StatelessWidget {
                   '${NumberHelper().formatNumber(bonus.amount).toString()} F',
                   style: TextStyle(
                     color: MyColors().primary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),

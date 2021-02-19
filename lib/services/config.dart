@@ -18,37 +18,22 @@ class AppService {
                       version_previous
                       version_current
                       version_update_desc
-                      desc
                       app_android_store
+                      app_whats_new
                       app_ios_store
+                      desc
                       auth_devices
-                      foot_base_amount
-                      pmu_base_amount
-                      pmu_parisur_amount
-                      jackpot1_base_amount
-                      jackpot1_system_balance
-                      jackpot2_base_amount
-                      jackpot2_system_balance
-                      jackpot1_extra
-                      jackpot2_extra
-                      foot_system_balance
-                      pmu_system_balance
-                      expiration_cost
-                      minimum_withdraw
-                      minimum_deposit
-                      bet_tax
-                      maximum_withdrawal
-                      test_period
-                      renewal_period
-                      foot_sum_assur
-                      foot_sum_tax
-                      pmu_sum_assur
-                      pmu_sum_tax
-                      isGameCoted
-                      sumPronostics
-                      sumRenewals
-                      sumDeposits
-                      sumWithdrawals
+                      sum_partner
+                      sum_tgv
+                      sum_debos
+                      sum_reserve
+                      sum_ewallet
+                      sum_cash_in
+                      sum_cash_out
+                      sum_cash_out_tax
+                      sum_phone
+                      sum_moto
+                      sum_car
                     }
                   }''';
 
@@ -79,37 +64,20 @@ class AppService {
           version_previous: data['version_previous'] as String,
           version_current: data['version_current'] as String,
           desc: data['desc'] as String,
-          foot_base_amount: data['foot_base_amount'] as dynamic,
-          bet_tax: data['bet_tax'] as dynamic,
-          maximum_withdrawal: data['maximum_withdrawal'] as dynamic,
-          test_period: data['test_period'] as dynamic,
-          renewal_period: data['renewal_period'] as dynamic,
-          jackpot1_base_amount: data['jackpot1_base_amount'] as dynamic,
-          jackpot1_system_balance: data['jackpot1_system_balance'] as dynamic,
-          jackpot2_base_amount: data['jackpot2_base_amount'] as dynamic,
-          jackpot2_system_balance: data['jackpot2_system_balance'] as dynamic,
-          expiration_cost: data['expiration_cost'] as dynamic,
-          minimum_withdraw: data['minimum_withdraw'] as dynamic,
-          minimum_deposit: data['minimum_deposit'] as dynamic,
-          foot_system_balance: data['foot_system_balance'] as dynamic,
-          pmu_system_balance: data['pmu_system_balance'] as dynamic,
-          jackpot1_extra: data['jackpot1_extra'] as dynamic,
-          jackpot2_extra: data['jackpot2_extra'] as dynamic,
-          foot_sum_assur: data['foot_sum_assur'] as dynamic,
-          isGameCoted: data['isGameCoted'] as bool,
-          sumDeposits: data['sumDeposits'] as dynamic,
-          sumPronostics: data['sumPronostics'] as dynamic,
-          sumRenewals: data['sumRenewals'] as dynamic,
-          sumWithdrawals: data['sumWithdrawals'] as dynamic,
           app_android_store: data['app_android_store'] as String,
           app_ios_store: data['app_ios_store'] as String,
           app_whats_new: data['app_whats_new'] as String,
-          foot_sum_tax: data['foot_sum_tax'] as dynamic,
-          pmu_base_amount: data['pmu_base_amount'] as dynamic,
-          pmu_parisur_amount: data['pmu_parisur_amount'] as dynamic,
-          pmu_sum_assur: data['pmu_sum_assur'] as dynamic,
-          pmu_sum_tax: data['pmu_sum_tax'] as dynamic,
-          version_update_desc: data['version_update_desc'] as String,
+          sum_car: data['sum_car'] as dynamic,
+          sum_cash_in: data['sum_cash_in'] as dynamic,
+          sum_cash_out: data['sum_cash_out'] as dynamic,
+          sum_cash_out_tax: data['sum_cash_out_tax'] as dynamic,
+          sum_debos: data['sum_debos'] as dynamic,
+          sum_ewallet: data['sum_ewallet'] as dynamic,
+          sum_moto: data['sum_moto'] as dynamic,
+          sum_partner: data['sum_partner'] as dynamic,
+          sum_phone: data['sum_phone'] as dynamic,
+          sum_reserve: data['sum_reserve'] as dynamic,
+          sum_tgv: data['sum_tgv'] as dynamic,
           error: null,
         );
         return obj;
@@ -130,37 +98,20 @@ class AppService {
         version_current: null,
         app_android_store: null,
         app_ios_store: null,
-        version_update_desc: null,
         desc: null,
         auth_devices: null,
-        foot_base_amount: null,
         app_whats_new: null,
-        bet_tax: null,
-        maximum_withdrawal: null,
-        test_period: null,
-        renewal_period: null,
-        pmu_base_amount: null,
-        pmu_parisur_amount: null,
-        jackpot1_base_amount: null,
-        jackpot1_system_balance: null,
-        jackpot2_base_amount: null,
-        jackpot2_system_balance: null,
-        foot_system_balance: null,
-        jackpot1_extra: null,
-        jackpot2_extra: null,
-        pmu_system_balance: null,
-        expiration_cost: null,
-        minimum_withdraw: null,
-        minimum_deposit: null,
-        foot_sum_assur: null,
-        foot_sum_tax: null,
-        pmu_sum_assur: null,
-        pmu_sum_tax: null,
-        isGameCoted: null,
-        sumDeposits: null,
-        sumPronostics: null,
-        sumRenewals: null,
-        sumWithdrawals: null,
+        sum_car: null,
+        sum_cash_in: null,
+        sum_cash_out: null,
+        sum_cash_out_tax: null,
+        sum_debos: null,
+        sum_ewallet: null,
+        sum_moto: null,
+        sum_partner: null,
+        sum_phone: null,
+        sum_reserve: null,
+        sum_tgv: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       return obj;

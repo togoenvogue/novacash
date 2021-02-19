@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../widgets/common/custom_card.dart';
-import '../../styles/styles.dart'; 
+import '../../styles/styles.dart';
 
 class CustomTextInput extends StatelessWidget {
   final Key key;
@@ -36,6 +36,7 @@ class CustomTextInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
+      color: Color(0xff2d9c68),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -64,7 +65,7 @@ class CustomTextInput extends StatelessWidget {
             style: MyStyles().textInputContent,
             decoration: InputDecoration(
               filled: true,
-              fillColor: Colors.white,
+              fillColor: MyColors().primary,
               counterStyle: TextStyle(
                 color: Colors.grey,
               ),
@@ -88,7 +89,7 @@ class CustomTextInput extends StatelessWidget {
               focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(
                   width: 2,
-                  color: Colors.black.withOpacity(0.26),
+                  color: Colors.white.withOpacity(1),
                 ),
                 borderRadius: BorderRadius.circular(borderRadius),
               ),

@@ -21,7 +21,7 @@ class EmptyFolder extends StatelessWidget {
                   SizedBox(height: 20),
                   Image(
                     image: AssetImage('assets/images/empty_folder.png'),
-                    width: 85,
+                    width: 55,
                   ),
                   SizedBox(height: 8),
                   Text(

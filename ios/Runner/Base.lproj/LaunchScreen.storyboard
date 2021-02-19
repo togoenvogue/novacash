@@ -19,13 +19,13 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
-                                <rect key="frame" x="-113" y="-56" width="641" height="961"/>
-                                <color key="backgroundColor" red="0.28392660619999999" green="0.41263401509999997" blue="0.72944396730000005" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                <color key="tintColor" red="0.26368290189999999" green="0.3698711395" blue="0.66669648889999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                            <imageView autoresizesSubviews="NO" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" misplaced="YES" image="LaunchImage" translatesAutoresizingMaskIntoConstraints="NO" id="YRO-k0-Ey4">
+                                <rect key="frame" x="0.0" y="44" width="414" height="768"/>
+                                <color key="backgroundColor" red="0.0" green="0.36889886856079102" blue="0.26437750458717346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="tintColor" red="0.0" green="0.36889886856079102" blue="0.26437750458717346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.26368290189999999" green="0.3698711395" blue="0.66669648889999999" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <color key="backgroundColor" red="0.0" green="0.36889886856079102" blue="0.26437750458717346" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="YRO-k0-Ey4" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="1a2-6s-vTC"/>
@@ -39,6 +39,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="LaunchImage" width="640.5" height="960.5"/>
+        <image name="LaunchImage" width="641" height="961"/>
     </resources>
 </document>

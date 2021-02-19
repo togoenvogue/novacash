@@ -47,8 +47,13 @@ class CountryListItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(country.countryName),
-              Text('Cliquez sur choisir'),
+              Text(
+                country.countryName,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              //Text('Cliquez sur choisir'),
             ],
           ),
           Expanded(
@@ -61,8 +66,8 @@ class CountryListItem extends StatelessWidget {
                   child: CustomButton(
                     buttonRadius: 50,
                     color: Colors.white,
-                    textStyle: TextStyle(color: MyColors().primary),
-                    borderColor: MyColors().primary,
+                    textStyle: TextStyle(color: MyColors().info),
+                    borderColor: MyColors().info,
                     text: 'Choisir',
                     onPressed: () {
                       callBack(

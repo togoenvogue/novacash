@@ -20,115 +20,34 @@ class AppConfigModel {
   final String app_whats_new;
   final String desc;
   // ignore: non_constant_identifier_names
-  final dynamic foot_base_amount;
-  // ignore: non_constant_identifier_names
-  final dynamic pmu_base_amount;
-  // ignore: non_constant_identifier_names
-  final dynamic pmu_parisur_amount;
-  // ignore: non_constant_identifier_names
-  final dynamic jackpot1_base_amount;
-  // ignore: non_constant_identifier_names
-  final dynamic jackpot1_system_balance;
-  // ignore: non_constant_identifier_names
-  final dynamic jackpot2_base_amount;
-  // ignore: non_constant_identifier_names
-  final dynamic jackpot2_system_balance;
-  // ignore: non_constant_identifier_names
-  final dynamic foot_system_balance;
-  // ignore: non_constant_identifier_names
-  final dynamic pmu_system_balance;
-  // ignore: non_constant_identifier_names
-  final dynamic expiration_cost;
-  // ignore: non_constant_identifier_names
-  final dynamic minimum_withdraw;
-  // ignore: non_constant_identifier_names
-  final dynamic minimum_deposit;
-  // ignore: non_constant_identifier_names
-  final dynamic jackpot1_extra;
-  // ignore: non_constant_identifier_names
-  final dynamic jackpot2_extra;
   final String error;
-  // ignore: non_constant_identifier_names
-  final dynamic bet_tax;
-  // ignore: non_constant_identifier_names
-  final dynamic maximum_withdrawal;
-  // ignore: non_constant_identifier_names
-  final dynamic test_period;
-  // ignore: non_constant_identifier_names
-  final dynamic renewal_period;
-  // ignore: non_constant_identifier_names
-  final dynamic foot_sum_tax;
-  // ignore: non_constant_identifier_names
-  final dynamic foot_sum_assur;
-  // ignore: non_constant_identifier_names
-  final dynamic pmu_sum_tax;
-  // ignore: non_constant_identifier_names
-  final dynamic pmu_sum_assur;
-  // ignore: non_constant_identifier_names
-  final String version_update_desc;
-  final bool isGameCoted;
-  final dynamic sumPronostics;
-  final dynamic sumRenewals;
-  final dynamic sumDeposits;
-  final dynamic sumWithdrawals;
+  final dynamic sum_partner;
+  final dynamic sum_tgv;
+  final dynamic sum_debos;
+  final dynamic sum_reserve;
+  final dynamic sum_ewallet;
+  final dynamic sum_cash_in;
+  final dynamic sum_cash_out;
+  final dynamic sum_cash_out_tax;
+  final dynamic sum_phone;
+  final dynamic sum_moto;
+  final dynamic sum_car;
 
   AppConfigModel({
-    // ignore: non_constant_identifier_names
-    this.bet_tax,
-    // ignore: non_constant_identifier_names
-    this.maximum_withdrawal,
-    // ignore: non_constant_identifier_names
-    this.test_period,
-    // ignore: non_constant_identifier_names
-    this.renewal_period,
     this.company,
     this.desc,
     this.email,
     this.error,
     // ignore: non_constant_identifier_names
-    this.expiration_cost,
-    // ignore: non_constant_identifier_names
-    this.foot_base_amount,
-    // ignore: non_constant_identifier_names
-    this.jackpot1_base_amount,
-    // ignore: non_constant_identifier_names
-    this.jackpot2_base_amount,
-    // ignore: non_constant_identifier_names
-    this.jackpot1_system_balance,
-    // ignore: non_constant_identifier_names
-    this.jackpot2_system_balance,
     this.key,
     // ignore: non_constant_identifier_names
-    this.minimum_deposit,
-    // ignore: non_constant_identifier_names
-    this.minimum_withdraw,
     this.name,
     this.phone1,
     this.phone2,
     // ignore: non_constant_identifier_names
-    this.pmu_base_amount,
-    // ignore: non_constant_identifier_names
-    this.pmu_parisur_amount,
-    // ignore: non_constant_identifier_names
-    this.pmu_system_balance,
-    // ignore: non_constant_identifier_names
-    this.foot_system_balance,
-    // ignore: non_constant_identifier_names
     this.version_current,
     // ignore: non_constant_identifier_names
     this.version_previous,
-    // ignore: non_constant_identifier_names
-    this.jackpot1_extra,
-    // ignore: non_constant_identifier_names
-    this.jackpot2_extra,
-    // ignore: non_constant_identifier_names
-    this.foot_sum_assur,
-    // ignore: non_constant_identifier_names
-    this.foot_sum_tax,
-    // ignore: non_constant_identifier_names
-    this.pmu_sum_assur,
-    // ignore: non_constant_identifier_names
-    this.pmu_sum_tax,
     // ignore: non_constant_identifier_names
     this.app_android_store,
     // ignore: non_constant_identifier_names
@@ -137,13 +56,28 @@ class AppConfigModel {
     this.app_whats_new,
     this.website,
     // ignore: non_constant_identifier_names
-    this.version_update_desc,
-    // ignore: non_constant_identifier_names
     this.auth_devices,
-    this.isGameCoted,
-    this.sumDeposits,
-    this.sumPronostics,
-    this.sumRenewals,
-    this.sumWithdrawals,
+    // ignore: non_constant_identifier_names
+    this.sum_car,
+    // ignore: non_constant_identifier_names
+    this.sum_cash_in,
+    // ignore: non_constant_identifier_names
+    this.sum_cash_out,
+    // ignore: non_constant_identifier_names
+    this.sum_cash_out_tax,
+    // ignore: non_constant_identifier_names
+    this.sum_debos,
+    // ignore: non_constant_identifier_names
+    this.sum_ewallet,
+    // ignore: non_constant_identifier_names
+    this.sum_moto,
+    // ignore: non_constant_identifier_names
+    this.sum_partner,
+    // ignore: non_constant_identifier_names
+    this.sum_phone,
+    // ignore: non_constant_identifier_names
+    this.sum_reserve,
+    // ignore: non_constant_identifier_names
+    this.sum_tgv,
   });
 }

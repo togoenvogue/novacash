@@ -48,12 +48,14 @@ class TransfertDetail extends StatelessWidget {
           CustomHorizontalDiver(),
           CustomListSpaceBetwen(
             label: 'Exp.',
-            value: '${transfer.fromKey['fullName']}',
+            value:
+                '${transfer.fromKey['firstName']} ${transfer.fromKey['lastName']}',
           ),
           CustomHorizontalDiver(),
           CustomListSpaceBetwen(
             label: 'Bénéf.',
-            value: '${transfer.toKey['fullName']}',
+            value:
+                '${transfer.toKey['firstName']} ${transfer.toKey['lastName']}',
           ),
         ],
       ),

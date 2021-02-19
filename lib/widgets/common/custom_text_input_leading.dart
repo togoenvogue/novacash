@@ -38,6 +38,7 @@ class CustomTextInputLeading extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
+      color: Color(0xff2d9c68),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -84,9 +85,9 @@ class CustomTextInputLeading extends StatelessWidget {
                   style: MyStyles().textInputContent,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: MyColors().primary,
                     counterStyle: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.grey,
                     ),
                     hintText: hintText,
                     hintStyle: MyStyles().textInputContent,
@@ -108,7 +109,7 @@ class CustomTextInputLeading extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 1,
-                        color: Color(0xff5A73CB),
+                        color: Colors.white.withOpacity(1),
                       ),
                       borderRadius: BorderRadius.circular(borderRadius),
                     ),

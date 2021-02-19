@@ -35,15 +35,28 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
   bool _isLocal = false;
   UserModel _thisUser;
   var _selectedChannel;
-  final dynamic _minimToWithdraw = 1000;
+  dynamic _minimToWithdraw = 3500;
   final dynamic _maximumToWithdraw = 100000;
+  String firstName;
+  String lastName;
+  String city;
+  String country;
 
   void _buildSelectChannel(String value) async {
     setState(() {
       _selectedChannel = value;
     });
     if (value == 'Mobile') {
+      setState(() {
+        _minimToWithdraw = 3500;
+      });
       _getMobileNetowks();
+    } else {
+      setState(() {
+        _minimToWithdraw = 10000;
+        _mobileNetworksLabels = [];
+        _mobileNetworksValues = [];
+      });
     }
   }
 
@@ -127,6 +140,10 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
       mobileMoney: _selectedChannel == 'Mobile'
           ? _mobileOperator.mobile_money_name
           : _selectedChannel,
+      firstName: firstName,
+      lastName: lastName,
+      city: city,
+      country: country,
     );
 
     setState(() {
@@ -142,7 +159,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
       ).alert(
         context,
         'Succes!',
-        'Votre demande de retrait a été initialisée et sera traitée dans un maximum de 24 heures',
+        'Votre demande de retrait a été initialisée et sera traitée dans un maximum de 72 heures',
         false,
       );
       setState(() {
@@ -219,30 +236,18 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
             );
           }
         } else {
-          if (_mobileAccount != null && _mobileAccount.length >= 25) {
-            CustomAlert(colorBg: Colors.white, colorText: Colors.black).confirm(
-              context: context,
-              content: Text(
-                'Voulez-vous vraiment retirer ${NumberHelper().formatNumber(_amount)} FCFA par $_selectedChannel ?',
-                textAlign: TextAlign.center,
-              ),
-              cancelFn: () {},
-              confirmFn: _process,
-              title: 'Confirmez!',
-              cancelText: 'Non',
-              submitText: 'Oui',
-            );
-          } else {
-            CustomAlert(
-              colorBg: Colors.white,
-              colorText: Colors.black,
-            ).alert(
-              context,
-              'Désolé!',
-              'Il nous semble que $_mobileAccount n\'appartient pas à ${_mobileOperator.name}',
-              true,
-            );
-          }
+          CustomAlert(colorBg: Colors.white, colorText: Colors.black).confirm(
+            context: context,
+            content: Text(
+              'Voulez-vous vraiment retirer ${NumberHelper().formatNumber(_amount)} FCFA par $_selectedChannel ?',
+              textAlign: TextAlign.center,
+            ),
+            cancelFn: () {},
+            confirmFn: _process,
+            title: 'Confirmez!',
+            cancelText: 'Non',
+            submitText: 'Oui',
+          );
         }
       } else {
         CustomAlert(
@@ -326,7 +331,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
           'Effectuer un retrait',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -342,7 +347,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                   fit: BoxFit.cover,
                 ),
                 //decoration: BoxDecoration(color: Colors.green),
-                height: 120,
+                height: 70,
                 //width: double.infinity,
               ),
               if (_thisUser != null)
@@ -365,13 +370,27 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                     ),
                     SizedBox(height: 3),
                     CustomRadioButton(
-                      buttonValues: ['Mobile', 'Bitcoin', 'Ethereum'],
-                      buttonLables: ['Mobile Money', 'Bitcoin', 'Ethereum'],
+                      buttonValues: [
+                        'Mobile',
+                        'Bitcoin',
+                        'Ethereum',
+                        'MoneyGram',
+                        'WesternUnion',
+                        'Ria'
+                      ],
+                      buttonLables: [
+                        'Mobile',
+                        'Bitcoin',
+                        'Ethereum',
+                        'MoneyGram',
+                        'WesternUnion',
+                        'Ria'
+                      ],
                       radioButtonValue: (value) {
                         _buildSelectChannel(value);
                       },
-                      unSelectedColor: MyColors().primary.withOpacity(0.2),
-                      selectedColor: MyColors().primary,
+                      unSelectedColor: MyColors().bgColor.withOpacity(0.2),
+                      selectedColor: MyColors().bgColor.withOpacity(0.8),
                       selectedBorderColor: Colors.transparent,
                       unSelectedBorderColor: Colors.transparent,
                       enableShape: true,
@@ -382,7 +401,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                           fontFamily: MyFontFamily().family2,
                         ),
                       ),
-                      width: 133,
+                      width: 140,
                       elevation: 0,
                     ),
                   ],
@@ -404,8 +423,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                 ),
               if (_mobileNetworks != null &&
                   _selectedChannel != null &&
-                  _selectedChannel != 'Bitcoin' &&
-                  _selectedChannel != 'Ethereum' &&
+                  _selectedChannel == 'Mobile' &&
                   _mobileNetworks.length > 0 &&
                   _amount != null &&
                   _amount >= _minimToWithdraw &&
@@ -429,8 +447,8 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                         radioButtonValue: (value) {
                           _selectedOperator(key: value);
                         },
-                        unSelectedColor: MyColors().primary.withOpacity(0.2),
-                        selectedColor: MyColors().primary,
+                        unSelectedColor: MyColors().bgColor.withOpacity(0.2),
+                        selectedColor: MyColors().bgColor.withOpacity(0.8),
                         selectedBorderColor: Colors.transparent,
                         unSelectedBorderColor: Colors.transparent,
                         enableShape: true,
@@ -458,15 +476,14 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                   ),
                 ),
               if (_selectedChannel != null &&
-                  _selectedChannel != 'Bitcoin' &&
-                  _selectedChannel != 'Ethereum' &&
+                  _selectedChannel == 'Mobile' &&
                   _mobileOperator != null &&
                   _mobileOperatorKey != null &&
                   _amount != null &&
                   _amount >= _minimToWithdraw)
                 CustomTextInputLeading(
                   labelText:
-                      'Entrez le numéro sur lequel vous souhaitez effectuer le retrait',
+                      'Sur quel numéro souhaitez-vous recevoir l\'argent? (ce numéro doit disposer d\'un compte Mobile Money!)',
                   isObscure: false,
                   leadingText: _mobileOperator.countryCode.toString(),
                   maxLines: 1,
@@ -491,7 +508,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                   isObscure: false,
                   maxLines: 2,
                   inputType: TextInputType.multiline,
-                  maxLength: 32,
+                  maxLength: 70,
                   borderRadius: 10,
                   helpText: 'Entrez une adresse valide',
                   onChanged: (value) {
@@ -500,16 +517,131 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                     });
                   },
                 ),
+              if (_selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'Ria' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'MoneyGram' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'WesternUnion')
+                CustomTextInput(
+                  labelText: 'NOM DE FAMILLE du bénéficiaire',
+                  isObscure: false,
+                  maxLines: 1,
+                  inputType: TextInputType.text,
+                  maxLength: 60,
+                  borderRadius: 50,
+                  helpText: 'Tel sur votre pièce d\'identité',
+                  onChanged: (value) {
+                    setState(() {
+                      lastName = value;
+                    });
+                  },
+                ),
+              if (_selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'Ria' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'MoneyGram' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'WesternUnion')
+                CustomTextInput(
+                  labelText: 'PRENOM(S) du bénéficiaire',
+                  isObscure: false,
+                  maxLines: 1,
+                  inputType: TextInputType.text,
+                  maxLength: 60,
+                  borderRadius: 50,
+                  helpText: 'Tel sur votre pièce d\'identité',
+                  onChanged: (value) {
+                    setState(() {
+                      firstName = value;
+                    });
+                  },
+                ),
+              if (_selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'Ria' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'MoneyGram' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'WesternUnion')
+                CustomTextInput(
+                  labelText: 'Ville de réception',
+                  isObscure: false,
+                  maxLines: 1,
+                  inputType: TextInputType.text,
+                  maxLength: 60,
+                  borderRadius: 50,
+                  helpText: 'Ecrivez la ville en majuscule',
+                  onChanged: (value) {
+                    setState(() {
+                      city = value;
+                    });
+                  },
+                ),
+              if (_selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'Ria' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'MoneyGram' ||
+                  _selectedChannel != null &&
+                      _amount != null &&
+                      _amount >= _minimToWithdraw &&
+                      _amount <= _maximumToWithdraw &&
+                      _selectedChannel == 'WesternUnion')
+                CustomTextInput(
+                  labelText: 'Pays de réception',
+                  isObscure: false,
+                  maxLines: 1,
+                  inputType: TextInputType.text,
+                  maxLength: 60,
+                  borderRadius: 50,
+                  helpText: 'Ecrivez le pays en majuscule',
+                  onChanged: (value) {
+                    setState(() {
+                      country = value;
+                    });
+                  },
+                ),
               if (_amount != null &&
                   _amount >= _minimToWithdraw &&
-                  _selectedChannel != null &&
-                  _mobileAccount != null &&
-                  _mobileAccount.length >= 8)
+                  _selectedChannel != null)
                 CustomFlatButtonRounded(
                   label: 'Lancer le retrait',
                   borderRadius: 50,
                   function: _submitConfirm,
-                  bgColor: MyColors().primary,
+                  borderColor: Colors.transparent,
+                  bgColor: Colors.green.withOpacity(0.6),
                   textColor: Colors.white,
                 ),
               SizedBox(height: 15),

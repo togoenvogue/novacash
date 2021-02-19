@@ -37,7 +37,7 @@ class UserModel {
   final dynamic phone;
   final String password;
   final String passwordReset;
-  final String resetStamp;
+  final dynamic resetStamp;
   final String firstName;
   final String lastName;
   final String countryFlag;
@@ -73,6 +73,7 @@ class UserModel {
   final bool gadget1Given;
   final bool gadget2Given;
   final bool gadget3Given;
+  final List<dynamic> categories;
   final String error;
 
   UserModel({
@@ -151,5 +152,6 @@ class UserModel {
     this.totalSponsored,
     this.username,
     this.whatsApp,
+    this.categories,
   });
 }

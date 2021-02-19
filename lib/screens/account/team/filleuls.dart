@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../../screens/account/team/search.dart';
 import '../../../widgets/common/empty_folder.dart';
 import '../../../models/user.dart';
 import '../../../screens/account/team/filleul_list.dart';
@@ -17,6 +18,7 @@ class DownlineScreen extends StatefulWidget {
 class _DownlineScreenState extends State<DownlineScreen> {
   List<UserModel> records = [];
   bool isLoading = false;
+  UserModel _thisUser;
 
   void _getRecords({String userKey}) async {
     setState(() {
@@ -30,6 +32,10 @@ class _DownlineScreenState extends State<DownlineScreen> {
       setState(() {
         records = downl;
       });
+    } else {
+      setState(() {
+        records = [];
+      });
     }
   }
 
@@ -42,6 +48,9 @@ class _DownlineScreenState extends State<DownlineScreen> {
       isLoading = false;
     });
     if (uzr.error == null) {
+      setState(() {
+        _thisUser = uzr;
+      });
       _getRecords(userKey: uzr.key);
     } else if (uzr.error == 'AUTH_EXPIRED') {
       CustomAlert(
@@ -93,9 +102,28 @@ class _DownlineScreenState extends State<DownlineScreen> {
           'Mes filleuls',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.search,
+              color: Colors.white,
+              size: 30,
+            ),
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                CubePageRoute(
+                  enterPage: MemberSearchScreen(),
+                  exitPage: MemberSearchScreen(),
+                  duration: const Duration(milliseconds: 300),
+                ),
+              );
+            },
+            tooltip: 'Chercher un code',
+          ),
+        ],
       ),
       backgroundColor: MyColors().bgColor,
       body: SingleChildScrollView(
@@ -106,12 +134,23 @@ class _DownlineScreenState extends State<DownlineScreen> {
                   children: [
                     Container(
                       height: MediaQuery.of(context).size.height - 100,
-                      child: ListView.builder(
-                        itemBuilder: (ctx, index) {
-                          return DownlineList(filleul: records[index]);
-                        },
-                        itemCount: records.length,
-                      ),
+                      child: records != null &&
+                              records.length > 0 &&
+                              isLoading == false
+                          ? ListView.builder(
+                              itemBuilder: (ctx, index) {
+                                return DownlineList(
+                                  filleul: records[index],
+                                  userKey: _thisUser.key,
+                                );
+                              },
+                              itemCount: records.length,
+                            )
+                          : EmptyFolder(
+                              isLoading: isLoading,
+                              message:
+                                  'Vous n\'avez inscrit personne pour le moment',
+                            ),
                     ),
                   ],
                 )

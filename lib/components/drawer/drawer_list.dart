@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../screens/admin/tokens/tokens.dart';
+import '../../screens/auth/contract.dart';
+import '../../screens/account/user/settings.dart';
+import '../../screens/account/expiration/renew.dart';
+import '../../screens/public/apn/apn.dart';
+import '../../screens/account/award/award.dart';
+import '../../screens/account/team/network.dart';
 import '../../screens/account/transfert/transferts.dart';
 import '../../screens/account/team/filleuls.dart';
-import '../../screens/account/tutorial/tutorials.dart';
 import '../../screens/admin/admin.dart';
 import '../../screens/account/bonus/bonus.dart';
-import '../../screens/account/expiration/renew.dart';
 import '../../models/user.dart';
 import '../../screens/account/withdraw/withdrawals.dart';
 import '../../models/navigation.dart';
-import '../../screens/account/reload/reloads.dart';
 import '../../screens/account/user/profile.dart';
 import 'drawer_list_item.dart';
 
@@ -21,19 +25,39 @@ class DrawerList extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<NavigationModel> menuObj = [
       NavigationModel(
-        label: 'Mon compte',
+        label: 'Mon profil',
         imageUrl: 'assets/images/icon-account.png',
         screen: ProfileScreen(userObj: userObj),
       ),
       NavigationModel(
-        label: 'Se réabonner',
-        imageUrl: 'assets/images/icon-premium.png',
+        label: 'Préférences',
+        imageUrl: 'assets/images/icon-settings.png',
+        screen: UserSettingsScreen(),
+      ),
+      NavigationModel(
+        label: 'Autoship',
+        imageUrl: 'assets/images/icon-autoship.png',
         screen: ExpirRenewScreen(),
       ),
       NavigationModel(
-        label: 'Dépôts',
-        imageUrl: 'assets/images/icon-deposit.png',
-        screen: ReloadsScreen(),
+        label: 'Points focaux',
+        imageUrl: 'assets/images/icon-location.png',
+        screen: ApnScreen(),
+      ),
+      NavigationModel(
+        label: 'Mes filleuls',
+        imageUrl: 'assets/images/icon-filleuls.png',
+        screen: DownlineScreen(),
+      ),
+      NavigationModel(
+        label: 'Mon équipe',
+        imageUrl: 'assets/images/icon-team.png',
+        screen: MyNetworkScreen(),
+      ),
+      NavigationModel(
+        label: 'Mes gains',
+        imageUrl: 'assets/images/icon-wallet.png',
+        screen: BonusScreen(),
       ),
       NavigationModel(
         label: 'Retraits',
@@ -41,30 +65,30 @@ class DrawerList extends StatelessWidget {
         screen: WithdrawalsScreen(),
       ),
       NavigationModel(
+        label: 'Awards',
+        imageUrl: 'assets/images/icon-award.png',
+        screen: AwardsScreen(),
+      ),
+      NavigationModel(
         label: 'Transferts',
         imageUrl: 'assets/images/icon-transfert.png',
         screen: TransfertsScreen(),
       ),
       NavigationModel(
-        label: 'Mes filleuls',
-        imageUrl: 'assets/images/icon-affiliate.png',
-        screen: DownlineScreen(),
+        label: 'Codes',
+        imageUrl: 'assets/images/icon-shield.png',
+        screen: TokensScreen(),
       ),
       NavigationModel(
-        label: 'Bonus',
-        imageUrl: 'assets/images/icon-bonus.png',
-        screen: BonusScreen(),
-      ),
-      NavigationModel(
-        label: 'Tutoriels',
-        imageUrl: 'assets/images/icon-tutorials.png',
-        screen: TutorialScreen(),
+        label: 'CGU',
+        imageUrl: 'assets/images/icon-contract.png',
+        screen: UserContractScreen(user: userObj),
       ),
       if (userObj.isSuperAdmin == true)
         NavigationModel(
           label: 'Manager',
-          imageUrl: 'assets/images/icon-admin.png',
-          screen: AdminHomeScreen(),
+          imageUrl: 'assets/images/icon-shield.png',
+          screen: AdminHomeScreen(user: userObj),
         ),
     ];
 

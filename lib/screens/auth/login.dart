@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../screens/account/user/settings.dart';
 import '../../services/user.dart';
 import '../../screens/auth/contract.dart';
 import '../../config/configuration.dart';
@@ -57,13 +58,23 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (result.conditionsAccepted == true) {
-          Navigator.of(context).pushReplacement(
-            CubePageRoute(
-              enterPage: DashboardScreen(userObj: result),
-              exitPage: DashboardScreen(userObj: result),
-              duration: const Duration(milliseconds: 300),
-            ),
-          );
+          if (result.categories.length >= 3) {
+            Navigator.of(context).pushReplacement(
+              CubePageRoute(
+                enterPage: DashboardScreen(userObj: result),
+                exitPage: DashboardScreen(userObj: result),
+                duration: const Duration(milliseconds: 300),
+              ),
+            );
+          } else {
+            Navigator.of(context).pushReplacement(
+              CubePageRoute(
+                enterPage: UserSettingsScreen(user: result),
+                exitPage: UserSettingsScreen(user: result),
+                duration: const Duration(milliseconds: 300),
+              ),
+            );
+          }
         } else {
           // redirect to conditions
           Navigator.of(context).pushReplacement(
@@ -125,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
           'Connexion',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: Color(0xff5A73CB),
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -180,14 +191,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         });
                       },
                       focusColor: Colors.yellowAccent,
-                      activeColor: Colors.redAccent,
-                      checkColor: Colors.white,
+                      activeColor: Colors.white,
+                      checkColor: Colors.green,
                       hoverColor: Colors.white,
                     ),
                     Text(
-                      'Cocher pour sauvegarder vos données',
+                      'Cocher pour enregistrer vos infos',
                       style: TextStyle(
-                        color: Colors.redAccent,
+                        color: Colors.white,
                       ),
                     ),
                   ],
@@ -199,7 +210,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   function: () {
                     _login();
                   },
-                  bgColor: MyColors().primary,
+                  borderColor: Colors.transparent,
+                  bgColor: Colors.green.withOpacity(0.6),
                   textColor: Colors.white,
                 ),
                 CustomFlatButtonRounded(
@@ -216,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   bgColor: Colors.transparent,
                   textColor: MyColors().primary,
-                  borderColor: MyColors().primary,
+                  borderColor: Colors.transparent,
                 ),
               ],
             ),

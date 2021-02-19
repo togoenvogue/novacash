@@ -149,7 +149,7 @@ class _TransfertsScreenState extends State<TransfertsScreen> {
               : DateHelper().formatTimeStamp(_selectedDate),
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
         actions: [
@@ -195,10 +195,15 @@ class _TransfertsScreenState extends State<TransfertsScreen> {
                   //fit: BoxFit.cover,
                 ),
                 //decoration: BoxDecoration(color: Colors.green),
-                height: 120,
+                height: 70,
                 //width: double.infinity,
               ),
-              Text('Cliquez sur l\'icône (+) pour effectuer un transfert'),
+              Text(
+                'Cliquez sur l\'icône (+) pour effectuer un transfert',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
               SizedBox(height: 10),
               Container(
                 height: MediaQuery.of(context).size.height - 250,

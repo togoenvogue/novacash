@@ -4,6 +4,7 @@ class CountryModel {
   final String countryFlag;
   final int countryCode;
   final int countryMobileLength;
+  final bool isApnOpened;
   final String error;
 
   CountryModel({
@@ -12,6 +13,7 @@ class CountryModel {
     this.countryFlag,
     this.countryName,
     this.countryMobileLength,
+    this.isApnOpened,
     this.error,
   });
 }

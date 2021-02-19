@@ -4,18 +4,18 @@ import '../models/apn.dart';
 import '../config/configuration.dart';
 
 class ApnService {
-  Future<List<ApnModel>> getApns() async {
+  Future<List<ApnModel>> getApns({String flag}) async {
     var body = '''query {
-                    subscriptionSupports {
+                    apnList(flag: "$flag") {
                       _key
-                      fullName
-                      username
-                      phone
-                      whatsApp
-                      phone
+                      firstName
+                      lastName
                       email
+                      username
                       countryFlag
                       countryName
+                      whatsApp
+                      isSupport
                       picture
                     }
                   }''';
@@ -32,7 +32,7 @@ class ApnService {
     //print(response.body);
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      var jsonDataFinal = jsonData['data']['subscriptionSupports'];
+      var jsonDataFinal = jsonData['data']['apnList'];
 
       //print(jsonDataFinal.length);
       List<ApnModel> objArray = [];
@@ -43,8 +43,10 @@ class ApnService {
           ApnModel obj = ApnModel(
             key: data['_key'] as String,
             countryFlag: data['countryFlag'] as String,
+            countryName: data['countryName'] as String,
             email: data['email'] as String,
-            fullName: data['fullName'] as String,
+            firstName: data['firstName'] as String,
+            lastName: data['lastName'] as String,
             picture: data['picture'] as String,
             username: data['username'] as String,
             whatsApp: data['whatsApp'] as String,
@@ -62,8 +64,10 @@ class ApnService {
         ApnModel obj = ApnModel(
           key: null,
           countryFlag: null,
+          countryName: null,
           email: null,
-          fullName: null,
+          firstName: null,
+          lastName: null,
           picture: null,
           username: null,
           whatsApp: null,
@@ -78,8 +82,10 @@ class ApnService {
       ApnModel obj = ApnModel(
         key: null,
         countryFlag: null,
+        countryName: null,
         email: null,
-        fullName: null,
+        firstName: null,
+        lastName: null,
         picture: null,
         username: null,
         whatsApp: null,

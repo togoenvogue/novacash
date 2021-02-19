@@ -160,7 +160,7 @@ class _WithdrawalsScreenState extends State<WithdrawalsScreen> {
               : DateHelper().formatTimeStampShort(_selectedDate),
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
         actions: [
@@ -204,13 +204,13 @@ class _WithdrawalsScreenState extends State<WithdrawalsScreen> {
                 //fit: BoxFit.cover,
               ),
               //decoration: BoxDecoration(color: Colors.green),
-              height: 120,
+              height: 70,
               //width: double.infinity,
             ),
             SizedBox(height: 5),
             Container(
               height: MediaQuery.of(context).size.height - 95,
-              child: records.length > 0
+              child: records != null && records.length > 0
                   ? ListView.builder(
                       itemBuilder: (ctx, index) {
                         return WithdrawalsList(

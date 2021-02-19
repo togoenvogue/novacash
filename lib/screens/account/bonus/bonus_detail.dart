@@ -15,12 +15,12 @@ class BonusDetail extends StatelessWidget {
       child: Column(
         children: [
           Image.asset(
-            'assets/images/icon_gain.png',
-            height: 50,
+            'assets/images/icon-bonus.png',
+            height: 70,
           ),
           SizedBox(height: 10),
           Text(
-            bonus.type,
+            'Bonus: ${bonus.type}',
             style: TextStyle(
               fontSize: 17,
               fontWeight: FontWeight.bold,
@@ -34,25 +34,25 @@ class BonusDetail extends StatelessWidget {
             textAlign: TextAlign.center,
           ),
           Text(
-            bonus.fromKey['fullName'],
+            '${bonus.fromKey['firstName']} ${bonus.fromKey['lastName']}',
             style: TextStyle(
               fontSize: 14,
-              color: MyColors().primary,
+              color: MyColors().info,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,
           ),
           SizedBox(height: 5),
-          Text(
-            bonus.status,
-            style: TextStyle(fontSize: 17),
-            textAlign: TextAlign.center,
+          Icon(
+            Icons.check_circle,
+            color: Colors.green,
+            size: 40,
           ),
           SizedBox(height: 5),
           Text(
             '${NumberHelper().formatNumber(bonus.amount)} FCFA',
             style: TextStyle(
-              fontSize: 22,
+              fontSize: 20,
               fontWeight: FontWeight.bold,
             ),
             textAlign: TextAlign.center,

@@ -87,7 +87,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           'Mon compte',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
         actions: [
@@ -123,50 +123,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       width: 100,
                       height: 100,
                     ),
-                    SizedBox(height: 10),
-                    Text('Votre code d\'invitation est :'),
-                    Text(
-                      '${_thisUser.key}',
-                      style: TextStyle(
-                        fontSize: 25,
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                    CustomCard(
-                      color: Color(0xffebffee),
-                      content: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            children: [
-                              Text('Solde dépôt'),
-                              SizedBox(height: 3),
-                              Text(
-                                '${NumberHelper().formatNumber(_thisUser.credits_balance).toString()} FCFA',
-                                style: TextStyle(
-                                  color: MyColors().primary,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                          Column(
-                            children: [
-                              Text('Solde retrait'),
-                              SizedBox(height: 3),
-                              Text(
-                                '${NumberHelper().formatNumber(_thisUser.ewallet_balance).toString()} FCFA',
-                                style: TextStyle(
-                                  color: MyColors().primary,
-                                  fontSize: 15,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
                     CustomCard(
                       content: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -174,12 +130,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         children: [
                           Column(
                             children: [
-                              Text('Total dépôt'),
+                              Text('Total gains'),
                               SizedBox(height: 3),
                               Text(
-                                '${NumberHelper().formatNumber(_thisUser.credits_total).toString()} FCFA',
+                                '${NumberHelper().formatNumber(_thisUser.ewallet_total).toString()} F',
                                 style: TextStyle(
-                                  color: MyColors().primary,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),
                               ),
@@ -187,13 +144,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Column(
                             children: [
-                              Text('Total retrait'),
+                              Text('Solde'),
                               SizedBox(height: 3),
                               Text(
-                                '${NumberHelper().formatNumber(_thisUser.ewallet_total).toString()} FCFA',
+                                '${NumberHelper().formatNumber(_thisUser.ewallet_balance).toString()} F',
                                 style: TextStyle(
-                                  color: MyColors().primary,
+                                  color: Colors.black,
                                   fontSize: 15,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ],
@@ -205,31 +163,34 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       content: Column(
                         children: [
                           CustomListVertical(
-                            label: 'Vous êtes',
+                            label: 'Nom et prénom(s)',
                             value:
                                 _thisUser.firstName + ' ' + _thisUser.lastName,
+                            valueIsBold: true,
                           ),
                           CustomHorizontalDiver(),
                           CustomListVertical(
                             label: 'Téléphone (username)',
                             value: _thisUser.phone.toString(),
+                            valueIsBold: true,
                           ),
                           CustomHorizontalDiver(),
                           CustomListVertical(
                             label: 'Adresse email',
                             value: _thisUser.email,
+                            valueIsBold: true,
                           ),
                           CustomHorizontalDiver(),
                           CustomListVertical(
                             label: 'Expiration',
                             value:
                                 DateHelper().formatTimeStamp(_thisUser.expiry),
+                            valueIsBold: true,
                           ),
                         ],
                       ),
                     ),
                     CustomCard(
-                      color: Color(0xffebffee),
                       content: Column(
                         children: [
                           CustomListVertical(
@@ -237,11 +198,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             value: _thisUser.sponsorKey['firstName'] +
                                 ' ' +
                                 _thisUser.sponsorKey['lastName'],
+                            valueIsBold: true,
                           ),
                           CustomHorizontalDiver(),
                           CustomListVertical(
                             label: 'Téléphone (username)',
                             value: '+${_thisUser.sponsorKey['username']}',
+                            valueIsBold: true,
                           ),
                         ],
                       ),

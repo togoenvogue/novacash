@@ -25,7 +25,7 @@ class CustomListSpaceBetwen extends StatelessWidget {
               color: labelColor,
             ),
           ),
-          Text(
+          SelectableText(
             value,
             style: TextStyle(
               color: valueColor,

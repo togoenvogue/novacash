@@ -67,7 +67,13 @@ class _AdminWithdrawalListState extends State<AdminWithdrawalList> {
           CustomListSpaceBetwen(
             label: 'Nom',
             value:
-                '${widget.wdl.userKey['fullName'].length <= 22 ? widget.wdl.userKey['fullName'] : widget.wdl.userKey['fullName'].substring(0, 22)}',
+                '${widget.wdl.userKey['lastName'].length <= 22 ? widget.wdl.userKey['lastName'] : widget.wdl.userKey['lastName'].substring(0, 22)}',
+          ),
+          CustomHorizontalDiver(),
+          CustomListSpaceBetwen(
+            label: 'Prénom(s)',
+            value:
+                '${widget.wdl.userKey['firstName'].length <= 22 ? widget.wdl.userKey['firstName'] : widget.wdl.userKey['firstName'].substring(0, 22)}',
           ),
           CustomHorizontalDiver(),
           CustomListSpaceBetwen(

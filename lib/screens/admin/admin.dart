@@ -3,19 +3,23 @@ import 'package:cube_transition/cube_transition.dart';
 import 'package:platform_device_id/platform_device_id.dart';
 import 'package:telephony/telephony.dart';
 
-import '../../screens/admin/messages/incoming.dart';
+import '../../models/user.dart';
+import '../../screens/admin/tokens/tokens.dart';
 import '../../screens/admin/withdrawals/withdrawals.dart';
 import '../../widgets/common/custom_flat_button_rounded.dart';
 import '../../models/config.dart';
 import '../../styles/styles.dart';
 
 class AdminHomeScreen extends StatefulWidget {
+  final UserModel user;
+  AdminHomeScreen({this.user});
   @override
   _AdminHomeScreenState createState() => _AdminHomeScreenState();
 }
 
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   AppConfigModel app;
+
   final Telephony telephony = Telephony.instance;
   var _deviceId;
 
@@ -38,10 +42,10 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Administrateur',
+          'Administration',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -59,25 +63,19 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
               ),
               SizedBox(height: 10),
               CustomFlatButtonRounded(
-                label: 'USSD (SMS on the PHONE)',
+                label: 'Codes de validation',
                 borderRadius: 50,
                 function: () {
                   Navigator.of(context).pushReplacement(
                     CubePageRoute(
-                      enterPage: AdminIncomingUssdScreen(),
-                      exitPage: AdminIncomingUssdScreen(),
+                      enterPage: TokensScreen(),
+                      exitPage: TokensScreen(),
                       duration: const Duration(milliseconds: 300),
                     ),
                   );
                 },
-                bgColor: MyColors().primary,
-                textColor: Colors.white,
-              ),
-              CustomFlatButtonRounded(
-                label: 'USSD (SMS Saved to Server)',
-                borderRadius: 50,
-                function: () {},
-                bgColor: MyColors().primary,
+                borderColor: Colors.transparent,
+                bgColor: Colors.green.withOpacity(0.6),
                 textColor: Colors.white,
               ),
               CustomFlatButtonRounded(
@@ -92,7 +90,8 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                     ),
                   );
                 },
-                bgColor: MyColors().primary,
+                borderColor: Colors.transparent,
+                bgColor: Colors.green.withOpacity(0.6),
                 textColor: Colors.white,
               ),
             ],

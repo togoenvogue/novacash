@@ -21,14 +21,15 @@ class CustomListVertical extends StatelessWidget {
               label,
               style: TextStyle(
                 fontWeight: !valueIsBold ? FontWeight.bold : FontWeight.normal,
-                fontFamily: MyFontFamily().family2,
-                fontSize: 16,
+                fontFamily: MyFontFamily().family4,
+                fontSize: 20,
+                color: Color(0xffd5ed93),
               ),
             ),
             Text(
               value,
               style: TextStyle(
-                color: MyColors().primary,
+                color: Colors.white,
                 fontWeight: valueIsBold ? FontWeight.bold : FontWeight.normal,
                 fontSize: 17,
               ),

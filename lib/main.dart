@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: MyColors().bgColor,
         textTheme: TextTheme(
           bodyText1: TextStyle(
-            color: Colors.black,
+            color: Colors.white,
           ),
         ),
       ),

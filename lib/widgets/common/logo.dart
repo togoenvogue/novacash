@@ -5,8 +5,8 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: Image.asset(
-        'assets/images/novabets_logo.png',
-        height: 65,
+        'assets/images/logo_white.png',
+        height: 70,
       ),
     );
   }

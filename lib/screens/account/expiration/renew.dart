@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../../screens/public/apn/apn.dart';
+import '../../../widgets/common/custom_text_input.dart';
 import '../../../helpers/common.dart';
 import '../../../models/user.dart';
 import '../../../screens/account/dashboard.dart';
-import '../../../screens/account/reload/reload_choice.dart';
-import '../../../screens/auth/login.dart';
 import '../../../services/expiration.dart';
 import '../../../services/user.dart';
 import '../../../styles/styles.dart';
@@ -22,36 +22,16 @@ class ExpirRenewScreen extends StatefulWidget {
 
 UserModel thisUser;
 bool isLoading;
-final _cost = 5000;
+final dynamic _totalCost = 7000;
 var _nextExpir;
+String _code;
 
 class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
-  // redirect to reload
-  void _redirectToReload() {
-    Navigator.of(context).push(
-      CubePageRoute(
-        enterPage: ReloadChoiceScreen(),
-        exitPage: ReloadChoiceScreen(),
-        duration: const Duration(milliseconds: 300),
-      ),
-    );
-  }
-
-  // redirect to dashboard
-  void _backToHome() {
-    Navigator.of(context).push(
-      CubePageRoute(
-        enterPage: DashboardScreen(userObj: thisUser),
-        exitPage: DashboardScreen(userObj: thisUser),
-        duration: const Duration(milliseconds: 300),
-      ),
-    );
-  }
-
-  void _submit() async {
-    if (thisUser.credits_balance >= _cost) {
+  void _renewWithCode() async {
+    if (_code != null && _code.length >= 16) {
       CustomAlert().loading(context: context, dismiss: false, isLoading: true);
-      var result = await ExpirationService().renew(userKey: thisUser.key);
+      var result = await ExpirationService()
+          .renewWithCode(userKey: thisUser.key, code: _code);
       Navigator.of(context).pop(); // wave off the loading
       if (result.error == null) {
         // recall the user
@@ -63,14 +43,14 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
           ).alert(
             context,
             'Félicitations!',
-            'Votre compte a été renouvelé avec succès pour une durée de 90 jours',
+            'Votre compte a été renouvelé avec succès pour une durée de 30 jours',
             false,
           );
           // delay
           await Future.delayed(const Duration(seconds: 5));
           Navigator.of(context).pop(); // wave off the confirmation alert
           // redirect
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             CubePageRoute(
               enterPage: DashboardScreen(userObj: r),
               exitPage: DashboardScreen(userObj: r),
@@ -85,7 +65,7 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
             context,
             'Oops',
             result.error,
-            false,
+            true,
           );
         }
       } else {
@@ -96,7 +76,95 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
           context,
           'Oops',
           result.error,
-          false,
+          true,
+        );
+      }
+    } else {
+      // not enough balance
+      CustomAlert(
+        colorBg: Colors.white,
+        colorText: Colors.black,
+      ).alert(
+        context,
+        'Attention',
+        'Veuillez entrer un code de validation valide',
+        true,
+      );
+    }
+  }
+
+  // redirect to reload
+  void _redirectToReload() {
+    Navigator.of(context).pushReplacement(
+      CubePageRoute(
+        enterPage: ApnScreen(),
+        exitPage: ApnScreen(),
+        duration: const Duration(milliseconds: 300),
+      ),
+    );
+  }
+
+  // redirect to dashboard
+  void _backToHome() {
+    Navigator.of(context).pushReplacement(
+      CubePageRoute(
+        enterPage: DashboardScreen(userObj: thisUser),
+        exitPage: DashboardScreen(userObj: thisUser),
+        duration: const Duration(milliseconds: 300),
+      ),
+    );
+  }
+
+  void _renewWithEwallet() async {
+    if (thisUser.ewallet_balance >= _totalCost) {
+      CustomAlert().loading(context: context, dismiss: false, isLoading: true);
+      var result =
+          await ExpirationService().renewWithEwallet(userKey: thisUser.key);
+      Navigator.of(context).pop(); // wave off the loading
+      if (result.error == null) {
+        // recall the user
+        var r = await AuthService().getThisUser();
+        if (r.error == null) {
+          CustomAlert(
+            colorBg: Colors.white,
+            colorText: Colors.black,
+          ).alert(
+            context,
+            'Félicitations!',
+            'Votre compte a été renouvelé avec succès pour une durée de 30 jours',
+            false,
+          );
+          // delay
+          await Future.delayed(const Duration(seconds: 5));
+          Navigator.of(context).pop(); // wave off the confirmation alert
+          // redirect
+          Navigator.of(context).pushReplacement(
+            CubePageRoute(
+              enterPage: DashboardScreen(userObj: r),
+              exitPage: DashboardScreen(userObj: r),
+              duration: const Duration(milliseconds: 300),
+            ),
+          );
+        } else {
+          CustomAlert(
+            colorBg: Colors.white,
+            colorText: Colors.black,
+          ).alert(
+            context,
+            'Oops',
+            result.error,
+            true,
+          );
+        }
+      } else {
+        CustomAlert(
+          colorBg: Colors.white,
+          colorText: Colors.black,
+        ).alert(
+          context,
+          'Oops',
+          result.error,
+          true,
         );
       }
     } else {
@@ -109,12 +177,12 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
         cancelText: 'Non',
         confirmFn: _redirectToReload,
         content: Text(
-          'Vous ne disposez pas de fonds nécessaires pour renouveler votre compte. Voulez-vous effectuer un dépôt maintenant?',
+          'Vous ne disposez pas de gains nécessaires pour renouveler votre compte. Voulez-vous acheter un code de validation?',
           textAlign: TextAlign.center,
         ),
         context: context,
         submitText: 'Oui',
-        title: 'Effectuez un dépôt',
+        title: 'Gains insuffisants',
       );
     }
   }
@@ -128,54 +196,6 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
             ? 90 * 86400000 + uzr.expiry
             : 90 * 86400000 + DateTime.now().millisecondsSinceEpoch;
       });
-      // make sure the user has enough money to pay
-      if (uzr.credits_balance < _cost) {
-        CustomAlert(
-          colorBg: Colors.white,
-          colorText: Colors.black,
-        ).confirm(
-          cancelFn: _backToHome,
-          cancelText: 'Non',
-          confirmFn: _redirectToReload,
-          content: Text(
-            'Vous ne disposez pas de fonds nécessaires pour renouveler votre compte. Souhaitez-vous effectuer un dépôt?',
-            textAlign: TextAlign.center,
-          ),
-          context: context,
-          submitText: 'Oui',
-          title: 'Solde insuffisant!',
-        );
-      }
-    } else if (uzr.error == 'AUTH_EXPIRED') {
-      CustomAlert(
-        colorBg: Colors.white,
-        colorText: Colors.black,
-      ).alert(
-        context,
-        'Accès refusé',
-        'Vous essayez d\'accéder à un espace sécurisé. Connectez-vous et essayez de nouveau',
-        false,
-      );
-      await Future.delayed(const Duration(seconds: 5));
-      // redirect to login
-      Navigator.of(context).push(
-        CubePageRoute(
-          enterPage: LoginScreen(),
-          exitPage: LoginScreen(),
-          duration: const Duration(milliseconds: 300),
-        ),
-      );
-    } else {
-      // show error
-      CustomAlert(
-        colorBg: Colors.white,
-        colorText: Colors.black,
-      ).alert(
-        context,
-        'Oops!',
-        uzr.error,
-        true,
-      );
     }
   }
 
@@ -190,10 +210,10 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Je m\'abonne',
+          'Autoship',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -203,19 +223,22 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
           children: [
             Container(
               child: Image.asset(
-                'assets/images/icon-premium.png',
+                'assets/images/icon-autoship.png',
                 //fit: BoxFit.cover,
               ),
               //decoration: BoxDecoration(color: Colors.green),
-              height: 120,
+              height: 70,
               //width: double.infinity,
             ),
             SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                'Afin d\'avoir accès à tous nos services premium dont le pari dans l\'application et les retraits, vous devez effectuer un dépôt sur votre compte et payer votre abonnement',
-                style: TextStyle(fontSize: 16),
+                'Le renouvellement de votre autoship vous permet de maintenir votre compte actif et recevoir les gains de 3 500 F à l\'infini',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
               ),
             ),
@@ -228,12 +251,13 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
                         children: [
                           CustomListSpaceBetwen(
                             label: 'Montant à payer',
-                            value: '${NumberHelper().formatNumber(_cost)} FCFA',
+                            value:
+                                '${NumberHelper().formatNumber(_totalCost)} FCFA',
                           ),
                           CustomHorizontalDiver(),
                           CustomListSpaceBetwen(
                             label: 'Validité',
-                            value: '90 jours',
+                            value: '30 jours',
                           ),
                           CustomHorizontalDiver(),
                           CustomListSpaceBetwen(
@@ -241,17 +265,26 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
                             value:
                                 '${DateHelper().formatTimeStamp(_nextExpir)}',
                           ),
-                          CustomHorizontalDiver(),
-                          CustomListSpaceBetwen(
-                            label: 'Solde de votre compte',
-                            value:
-                                '${NumberHelper().formatNumber(thisUser.credits_balance)} FCFA',
+                          CustomTextInput(
+                            isObscure: false,
+                            maxLength: 16,
+                            maxLines: 1,
+                            inputType: TextInputType.number,
+                            labelText: 'Entrez un code de validation',
+                            helpText: 'Ex: 16135-90376-9X5W',
+                            onChanged: (value) {
+                              setState(() {
+                                _code = value;
+                              });
+                            },
                           ),
-                          CustomHorizontalDiver(),
-                          CustomListSpaceBetwen(
-                            label: 'Solde après',
-                            value:
-                                '${NumberHelper().formatNumber(thisUser.credits_balance - _cost)} FCFA',
+                          CustomFlatButtonRounded(
+                            label: 'Valider avec le code',
+                            borderRadius: 50,
+                            function: _renewWithCode,
+                            borderColor: Colors.transparent,
+                            bgColor: MyColors().bgColor,
+                            textColor: Colors.white,
                           ),
                         ],
                       )
@@ -263,11 +296,31 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
               child: CustomFlatButtonRounded(
-                label: 'Payer mon abonnement',
+                label: 'Payer avec mes gains',
                 borderRadius: 50,
-                function: _submit,
-                bgColor: MyColors().primary,
-                textColor: Colors.white,
+                function: _renewWithEwallet,
+                borderColor: Colors.transparent,
+                bgColor: MyColors().primary2,
+                textColor: Colors.black,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: CustomFlatButtonRounded(
+                label: 'Acheter un code',
+                borderRadius: 50,
+                function: () {
+                  Navigator.of(context).pushReplacement(
+                    CubePageRoute(
+                      enterPage: ApnScreen(),
+                      exitPage: ApnScreen(),
+                      duration: const Duration(milliseconds: 300),
+                    ),
+                  );
+                },
+                borderColor: Colors.transparent,
+                bgColor: Colors.yellow,
+                textColor: Colors.black,
               ),
             ),
           ],

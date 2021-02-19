@@ -37,7 +37,10 @@ class TransfertList extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 9, horizontal: 8),
                       child: Text(
-                        DateHelper().formatTimeStamp(transfer.timeStamp),
+                        '${DateHelper().formatTimeStamp(transfer.timeStamp)}',
+                        style: TextStyle(
+                          color: Colors.greenAccent[100],
+                        ),
                       ),
                     ),
                   ),
@@ -47,7 +50,11 @@ class TransfertList extends StatelessWidget {
                           vertical: 9, horizontal: 8),
                       child: Container(
                         child: Text(
-                            '${transfer.fromKey['_key'] == userKey ? 'Transfert envoyé' : 'Transfert reçu'}'),
+                          '${transfer.fromKey['_key'] == userKey ? 'Transfert envoyé' : 'Transfert reçu'}',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -59,7 +66,7 @@ class TransfertList extends StatelessWidget {
                           ? Text(
                               '-${NumberHelper().formatNumber(transfer.amount).toString()} F',
                               style: TextStyle(
-                                color: MyColors().danger,
+                                color: Colors.yellow,
                               ),
                             )
                           : Text(

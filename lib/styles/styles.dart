@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class MyColors {
-  final bgColor = const Color(0xfff7f9ff);
-  final primary = const Color(0xff7c90d9);
+  final bgColor = const Color(0xff075c45);
+  final primary = const Color(0xffedfff7);
   final success = const Color(0xff5BC266);
   final warning = const Color(0xffFFAD32);
-  final danger = const Color(0xffFF3F6D);
+  final danger = const Color(0xfff23d3d);
   final info = const Color(0xff5A73CB);
   final normal = const Color(0xff676767);
   final white = const Color(0xfffcfffd);
@@ -41,26 +41,27 @@ class MyStyles {
 
   final textInputLabel = const TextStyle(
     fontFamily: 'MarkPro',
-    color: Colors.black87,
+    color: Colors.white,
     fontSize: 14,
     fontWeight: FontWeight.bold,
   );
 
   final textInputContent = const TextStyle(
     fontFamily: 'MarkPro',
-    color: Color(0xff2e2e2e),
+    color: Colors.black,
     fontSize: 18,
-    fontWeight: FontWeight.normal,
+    fontWeight: FontWeight.bold,
   );
 
   final hint = const TextStyle(
     fontFamily: 'MarkPro',
-    color: Color(0xff222222),
+    color: Color(0xffffffff),
     fontSize: 12,
     fontWeight: FontWeight.normal,
   );
 
   final appBarTextStyle = const TextStyle(
     color: Colors.white,
+    fontWeight: FontWeight.normal,
   );
 }

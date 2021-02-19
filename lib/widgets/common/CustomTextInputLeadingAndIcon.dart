@@ -41,6 +41,7 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomCard(
+      color: Color(0xff2d9c68),
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
@@ -81,29 +82,33 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                     //padding: EdgeInsets.symmetric(horizontal: 6),
                     decoration: BoxDecoration(
                       border: Border(
-                        bottom: BorderSide(width: 1, color: Colors.black12),
-                        top: BorderSide(width: 1, color: Colors.black12),
-                        left: BorderSide(width: 1, color: Colors.black12),
-                        right: BorderSide(width: 1, color: Colors.black12),
+                        bottom: BorderSide(width: 1, color: Colors.white),
+                        top: BorderSide(width: 1, color: Colors.white),
+                        left: BorderSide(width: 1, color: Colors.white),
+                        right: BorderSide(width: 1, color: Colors.white),
                       ),
-                      borderRadius: BorderRadius.circular(10),
+                      borderRadius: BorderRadius.circular(0),
                     ),
                   ),
                   SizedBox(height: 18),
                 ],
               ),
-              Container(
-                child: Text(
-                  leadingText,
-                  style: TextStyle(
-                    fontSize: 25,
-                    fontWeight: FontWeight.normal,
-                    fontFamily: MyFontFamily().family2,
-                    color: MyColors().primary,
+              InkWell(
+                onTap: onTap,
+                splashColor: Colors.blue,
+                child: Container(
+                  child: Text(
+                    leadingText,
+                    style: TextStyle(
+                      fontSize: 25,
+                      fontWeight: FontWeight.normal,
+                      fontFamily: MyFontFamily().family2,
+                      color: MyColors().primary,
+                    ),
                   ),
+                  height: 60,
+                  padding: EdgeInsets.symmetric(horizontal: 6),
                 ),
-                height: 60,
-                padding: EdgeInsets.symmetric(horizontal: 6),
               ),
               Expanded(
                 child: TextField(
@@ -120,9 +125,9 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                   style: MyStyles().textInputContent,
                   decoration: InputDecoration(
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: MyColors().primary,
                     counterStyle: TextStyle(
-                      color: Colors.blue,
+                      color: Colors.grey,
                     ),
                     hintText: hintText,
                     hintStyle: MyStyles().textInputContent,
