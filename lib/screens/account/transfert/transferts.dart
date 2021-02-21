@@ -34,17 +34,21 @@ class _TransfertsScreenState extends State<TransfertsScreen> {
     setState(() {
       isLoading = true;
     });
-    var result = await TransfertService()
-        .transferts(userKey: userKey, month: month, year: year);
+    var result = await TransfertService().transferts(
+      userKey: userKey,
+      month: month,
+      year: year,
+    );
 
+    setState(() {
+      isLoading = false;
+    });
     if (result != null && result[0].error != 'No data') {
       setState(() {
-        isLoading = false;
         records = result;
       });
     } else {
       setState(() {
-        isLoading = false;
         records = [];
         _errMessage =
             'Vous n\'avez effectué aucun transfert au mois de ${DateHelper().formatTimeStampShort(_selectedDate)}';
@@ -186,7 +190,7 @@ class _TransfertsScreenState extends State<TransfertsScreen> {
       backgroundColor: MyColors().bgColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 1.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),
           child: Column(
             children: [
               Container(
@@ -198,10 +202,14 @@ class _TransfertsScreenState extends State<TransfertsScreen> {
                 height: 70,
                 //width: double.infinity,
               ),
-              Text(
-                'Cliquez sur l\'icône (+) pour effectuer un transfert',
-                style: TextStyle(
-                  color: Colors.white,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Cliquez sur l\'icône (+) pour effectuer un transfert',
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(height: 10),

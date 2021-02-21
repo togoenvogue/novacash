@@ -218,7 +218,7 @@ class _TransfertCreateScreenState extends State<TransfertCreateScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                'Cette opération vous permet de transférer une partie de vos gains à un autre utilisateur',
+                'Transférez une partie de vos gains à un autre membre (sans frais)',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,

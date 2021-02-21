@@ -128,7 +128,7 @@ class _DownlineScreenState extends State<DownlineScreen> {
       backgroundColor: MyColors().bgColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),
           child: records.length > 0 && isLoading == false
               ? Column(
                   children: [

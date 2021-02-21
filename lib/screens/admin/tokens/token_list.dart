@@ -34,7 +34,7 @@ class TokenList extends StatelessWidget {
                   Container(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 9, horizontal: 8),
+                          vertical: 8, horizontal: 6),
                       child: Text(
                         '${DateHelper().formatTimeStamp(token.timeStamp)}',
                         style: TextStyle(
@@ -63,7 +63,7 @@ class TokenList extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           vertical: 9, horizontal: 8),
                       child: Text(
-                        '${NumberHelper().formatNumber(token.amount).toString()} F',
+                        '${NumberHelper().formatNumber(token.amount).toString()}',
                         style: TextStyle(
                           color: Colors.yellow,
                         ),

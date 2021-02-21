@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 
 import '../../../models/config.dart';
-import '../../../config/configuration.dart';
 import '../../../styles/styles.dart';
 import '../../../widgets/common/custom_list_vertical.dart';
 
@@ -59,7 +58,7 @@ WhatsApp: ${app.phone1}''',
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                'NB: Pour recevoir une réponse de notre part, vous devez communiquez en FRANCAIS ou en ANGLAIS!',
+                'Communication en Français ou en Anglais',
                 style: TextStyle(
                   color: Colors.white,
                 ),

@@ -21,7 +21,8 @@ class _MyNetworkScreenState extends State<MyNetworkScreen> {
   List<UserModel> records = [];
   bool isLoading = false;
   UserModel _thisUser;
-  int _level = 0;
+  int _level = 1;
+  int _levelCount = 2;
 
   void _getRecords({String userKey, int level}) async {
     setState(() {
@@ -54,7 +55,7 @@ class _MyNetworkScreenState extends State<MyNetworkScreen> {
       setState(() {
         _thisUser = uzr;
       });
-      _getRecords(userKey: uzr.key);
+      _getRecords(userKey: uzr.key, level: _level);
     } else if (uzr.error == 'AUTH_EXPIRED') {
       CustomAlert(
         colorBg: Colors.white,
@@ -93,6 +94,31 @@ class _MyNetworkScreenState extends State<MyNetworkScreen> {
   void _selectedLevel(int level) {
     setState(() {
       _level = level;
+      if (level == 1) {
+        _levelCount = 2;
+      } else if (level == 2) {
+        _levelCount = 4;
+      } else if (level == 3) {
+        _levelCount = 8;
+      } else if (level == 4) {
+        _levelCount = 16;
+      } else if (level == 5) {
+        _levelCount = 32;
+      } else if (level == 6) {
+        _levelCount = 64;
+      } else if (level == 7) {
+        _levelCount = 128;
+      } else if (level == 8) {
+        _levelCount = 256;
+      } else if (level == 9) {
+        _levelCount = 512;
+      } else if (level == 10) {
+        _levelCount = 1024;
+      } else if (level == 11) {
+        _levelCount = 2048;
+      } else if (level == 12) {
+        _levelCount = 4096;
+      }
     });
     _getRecords(level: _level, userKey: _thisUser.key);
   }
@@ -109,7 +135,9 @@ class _MyNetworkScreenState extends State<MyNetworkScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Mon équipe',
+          records == null && records.length == 0
+              ? 'Mon reseau'
+              : 'Niveau $_level (${records.length}/$_levelCount)',
           style: MyStyles().appBarTextStyle,
         ),
         backgroundColor: MyColors().bgColor,
@@ -173,6 +201,7 @@ class _MyNetworkScreenState extends State<MyNetworkScreen> {
                 radioButtonValue: (value) {
                   _selectedLevel(int.parse(value));
                 },
+                defaultSelected: '1',
                 unSelectedColor: Colors.white.withOpacity(0.6),
                 selectedColor: Colors.green.withOpacity(0.8),
                 selectedBorderColor: Colors.transparent,
@@ -190,7 +219,7 @@ class _MyNetworkScreenState extends State<MyNetworkScreen> {
               ),
               records.length > 0 && isLoading == false
                   ? Container(
-                      height: MediaQuery.of(context).size.height - 100,
+                      height: MediaQuery.of(context).size.height - 190,
                       child: records != null &&
                               records.length > 0 &&
                               isLoading == false &&

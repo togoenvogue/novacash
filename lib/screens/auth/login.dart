@@ -58,7 +58,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
 
         if (result.conditionsAccepted == true) {
-          if (result.categories.length >= 3) {
+          if (result != null && result.categories.length >= 3) {
             Navigator.of(context).pushReplacement(
               CubePageRoute(
                 enterPage: DashboardScreen(userObj: result),

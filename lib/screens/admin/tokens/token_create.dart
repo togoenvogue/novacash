@@ -197,6 +197,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
                           CustomRadioButton(
                             buttonValues: ['1', '2', '5', '10'],
                             buttonLables: ['1', '2', '5', '10'],
+                            defaultSelected: '1',
                             radioButtonValue: (value) {
                               _selectedAmount(int.parse(value));
                             },
@@ -213,7 +214,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
                                 fontFamily: MyFontFamily().family2,
                               ),
                             ),
-                            width: 133,
+                            width: 50,
                             elevation: 0,
                           ),
                           CustomListSpaceBetwen(

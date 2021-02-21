@@ -96,7 +96,7 @@ class _ApnScreenState extends State<ApnScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Points Focaux',
+          'Nos points focaux',
           style: MyStyles().appBarTextStyle,
         ),
         backgroundColor: MyColors().bgColor,
@@ -130,7 +130,7 @@ class _ApnScreenState extends State<ApnScreen> {
             SizedBox(height: 10),
 
             Text(
-              'NB: Si vous souhaitez devenir un point focal dans votre zone, alors contactez-nous pour en discuter',
+              'Contactez-nous pour devenir un point focal',
               style: TextStyle(
                 color: Color(0xffd4f7a6),
                 fontWeight: FontWeight.bold,
@@ -211,9 +211,12 @@ class _ApnScreenState extends State<ApnScreen> {
             SizedBox(height: 8),
 
             selectedCountryName != null
-                ? ApnList(
-                    records: apnList,
-                    countryName: selectedCountryName,
+                ? Container(
+                    height: MediaQuery.of(context).size.height - 380,
+                    child: ApnList(
+                      records: apnList,
+                      countryName: selectedCountryName,
+                    ),
                   )
                 : Text(''),
           ],

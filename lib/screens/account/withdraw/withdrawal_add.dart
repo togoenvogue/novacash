@@ -36,7 +36,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
   UserModel _thisUser;
   var _selectedChannel;
   dynamic _minimToWithdraw = 3500;
-  final dynamic _maximumToWithdraw = 100000;
+  final dynamic _maximumToWithdraw = 200000;
   String firstName;
   String lastName;
   String city;
@@ -360,6 +360,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                   ),
                 ),
               SizedBox(height: 10),
+              Text('NB: Le délai de traitement est de 24 à 72 heures ouvrées'),
               CustomCard(
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,

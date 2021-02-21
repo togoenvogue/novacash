@@ -56,7 +56,7 @@ class _MessageInboxScreenState extends State<MessageInboxScreen> {
           'Notifications',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: MyColors().primary,
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -68,13 +68,16 @@ class _MessageInboxScreenState extends State<MessageInboxScreen> {
             children: [
               Container(
                 height: MediaQuery.of(context).size.height - 90,
-                child: records.length > 0 && isLoading == false
+                child: records != null &&
+                        records.length > 0 &&
+                        isLoading == false
                     ? ListView.builder(
                         itemBuilder: (ctx, index) {
                           return CustomListVerticalClickable(
                             callBack: null,
                             id: records[index].id,
-                            label1Color: MyColors().primary,
+                            label1Color: Color(0xffccebc5),
+                            label2Color: Colors.white,
                             label1: DateHelper()
                                 .formatTimeStampFull(records[index].timeStamp),
                             label2: records[index].message,

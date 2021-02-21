@@ -68,6 +68,7 @@ class _WithdrawalsScreenState extends State<WithdrawalsScreen> {
   void _getRecords({String userKey, int day, int month, int year}) async {
     setState(() {
       isLoading = true;
+      records = [];
     });
 
     var results = await WithdrawService()
@@ -210,7 +211,7 @@ class _WithdrawalsScreenState extends State<WithdrawalsScreen> {
             SizedBox(height: 5),
             Container(
               height: MediaQuery.of(context).size.height - 95,
-              child: records != null && records.length > 0
+              child: records != null && records.length > 0 && isLoading == false
                   ? ListView.builder(
                       itemBuilder: (ctx, index) {
                         return WithdrawalsList(

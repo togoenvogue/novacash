@@ -17,7 +17,8 @@ class NotificationService {
                 _key
                 phone
                 email
-                fullName
+                firstName
+                lastName
                 username
               }
             }

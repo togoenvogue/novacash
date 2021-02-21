@@ -75,8 +75,12 @@ class UserModel {
   final bool gadget3Given;
   final List<dynamic> categories;
   final String error;
+  final String sex;
+  final int age;
 
   UserModel({
+    this.age,
+    this.sex,
     this.key,
     this.authExpir,
     this.bulkId,

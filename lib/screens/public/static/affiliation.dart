@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../../../config/configuration.dart';
-import '../../../helpers/common.dart';
 import '../../../models/config.dart';
 import '../../../styles/styles.dart';
 import '../../../widgets/common/custom_list_vertical.dart';

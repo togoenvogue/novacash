@@ -21,7 +21,7 @@ class HomeStaticButtonItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        if (isClickable == true) {
+        if (isClickable == true && screen != null) {
           Navigator.of(context).push(
             CubePageRoute(
               enterPage: screen,
@@ -56,7 +56,7 @@ class HomeStaticButtonItem extends StatelessWidget {
                 ],
               ),*/
               child: image,
-              width: 45,
+              width: 40,
             ),
             Text(
               label,
@@ -64,7 +64,7 @@ class HomeStaticButtonItem extends StatelessWidget {
                 fontWeight: FontWeight.bold,
                 fontFamily: MyFontFamily().family2,
                 color: MyColors().primary,
-                fontSize: 14,
+                fontSize: 12,
               ),
             ),
           ],

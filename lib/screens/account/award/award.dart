@@ -21,49 +21,52 @@ class AwardsScreen extends StatefulWidget {
 class _AwardsScreenState extends State<AwardsScreen> {
   bool isLoading = false;
   String url = 'assets/images/award3.jpg';
-  dynamic valeur = 100000;
-  dynamic condition = 100;
+  dynamic valeur = 0;
+  dynamic condition = 0;
   dynamic effort = 0;
   dynamic balance = 0;
-  String description =
-      'Veuillez sélectionner un niveau de récompenses pour voir les détails';
+  String description = 'Cliquez sur un grade pour voir les détails';
   bool showAward = false;
   UserModel thisUser;
   bool isQualified;
+
+  final String image1 = 'https://mastercash.network/_novacash/award1.jpg';
+  final String image2 = 'https://mastercash.network/_novacash/award2.jpg';
+  final String image3 = 'https://mastercash.network/_novacash/award3.jpg';
 
   void _selectedType(String type) {
     setState(() {
       showAward = true;
       if (type == 'SILVER') {
         description =
-            'Il vous suffit d\'avoir un total de 100 personnes dans votre équipe pour recevoir un téléphone Android d\'une valeur maximale de 100 000 F';
-        condition = 100;
+            'Avec seulement 50 personnes dans votre équipe, vous recevez un téléphone Android d\'une valeur maximale de 100 000 FCFA';
+        condition = 50;
         balance = thisUser.teamCount - 100;
         valeur = 100000;
         effort = thisUser.teamCount;
-        url = 'assets/images/award1.jpg';
+        url = image1;
         isQualified = thisUser.gadget1Qualified;
-        print(thisUser.gadget1Qualified);
+        //print(thisUser.gadget1Qualified);
       } else if (type == 'GOLD') {
         description =
-            'Avec 900 personnes dans votre équipe, vous vous qualifiez pour vous qualifier pour une moto d\'une valeur maximale de 700 000 F';
-        condition = 900;
+            'Avec 350 personnes dans votre équipe, vous vous qualifiez pour une moto d\'une valeur maximale de 700 000 FCFA';
+        condition = 350;
         balance = thisUser.teamCount - 900;
         valeur = 700000;
         effort = thisUser.teamCount;
-        url = 'assets/images/award2.jpg';
+        url = image2;
         isQualified = thisUser.gadget2Qualified;
-        print(thisUser.gadget1Qualified);
+        //print(thisUser.gadget1Qualified);
       } else {
         description =
-            'Vous pouvez recevoir une voiture de votre choix d\'une valeur maximale de 5 millions en disposant seulement de 6 000 personnes dans votre équipe';
-        condition = 6000;
+            'Recevez la voiture de votre choix d\'une valeur maximale de 5 millions avec seulement de 2 500 personnes dans votre équipe';
+        condition = 2500;
         balance = thisUser.teamCount - 6000;
         valeur = 5000000;
         effort = thisUser.teamCount;
-        url = 'assets/images/award3.jpg';
+        url = image3;
         isQualified = thisUser.gadget3Qualified;
-        print(thisUser.gadget1Qualified);
+        //print(thisUser.gadget1Qualified);
       }
     });
   }
@@ -74,6 +77,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
       setState(() {
         thisUser = uzr;
       });
+      _selectedType('SILVER');
     } else if (uzr.error == 'AUTH_EXPIRED') {
       CustomAlert(
         colorBg: Colors.white,
@@ -132,9 +136,19 @@ class _AwardsScreenState extends State<AwardsScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
           child: Column(
             children: [
+              Text(
+                description,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 15,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 5),
               CustomRadioButton(
                 buttonLables: ['SILVER', 'GOLD', 'RUBY'],
                 buttonValues: ['SILVER', 'GOLD', 'RUBY'],
+                defaultSelected: 'SILVER',
                 radioButtonValue: (value) {
                   _selectedType(value);
                 },
@@ -153,15 +167,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
                 width: 90,
                 elevation: 0,
               ),
-              Text(
-                description,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              SizedBox(height: 15),
+              SizedBox(height: 10),
               if (showAward)
                 ClipRRect(
                   borderRadius: BorderRadius.only(
@@ -170,11 +176,14 @@ class _AwardsScreenState extends State<AwardsScreen> {
                     bottomRight: Radius.circular(20),
                     bottomLeft: Radius.circular(20),
                   ),
-                  child: Image.asset(
-                    url,
-                    height: 230,
-                    width: double.infinity,
+                  child: FadeInImage(
+                    placeholder: AssetImage('assets/images/placeholder.png'),
+                    image: NetworkImage(url) == null
+                        ? Image.asset('assets/images/placeholder.png')
+                        : NetworkImage(url),
                     fit: BoxFit.cover,
+                    width: double.infinity,
+                    height: 230,
                   ),
                 ),
               if (showAward)

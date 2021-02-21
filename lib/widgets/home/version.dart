@@ -30,7 +30,7 @@ WhatsApp: ${app.phone1}""";
                 style: TextStyle(
                   fontSize: 18,
                   fontFamily: MyFontFamily().family3,
-                  color: Colors.black.withOpacity(0.3),
+                  color: Colors.white.withOpacity(0.4),
                 ),
               ),
             ),
@@ -38,10 +38,11 @@ WhatsApp: ${app.phone1}""";
               child: InkWell(
                 onTap: () {
                   CustomAlert(
-                    colorBg: Colors.white,
-                    colorText: Colors.black.withOpacity(0.7),
+                    colorBg: MyColors().bgColor,
+                    colorText: Colors.white.withOpacity(0.9),
                     titleStyle: TextStyle(
                       fontFamily: MyFontFamily().family2,
+                      color: Colors.white.withOpacity(0.9),
                     ),
                   ).alert(
                     context,
@@ -55,7 +56,7 @@ WhatsApp: ${app.phone1}""";
                   style: TextStyle(
                     fontSize: 17,
                     fontFamily: MyFontFamily().family3,
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.white.withOpacity(0.4),
                   ),
                 ),
               ),

@@ -31,7 +31,8 @@ class BonusList extends StatelessWidget {
           children: [
             Container(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
                 child: Text(
                   '${DateHelper().formatTimeStamp(bonus.timeStamp)}',
                   style: TextStyle(
@@ -70,7 +71,7 @@ class BonusList extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: MyColors().primary.withOpacity(0.2),
+              color: MyColors().primary.withOpacity(0.1),
             ),
           ),
         ),

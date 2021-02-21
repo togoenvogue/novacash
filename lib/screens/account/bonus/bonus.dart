@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:month_picker_dialog/month_picker_dialog.dart';
 
-import '../../../config/configuration.dart';
 import '../../../helpers/common.dart';
 import '../../../models/bonus.dart';
 import '../../../models/user.dart';
@@ -20,7 +19,7 @@ class BonusScreen extends StatefulWidget {
 }
 
 class _BonusScreenState extends State<BonusScreen> {
-  bool isLoading = false;
+  bool isLoading = true;
   int _selectedDate;
   var toDay;
   var toMonth;
@@ -31,10 +30,13 @@ class _BonusScreenState extends State<BonusScreen> {
   void _getRecords({String userKey, int month, int year}) async {
     setState(() {
       isLoading = true;
+      records = [];
     });
     var result = await BonusService()
         .myBonuses(month: month, year: year, userKey: userKey);
-
+    setState(() {
+      isLoading = false;
+    });
     if (result != null && result[0].error != 'No data') {
       setState(() {
         records = result;
@@ -167,7 +169,7 @@ class _BonusScreenState extends State<BonusScreen> {
       backgroundColor: MyColors().bgColor,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 10.0),
           child: Column(
             children: [
               Container(
@@ -181,7 +183,7 @@ class _BonusScreenState extends State<BonusScreen> {
               ),
               Container(
                 height: MediaQuery.of(context).size.height - 220,
-                child: records.length > 0
+                child: records.length > 0 && isLoading == false
                     ? ListView.builder(
                         itemBuilder: (ctx, index) {
                           return BonusList(bonus: records[index]);
@@ -191,7 +193,7 @@ class _BonusScreenState extends State<BonusScreen> {
                     : EmptyFolder(
                         isLoading: isLoading,
                         message:
-                            'Invitez vos amis à utiliser l\'application $appName pour commencer par recevoir des bonus',
+                            'Vous n\'avez reçu aucun gain au mois de ${DateHelper().formatTimeStampShort(_selectedDate)}',
                       ),
               ),
             ],

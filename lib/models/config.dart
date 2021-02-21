@@ -21,16 +21,27 @@ class AppConfigModel {
   final String desc;
   // ignore: non_constant_identifier_names
   final String error;
+  // ignore: non_constant_identifier_names
   final dynamic sum_partner;
+  // ignore: non_constant_identifier_names
   final dynamic sum_tgv;
+  // ignore: non_constant_identifier_names
   final dynamic sum_debos;
+  // ignore: non_constant_identifier_names
   final dynamic sum_reserve;
+  // ignore: non_constant_identifier_names
   final dynamic sum_ewallet;
+  // ignore: non_constant_identifier_names
   final dynamic sum_cash_in;
+  // ignore: non_constant_identifier_names
   final dynamic sum_cash_out;
+  // ignore: non_constant_identifier_names
   final dynamic sum_cash_out_tax;
+  // ignore: non_constant_identifier_names
   final dynamic sum_phone;
+  // ignore: non_constant_identifier_names
   final dynamic sum_moto;
+  // ignore: non_constant_identifier_names
   final dynamic sum_car;
 
   AppConfigModel({

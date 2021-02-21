@@ -22,7 +22,7 @@ class CustomListVertical extends StatelessWidget {
               style: TextStyle(
                 fontWeight: !valueIsBold ? FontWeight.bold : FontWeight.normal,
                 fontFamily: MyFontFamily().family4,
-                fontSize: 20,
+                fontSize: 16,
                 color: Color(0xffd5ed93),
               ),
             ),
@@ -31,7 +31,7 @@ class CustomListVertical extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: valueIsBold ? FontWeight.bold : FontWeight.normal,
-                fontSize: 17,
+                fontSize: 15,
               ),
             ),
           ],

@@ -16,47 +16,67 @@ class PasswordResetScreen extends StatefulWidget {
 
 class _PasswordResetScreenState extends State<PasswordResetScreen> {
   String username;
-  String fullName;
+  String email;
+  bool isLoading = false;
 
   void _resetPassword() async {
     if (username != null &&
-        fullName != null &&
         username.length >= 11 &&
-        fullName.length > 0 &&
-        fullName.length <= 50) {
-      CustomAlert().loading(context: context, dismiss: false, isLoading: true);
-      var result = await AuthService()
-          .requestPassword(fullName: fullName, username: username);
-      CustomAlert().loading(context: context, dismiss: false, isLoading: false);
+        !username.startsWith('+') &&
+        !username.startsWith('00')) {
+      if (email != null && email.length > 0 && email.length <= 50) {
+        setState(() {
+          isLoading = true;
+        });
+        CustomAlert()
+            .loading(context: context, dismiss: false, isLoading: isLoading);
+        var result = await AuthService()
+            .requestPassword(email: email, username: username);
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.of(context).pop(); // wave off the loading
 
-      if (result.error == null) {
-        // success
-        CustomAlert(
-          colorBg: Colors.white,
-          colorText: Colors.black,
-        ).alert(
-          context,
-          'Felicitations!',
-          'Vous recevrez un nouveau mot de passe par SMS dans un moment. Vous pouvez le changer après connexion',
-          true,
-        );
-        /*
-    Navigator.of(context).pushReplacement(
-      CubePageRoute(
-        enterPage: LoginScreen(),
-        exitPage: LoginScreen(),
-        duration: const Duration(milliseconds: 300),
-      ),
-    );
-    */
+        if (result != null && result.error == null) {
+          // success
+          CustomAlert(
+            colorBg: Colors.white,
+            colorText: Colors.black,
+          ).alert(
+            context,
+            'Succès!',
+            'Vous recevrez bientôt un nouveau mot de passe par SMS et/ou par MAIL. Vous pouvez le changer après connexion',
+            false,
+          );
+
+          await Future.delayed(const Duration(seconds: 5));
+          Navigator.of(context).pop(); // wave off the confirmation alert
+          Navigator.of(context).pushReplacement(
+            CubePageRoute(
+              enterPage: LoginScreen(),
+              exitPage: LoginScreen(),
+              duration: const Duration(milliseconds: 300),
+            ),
+          );
+        } else {
+          CustomAlert(
+            colorBg: Colors.white,
+            colorText: Colors.black,
+          ).alert(
+            context,
+            'Oops!',
+            result.error,
+            true,
+          );
+        }
       } else {
         CustomAlert(
           colorBg: Colors.white,
           colorText: Colors.black,
         ).alert(
           context,
-          'Oops!',
-          result.error,
+          'Attention!',
+          'Entrez votre adresse email utilisée lors de votre inscription',
           true,
         );
       }
@@ -67,7 +87,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
       ).alert(
         context,
         'Attention!',
-        'Entrez un numéro de 11 ou 12 chifres et votre nom et prénom(s) de 50 caractères maximum',
+        'Suivez les instructions pour entrer un numéro de telephone valide',
         true,
       );
     }
@@ -82,7 +102,7 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
           'Mot de passe perdu',
           style: MyStyles().appBarTextStyle,
         ),
-        backgroundColor: Color(0xff5A73CB),
+        backgroundColor: MyColors().bgColor,
         iconTheme: IconThemeData(color: Colors.white),
         shadowColor: Colors.transparent,
       ),
@@ -92,8 +112,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 50),
+              SizedBox(height: 5),
               Logo(),
+              SizedBox(height: 5),
               CustomTextInput(
                 isObscure: false,
                 maxLength: 11,
@@ -113,13 +134,13 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                 isObscure: false,
                 maxLength: 50,
                 maxLines: 1,
-                inputType: TextInputType.text,
-                labelText: 'Entrez votre NOM suivi de votre ou de vos PRENOMS',
+                inputType: TextInputType.emailAddress,
+                labelText: 'Entrez votre adresse email',
                 hintText: '',
-                helpText: 'Comme lors de votre inscription',
+                helpText: 'Email utilisée pour vous inscrire',
                 onChanged: (value) {
                   setState(() {
-                    fullName = value;
+                    email = value;
                   });
                 },
               ),
@@ -144,9 +165,9 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
                     ),
                   );
                 },
-                bgColor: Colors.transparent,
-                textColor: MyColors().primary,
-                borderColor: MyColors().primary,
+                borderColor: Colors.transparent,
+                bgColor: Colors.green.withOpacity(0.6),
+                textColor: Colors.white,
               ),
             ],
           ),

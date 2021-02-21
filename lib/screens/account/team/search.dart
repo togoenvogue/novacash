@@ -174,7 +174,8 @@ class _MemberSearchScreenState extends State<MemberSearchScreen> {
                           )
                         : EmptyFolder(
                             isLoading: isLoading,
-                            message: 'Entrez un nom ou un numéro à chercher',
+                            message:
+                                'Entrez un nom, un mail ou un numéro à chercher',
                           ),
               ),
               Padding(
@@ -186,7 +187,7 @@ class _MemberSearchScreenState extends State<MemberSearchScreen> {
                         isObscure: false,
                         maxLength: 50,
                         maxLines: 1,
-                        inputType: TextInputType.number,
+                        inputType: TextInputType.text,
                         labelText: 'Qui cherchez-vous?',
                         helpText: 'Entrez NOM, TEL ou MAIL',
                         onChanged: (value) {

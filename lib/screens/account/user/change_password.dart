@@ -34,10 +34,25 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           setState(() {
             isLoading = false;
           });
+          await AuthService().logout(key: result.key);
+          Navigator.of(context).pop();
 
           if (result.error == null && result.isAuth == true) {
+            // log out
             // success
-            Navigator.of(context).pop();
+            CustomAlert(
+              colorBg: Colors.white,
+              colorText: Colors.black,
+            ).alert(
+              context,
+              'Succès!',
+              'Votre mot de passe a été changé avec succès. Veuillez vous reconnecter',
+              false,
+            );
+
+            // log out
+            await Future.delayed(const Duration(seconds: 5));
+            Navigator.of(context).pop(); // wave off the confirmation alert
             Navigator.of(context).pushReplacement(
               CubePageRoute(
                 enterPage: HomeScreen(),
@@ -97,7 +112,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Changer mon mot de passe',
+          'Changer mot de passe',
           style: MyStyles().appBarTextStyle,
         ),
         backgroundColor: MyColors().bgColor,
@@ -110,7 +125,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 18.0),
           child: Column(
             children: [
-              SizedBox(height: 20),
+              Container(
+                child: Image.asset(
+                  'assets/images/icon-autoship.png',
+                ),
+                height: 70,
+              ),
+              SizedBox(height: 10),
               CustomTextInput(
                 labelText: 'Entrez votre mot de passe actuel',
                 isObscure: true,
@@ -139,6 +160,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ),
               CustomTextInput(
                 labelText: 'Confirmez votre nouveau mot de passe',
+                helpText: 'Entre 6 et 20 chiffres',
                 isObscure: true,
                 maxLines: 1,
                 inputType: TextInputType.text,
@@ -149,7 +171,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 },
               ),
               CustomFlatButtonRounded(
-                label: 'Changer mon mot de passe',
+                label: 'Valider',
                 borderRadius: 50,
                 function: _submit,
                 borderColor: Colors.transparent,

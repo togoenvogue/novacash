@@ -1,5 +1,5 @@
-import 'package:cube_transition/cube_transition.dart';
 import 'package:flutter/material.dart';
+import 'package:cube_transition/cube_transition.dart';
 
 import '../../../screens/account/dashboard.dart';
 import '../../../services/user.dart';
@@ -156,12 +156,17 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 ),
                 height: 70,
               ),
-              Text(
-                'Vous devez sélectionner 3 domaines (catégories) minimum dont vous souhaitez recevoir des alertes (notifications mail ou SMS)',
-                style: TextStyle(
-                  color: Colors.white,
+              SizedBox(height: 6),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Vous devez sélectionner 3 domaines minimum dont vous souhaitez recevoir des alertes (notifications mail ou SMS)',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
                 ),
-                textAlign: TextAlign.center,
               ),
               SizedBox(height: 10),
               Container(

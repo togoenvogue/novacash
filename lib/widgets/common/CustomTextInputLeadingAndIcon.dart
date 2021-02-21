@@ -80,7 +80,7 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                     ),
                     height: 25,
                     //padding: EdgeInsets.symmetric(horizontal: 6),
-                    decoration: BoxDecoration(
+                    /* decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(width: 1, color: Colors.white),
                         top: BorderSide(width: 1, color: Colors.white),
@@ -88,7 +88,7 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                         right: BorderSide(width: 1, color: Colors.white),
                       ),
                       borderRadius: BorderRadius.circular(0),
-                    ),
+                    ),*/
                   ),
                   SizedBox(height: 18),
                 ],

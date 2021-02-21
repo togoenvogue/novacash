@@ -30,7 +30,7 @@ class _UserSettingsListState extends State<UserSettingsList> {
                     widget.category.category,
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: MyFontFamily().family1,
+                      fontFamily: MyFontFamily().family2,
                       fontSize: 16,
                     ),
                   ),

@@ -27,7 +27,6 @@ dependencies:
   ussd: ^0.0.2+1
   get_version: ^0.2.2
   intl: ^0.16.1
-  flutter_svg: ^0.18.0
   expandable: ^4.1.4
   flutter_share: ^1.0.5
   flutter_simple_rating_bar: 0.0.3
@@ -35,6 +34,7 @@ dependencies:
   flutter_countdown_timer: 1.4.0
   custom_radio_grouped_button: ^1.0.6+1
   flutter_open_whatsapp: ^0.1.2
+  flutter_number_picker: ^0.0.8
   easy_permission_validator: ^2.0.1
   cube_transition: ^1.0.2
   telephony: ^0.0.7
@@ -59,7 +59,7 @@ flutter_icons:
   image_path: "assets_dev/icon-splash.png"
   adaptive_icon_background: "#075c45"
   adaptive_icon_foreground: "assets_dev/icon-splash-adaptive.png"
-# flutter pub run flutter_launcher_icons:main
+#  >>>> flutter pub run flutter_launcher_icons:main
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

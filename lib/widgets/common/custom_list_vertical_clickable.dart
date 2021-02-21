@@ -48,6 +48,7 @@ class CustomListVerticalClickable extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.normal,
                           color: label1Color,
+                          fontFamily: MyFontFamily().family4,
                         ),
                       ),
                     ),
@@ -71,11 +72,11 @@ class CustomListVerticalClickable extends StatelessWidget {
                 child: callBack != null
                     ? Icon(
                         Icons.arrow_forward_ios_sharp,
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.white.withOpacity(0.2),
                       )
                     : Icon(
                         Icons.message,
-                        color: Colors.black.withOpacity(0.2),
+                        color: Colors.white.withOpacity(0.2),
                       ),
               ),
               CustomHorizontalDiver(),
@@ -85,7 +86,7 @@ class CustomListVerticalClickable extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: Colors.black.withOpacity(0.15),
+              color: Colors.white.withOpacity(0.15),
               width: 1,
             ),
           ),

@@ -27,6 +27,8 @@ class AuthService {
                     adminRequest: $adminRequest
                   ) { 
                     _key
+                    age
+                    sex
                     timeStamp
                     expiry
                     pronoExpiry
@@ -300,6 +302,8 @@ class AuthService {
           username: jsonDataFinal['username'] as String,
           email: jsonDataFinal['email'] as String,
           phone: jsonDataFinal['phone'] as int,
+          sex: jsonDataFinal['sex'] as String,
+          age: jsonDataFinal['age'] as int,
           password: jsonDataFinal['password'] as String,
           passwordReset: jsonDataFinal['passwordReset'] as String,
           resetStamp: jsonDataFinal['resetStamp'] as dynamic,
@@ -395,6 +399,8 @@ class AuthService {
         username: null,
         email: null,
         phone: null,
+        sex: null,
+        age: null,
         password: null,
         passwordReset: null,
         categories: null,
@@ -597,13 +603,13 @@ class AuthService {
 
   // user reset password
   Future<UserModel> requestPassword({
-    String username,
-    String fullName,
+    @required String username,
+    @required String email,
   }) async {
     var _body = '''mutation{
                     userNewPassword(
                       username: "$username", 
-                      fullName: "$fullName")
+                      email: "$email")
                   }''';
 
     var response = await http.post(
@@ -651,6 +657,8 @@ class AuthService {
     @required String lastName,
     @required String email,
     @required String code,
+    @required String sex,
+    @required int age,
   }) async {
     var body = '''mutation {
                   userCreate(
@@ -660,7 +668,9 @@ class AuthService {
                       firstName: "$firstName",
                       lastName: "$lastName",
                       sponsorUsername: "$sponsorUsername",
-                      kode: "$code"
+                      kode: "$code",
+                      sex: "$sex",
+                      age: $age
                   ) {
                     _key
                     timeStamp
@@ -1101,6 +1111,8 @@ class AuthService {
                     _key
                     timeStamp
                     expiry
+                    sex
+                    age
                     pronoExpiry
                     isDemoAccount
                     nextToWithdraw
@@ -1381,6 +1393,8 @@ class AuthService {
             categories: jsonDataFinal['categories'] as dynamic,
             expiry: jsonDataFinal['expiry'] as dynamic,
             firstName: jsonDataFinal['firstName'] as String,
+            sex: jsonDataFinal['sex'] as String,
+            age: jsonDataFinal['age'] as int,
             lastName: jsonDataFinal['lastName'] as String,
             countryFlag: jsonDataFinal['countryFlag'] as String,
             countryName: jsonDataFinal['countryName'] as String,
@@ -1462,6 +1476,8 @@ class AuthService {
           lastName: null,
           countryFlag: null,
           countryName: null,
+          sex: null,
+          age: null,
           countryCode: null,
           lastLogin: null,
           categories: null,
@@ -1531,6 +1547,8 @@ class AuthService {
         timeStamp: null,
         username: null,
         email: null,
+        age: null,
+        sex: null,
         phone: null,
         password: null,
         passwordReset: null,
@@ -1616,6 +1634,8 @@ class AuthService {
                     (userKey: "$userKey", option: $option) 
                     {
                     _key
+                    age
+                    sex
                     timeStamp
                     expiry
                     pronoExpiry
@@ -1912,6 +1932,8 @@ class AuthService {
           isSuperAdmin: jsonDataFinal['isSuperAdmin'] as bool,
           isSupport: jsonDataFinal['isSupport'] as bool,
           bulkId: jsonDataFinal['bulkId'] as dynamic,
+          sex: jsonDataFinal['sex'] as String,
+          age: jsonDataFinal['age'] as int,
           gadget1Given: jsonDataFinal['gadget1Given'] as bool,
           gadget1Qualified: jsonDataFinal['gadget1Qualified'] as bool,
           gadget2Given: jsonDataFinal['gadget2Given'] as bool,
@@ -1971,6 +1993,8 @@ class AuthService {
         timeStamp: null,
         username: null,
         email: null,
+        age: null,
+        sex: null,
         phone: null,
         password: null,
         passwordReset: null,
@@ -2054,6 +2078,8 @@ class AuthService {
                     (userKey: "$userKey", categories: $categories) 
                     {
                     _key
+                    sex
+                    age
                     timeStamp
                     expiry
                     pronoExpiry
@@ -2341,6 +2367,8 @@ class AuthService {
           countryCode: jsonDataFinal['countryCode'] as int,
           lastLogin: jsonDataFinal['lastLogin'] as dynamic,
           isAuth: jsonDataFinal['isAuth'] as bool,
+          age: jsonDataFinal['age'] as int,
+          sex: jsonDataFinal['sex'] as String,
           token: jsonDataFinal['token'] as String,
           loginRef: jsonDataFinal['loginRef'] as String,
           authExpir: jsonDataFinal['authExpir'] as dynamic,
@@ -2409,6 +2437,8 @@ class AuthService {
         timeStamp: null,
         username: null,
         email: null,
+        sex: null,
+        age: null,
         phone: null,
         password: null,
         passwordReset: null,
@@ -3970,6 +4000,8 @@ class AuthService {
     var body = '''query {
                   userByUsername(username: "$username") {
                     _key
+                    sex
+                    age
                     timeStamp
                     expiry
                     pronoExpiry
@@ -4239,6 +4271,8 @@ class AuthService {
           username: jsonDataFinal['username'] as String,
           email: jsonDataFinal['email'] as String,
           phone: jsonDataFinal['phone'] as int,
+          sex: jsonDataFinal['sex'] as String,
+          age: jsonDataFinal['age'] as int,
           password: jsonDataFinal['password'] as String,
           passwordReset: jsonDataFinal['passwordReset'] as String,
           resetStamp: jsonDataFinal['resetStamp'] as dynamic,
@@ -4323,6 +4357,8 @@ class AuthService {
         phone: null,
         password: null,
         passwordReset: null,
+        sex: null,
+        age: null,
         resetStamp: null,
         firstName: null,
         lastName: null,

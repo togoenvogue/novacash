@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:blinking_text/blinking_text.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../widgets/common/home_carousel.dart';
+import '../../widgets/home/home_static_button_list.dart';
 import '../../models/config.dart';
 import '../../services/config.dart';
 import '../../helpers/common.dart';
@@ -207,23 +209,52 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       ),
                     ),
               Container(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    'Une combinaison du Crowdfunding et de le Marketing Digital',
+                    style: TextStyle(
+                      fontSize: 17,
+                      color: Color(0xffc0edb4),
+                      fontFamily: MyFontFamily().family2,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: Text(
-                  'Pariez et encaissez vos gains par Orange Money, Moov Money (Mobicash), Flooz, Bitcoin, Ethereum',
+                  'Promotions, réductions, ventes falsh, offres d\'emplois et de stages ... tout le monde y gagne!',
                   style: TextStyle(
                     fontSize: 12,
-                    color: MyColors().normal,
+                    color: MyColors().white,
                     fontFamily: MyFontFamily().family2,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(height: 10),
-              Text('DASHBOARD'),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 240.0,
+                width: MediaQuery.of(context).size.width,
+                child: HomeCarousel(),
+              ),
+              SizedBox(height: 4),
+              app != null
+                  ? HomeStaticButtonList(app: app, userKey: null)
+                  : Text(
+                      '... chargement en cours',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+              SizedBox(height: 5),
               if (app != null)
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
                   child: AppVersion(app: app),
                 ),
             ],

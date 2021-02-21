@@ -26,13 +26,13 @@ class _UserContractScreenState extends State<UserContractScreen> {
     setState(() {
       isLoading = true;
     });
+    CustomAlert()
+        .loading(context: context, dismiss: false, isLoading: isLoading);
     var result = await AuthService().acceptConditions(
       option: true,
       userKey: widget.user.key,
     );
 
-    CustomAlert()
-        .loading(context: context, dismiss: false, isLoading: isLoading);
     setState(() {
       isLoading = false;
     });
@@ -106,7 +106,7 @@ class _UserContractScreenState extends State<UserContractScreen> {
                 child: Text(
                   'Acceptation des conditions Générales d\'Utilisation (CGU)',
                   style: TextStyle(
-                    fontSize: 25,
+                    fontSize: 22,
                     fontFamily: MyFontFamily().family1,
                     color: Colors.white,
                   ),
@@ -115,7 +115,7 @@ class _UserContractScreenState extends State<UserContractScreen> {
               ),
               SizedBox(height: 10),
               Text(
-                'Le fait de cliquer sur le bouton vert < J\'ACCEPTE >, implique de facto votre entière adhésion aux conditions générales d\'utilisation du programme $appName et ce, en toute connaissance de cause!',
+                'Le fait de cliquer sur le bouton < J\'ACCEPTE > implique de facto votre entière adhésion aux conditions générales d\'utilisation du programme $appName et ce, en toute connaissance de cause!',
                 style: TextStyle(
                   color: Colors.white,
                 ),
@@ -125,7 +125,7 @@ class _UserContractScreenState extends State<UserContractScreen> {
               CustomListVertical(
                 label: '1- PRÉAMBULE',
                 value:
-                    '$appName est un programme obtenu de la combinaison du Crowdfunding et du Marketing Digital permettant d\'une part aux entreprises de communiquer plus efficacement avec des cibles bien segmentées, et de récompenser financièrement et matériellement les participants d\'autres parts',
+                    '$appName est un programme obtenu de la combinaison du Crowdfunding et du Marketing Digital permettant d\'une part aux entreprises de communiquer plus efficacement avec des cibles bien segmentées, et de récompenser financièrement et matériellement les participants du programme d\'autres parts',
               ),
               CustomListVertical(
                 label: '2- OBJET',
@@ -135,51 +135,54 @@ class _UserContractScreenState extends State<UserContractScreen> {
               CustomListVertical(
                 label: '3- OBLIGATIONS',
                 value:
-                    'Pour bénéficier pleinement du programme $appName, le membre doit dans un premier temps acheter un code de validation avec lequel il crée son compte, puis parrainer un minimum de 2 personnes pour commencer par effectuer des retraits de gains',
+                    'Pour bénéficier pleinement du programme, le membre doit dans un premier temps acheter un code de validation avec lequel il crée son compte, puis parrainer un minimum de 2 personnes',
               ),
               CustomListVertical(
                 label: '4- AUTOSHIP',
                 value:
-                    'Pour maintenir le programme et le réseau actifs, chaque membre doit activer son autoship tous les 30 jours, soit en achetant un code d\'activation, soit avec ses gains (s\'il en dispose)',
+                    'Pour perpétuer le programme et maintenir la communauté active, chaque membre devra activer son autoship tous les 30 jours, soit en achetant un code d’activation (7 000 FCFA), soit avec leurs gains',
               ),
               CustomListVertical(
                 label: '5- GAINS',
                 value:
-                    'Après avoir inscrit son deuxième filleul, le membre actif recevra des gains de 3 500 FCFA à l\'infini en profondeur au fur et à mesure que son équipe se développe ou se renouvelle avec le paiement des autoships des membres existants',
+                    'Après avoir inscrit son deuxième filleul, le membre actif recevra des gains de 3 500 FCFA (à l\'infini en profondeur) au fur et à mesure que son équipe se développe et/ou se renouvelle avec le paiement des autoships des membres existants',
               ),
               CustomListVertical(
-                label: '6- AWARDS',
+                label: '6- RETRAIT DES GAINS',
                 value:
-                    '''Chaque membre recevra une fois 3 types d'Awards dès qu\'il cumule un certain nombre de membres dans son équipe:
+                    '''Le membre actif peut effectuer gratuitement le retrait de ses gains à tout moment par l'un des moyens fournis dans l'application: Mobile Money (OrangeMoney, Moov Money, Flooz, Tmoney), Bitcoin, Ethereum, Ria, MoneyGram et Western Union avec un minimum de gains requis: 
 
-✅ 50 : Android (100 000 F max)
-✅ 350 : Moto (700 000 F max)
-✅ 2 500 : Voiture (5 Millions F max)''',
+✅ Mobile Money: 3 500 F
+✅ Crypto: 10 000 F
+✅ Autres: 10 000 F
+  
+Il est à noter que les demandes de retrait sont traitées entre 24 et 72 heures. Le membre peut effectuer 1 retrait maximal de 200 000 FCFA tous les 3 jours''',
               ),
               CustomListVertical(
-                label: '7- RESPONSABILITÉS',
+                label: '7- AWARDS',
+                value:
+                    '''Chaque membre recevra une fois 3 types d'Awards dès qu\'il cumule un certain nombre de membres dans son équipe (peu importe la durée) :
+
+✅ 50 : Android de 100 000 F max
+✅ 350 : Moto de 700 000 F max
+✅ 2 500 : Voiture de 5 Millions F max''',
+              ),
+              CustomListVertical(
+                label: '8- RESPONSABILITÉS',
                 value:
                     '''Le membre est seul responsable de l'utilisation de son compte. Toute connexion avec son nom d'utilisateur et mot de passe, ou transmission de données effectuée en utilisant son compte $appName sera réputée avoir été effectuée par le membre lui-même et sous sa responsabilité exclusive. Il s'engage donc à notifier à $appName toute utilisation non autorisée de son compte dès qu'il en a connaissance.
 
 En cas de non-respect par un membre des présentes CGU, $appName se réserve le droit de lui suspendre son accès.''',
               ),
               CustomListVertical(
-                label: '8- DONNÉES PERSONNELLES',
+                label: '9- DONNÉES PERSONNELLES',
                 value:
                     '''Le membre bénéficie d'un droit d'accès, de rectification et d'opposition à la cession de ses données personnelles qu'il peut exercer en adressant un message à l'adresse électronique suivante : novacash[at]novalead.dev''',
               ),
               CustomListVertical(
-                label: '9- NOTIFICATIONS',
+                label: '10- NOTIFICATIONS',
                 value:
-                    '''Après son inscription, le membre doit définir 3 catégories dans son profil dans lesquelles il accepte librement recevoir des notifications (mails et/ou SMS) de la part des entreprises partenaires du programme $appName''',
-              ),
-              CustomListVertical(
-                label: '10- RETRAIT DES GAINS',
-                value:
-                    '''Le membre actif peut effectuer gratuitement le retrait de ses gains à tout moment par l'un des moyens fournis dans l'application: Mobile Money (Orange, Moov, Tmoney), Bitcoin, Ethereum, Ria, MoneyGram et Western Union avec un minimum requis: 
-  ✅ Mobile Money: 3 500 F
-  ✅ Crypto: 10 000 F
-  ✅ Autres: 10 000 F''',
+                    '''Après son inscription, le membre doit sélectionner 3 domaines dans lesquels il accepte librement recevoir des notifications (des mails et/ou SMS) de la part des entreprises partenaires du programme $appName''',
               ),
               CustomListVertical(
                 label: '11- MODIFICATIONS',
@@ -199,7 +202,7 @@ Tout accès au backoffice après modification des CGU vaut acceptation pure et s
                 label: '13- MENTIONS LÉGALES',
                 value: '''(a) Editeur : NovaLead
 (b) Mise à jour des CGU : 20/02/2021
-(c) Contact : novacash@novalead.dev''',
+(c) Email : novacash@novalead.dev''',
               ),
               CustomFlatButtonRounded(
                 label: 'J\'ACCEPTE',

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/ButtonTextStyle.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../components/number_increment/number_increment.dart';
+import '../../widgets/common/custom_card.dart';
 import '../../services/token.dart';
 import '../../screens/public/apn/apn.dart';
 import '../../models/country.dart';
@@ -33,16 +37,25 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
   String _sponsorFullName;
   int countryCode = 226;
   String countryFlag = 'BF';
+  int _age;
+  String _sex;
   //bool isCodeParrainValid = false;
   List<CountryModel> records = [];
   bool isCodeValid = false;
   bool isSponsorValid = false;
+  bool isAgeAndSexSet = false;
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _password1Controller = TextEditingController();
   final _password2Controller = TextEditingController();
+
+  void _setSex(String selectedSex) {
+    setState(() {
+      _sex = selectedSex;
+    });
+  }
 
   void _openCountryList() {
     showModalBottomSheet(
@@ -95,6 +108,8 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
       password: _password1,
       code: _code,
       username: '$countryCode$_username',
+      sex: _sex,
+      age: _age,
     );
 
     setState(() {
@@ -136,142 +151,166 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
   }
 
   void _submit() async {
-    if (_code != null &&
-        _code.length == 16 &&
-        !isCodeValid &&
-        !isSponsorValid) {
-      // verify code
+    if (_sex != null && _age != null && _age >= 16 && _age <= 99) {
       setState(() {
-        isLoading = true;
+        isAgeAndSexSet = true;
       });
-      var token = await TokenService().token(token: _code);
-      setState(() {
-        isLoading = false;
-      });
-      if (token != null && token.error == null) {
-        if (token.amount >= 7000) {
-          setState(() {
-            isCodeValid = true;
-          });
+      // OK continue
+      if (_code != null &&
+          _code.length == 16 &&
+          !isCodeValid &&
+          !isSponsorValid) {
+        // verify code
+        setState(() {
+          isLoading = true;
+        });
+        CustomAlert()
+            .loading(context: context, dismiss: false, isLoading: isLoading);
+        var token = await TokenService().token(token: _code);
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.of(context).pop(); // wave off the loading
+
+        if (token != null && token.error == null) {
+          if (token.amount >= 7000) {
+            setState(() {
+              isCodeValid = true;
+            });
+          } else {
+            // insufficient amount
+            CustomAlert(
+              colorBg: Colors.white,
+              colorText: Colors.black,
+            ).alert(
+              context,
+              'Désolé!',
+              'Ce code a été déjà utilisé. Contactez un point focal pour acheter un code',
+              true,
+            );
+          }
         } else {
-          // insufficient amount
+          // alert, wrong token
           CustomAlert(
             colorBg: Colors.white,
             colorText: Colors.black,
           ).alert(
             context,
             'Désolé!',
-            'Ce code a été déjà utilisé. Contactez un point focal pour acheter un code',
+            'Le code que vous avez entré est incorrect. Contactez un point focal pour acheter un code',
             true,
           );
         }
-      } else {
-        // alert, wrong token
-        CustomAlert(
-          colorBg: Colors.white,
-          colorText: Colors.black,
-        ).alert(
-          context,
-          'Désolé!',
-          'Le code que vous avez entré est incorrect. Contactez un point focal pour acheter un code',
-          true,
-        );
-      }
-    } else if (isCodeValid &&
-        _code != null &&
-        _code.length == 16 &&
-        !isSponsorValid &&
-        _sponsorUsername != null &&
-        _sponsorUsername.length == 11) {
-      // check on the sponsor name
-      setState(() {
-        isLoading = true;
-      });
-      var user =
-          await AuthService().getUserByUsername(username: _sponsorUsername);
-      setState(() {
-        isLoading = false;
-      });
-      if (user != null && user.error == null) {
-        if (user.expiry > DateTime.now().millisecondsSinceEpoch) {
-          // confirm
-          CustomAlert(
-            colorBg: Colors.white,
-            colorText: Colors.black,
-          ).confirm(
-            cancelFn: () {},
-            cancelText: 'Non',
-            confirmFn: () {
-              _setSponsorActive(fullName: '${user.firstName} ${user.lastName}');
-            },
-            content: Text(
-              'Voulez-vous vraiment vous inscrire sous ${user.firstName} ${user.lastName} ?',
-              textAlign: TextAlign.center,
-            ),
-            context: context,
-            submitText: 'Oui',
-            title: 'Confirmez',
-          );
+      } else if (isCodeValid &&
+          _code != null &&
+          _code.length == 16 &&
+          !isSponsorValid &&
+          _sponsorUsername != null &&
+          _sponsorUsername.length == 11) {
+        // check on the sponsor name
+        setState(() {
+          isLoading = true;
+        });
+        CustomAlert()
+            .loading(context: context, dismiss: false, isLoading: isLoading);
+        var user =
+            await AuthService().getUserByUsername(username: _sponsorUsername);
+        setState(() {
+          isLoading = false;
+        });
+        Navigator.of(context).pop(); // wave off the loading
+        if (user != null && user.error == null) {
+          if (user.expiry > DateTime.now().millisecondsSinceEpoch) {
+            // confirm
+            CustomAlert(
+              colorBg: Colors.white,
+              colorText: Colors.black,
+            ).confirm(
+              cancelFn: () {},
+              cancelText: 'Non',
+              confirmFn: () {
+                _setSponsorActive(
+                    fullName: '${user.firstName} ${user.lastName}');
+              },
+              content: Text(
+                'Voulez-vous vraiment vous inscrire sous ${user.firstName} ${user.lastName} ?',
+                textAlign: TextAlign.center,
+              ),
+              context: context,
+              submitText: 'Oui',
+              title: 'Confirmez',
+            );
+          } else {
+            // sponsor is not active
+            CustomAlert(
+              colorBg: Colors.white,
+              colorText: Colors.black,
+            ).alert(
+              context,
+              'Désolé!',
+              'Le membre ${user.firstName} ${user.lastName} ne peut pas vous parrainer car il n\'est pas actif. Demandez-lui de faire son autoship',
+              true,
+            );
+          }
         } else {
-          // sponsor is not active
           CustomAlert(
             colorBg: Colors.white,
             colorText: Colors.black,
           ).alert(
             context,
-            'Désolé!',
-            'Le membre ${user.firstName} ${user.lastName} ne peut pas vous parrainer car il n\'est pas actif. Demandez-lui de faire son autoship',
+            'Oops!',
+            user.error,
             true,
           );
         }
-      } else {
-        CustomAlert(
-          colorBg: Colors.white,
-          colorText: Colors.black,
-        ).alert(
-          context,
-          'Oops!',
-          user.error,
-          true,
-        );
-      }
-    } else if (isCodeValid && isSponsorValid) {
-      // code and sponsor is OK, process
-      if ('$countryCode$_username' != null &&
-          '$countryCode$_username'.length >= 11 &&
-          '$countryCode$_username'.length <= 12 &&
-          !'$countryCode$_username'.startsWith('+') &&
-          !'$countryCode$_username'.startsWith('00')) {
-        if (_firstName != null &&
-            _firstName.length > 0 &&
-            _firstName.length <= 50 &&
-            _lastName.length <= 50) {
-          if (_password1 != null &&
-              _password1.length >= 6 &&
-              _password1.length <= 20) {
-            if (_password2 != null && _password2 == _password1) {
-              if (_sponsorUsername != null && _sponsorUsername.length >= 11) {
-                // OK to go
-                // confirm phone number and note password
-                CustomAlert(
-                  colorBg: Colors.white,
-                  colorText: Colors.black,
-                ).confirm(
-                  cancelFn: () {},
-                  cancelText: 'Annuler',
-                  confirmFn: _createUser,
-                  content: Text(
-                    '''Votre tél: $_username
-Password: $_password1''',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
+      } else if (isCodeValid && isSponsorValid) {
+        // code and sponsor is OK, process
+        if ('$countryCode$_username' != null &&
+            '$countryCode$_username'.length >= 11 &&
+            '$countryCode$_username'.length <= 12 &&
+            !'$countryCode$_username'.startsWith('+') &&
+            !'$countryCode$_username'.startsWith('00')) {
+          if (_firstName != null &&
+              _firstName.length > 0 &&
+              _firstName.length <= 50 &&
+              _lastName.length <= 50) {
+            if (_password1 != null &&
+                _password1.length >= 6 &&
+                _password1.length <= 20) {
+              if (_password2 != null && _password2 == _password1) {
+                if (_sponsorUsername != null && _sponsorUsername.length >= 11) {
+                  // OK to go
+                  // confirm phone number and note password
+                  CustomAlert(
+                    colorBg: Colors.white,
+                    colorText: Colors.black,
+                  ).confirm(
+                    cancelFn: () {},
+                    cancelText: 'Annuler',
+                    confirmFn: _createUser,
+                    content: Text(
+                      '''Votre tél: $countryCode$_username
+Mot de passe: $_password1''',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                  ),
-                  context: context,
-                  submitText: 'Valider',
-                  title: 'Confirmez',
-                );
+                    context: context,
+                    submitText: 'Valider',
+                    title: 'Confirmez',
+                  );
+                } else {
+                  CustomAlert(
+                    colorBg: Colors.white,
+                    colorText: Colors.black,
+                  ).alert(
+                    context,
+                    'Attention!',
+                    'Vous devez entrer un code d\'invitation valide pour continuer',
+                    true,
+                  );
+                }
               } else {
                 CustomAlert(
                   colorBg: Colors.white,
@@ -279,7 +318,7 @@ Password: $_password1''',
                 ).alert(
                   context,
                   'Attention!',
-                  'Vous devez entrer un code d\'invitation valide pour continuer',
+                  'Les deux mots de passe ne sont pas identiques. Veuillez les corriger',
                   true,
                 );
               }
@@ -290,7 +329,7 @@ Password: $_password1''',
               ).alert(
                 context,
                 'Attention!',
-                'Les deux mots de passe ne sont pas identiques. Veuillez les corriger',
+                'Choisissez un mot de passe pour votre compte $appName en suivant les instructions',
                 true,
               );
             }
@@ -301,7 +340,7 @@ Password: $_password1''',
             ).alert(
               context,
               'Attention!',
-              'Choisissez un mot de passe pour votre compte $appName en suivant les instructions',
+              'Entrez votre nom et prénom(s) tels sur votre pièce d\'identité',
               true,
             );
           }
@@ -312,21 +351,22 @@ Password: $_password1''',
           ).alert(
             context,
             'Attention!',
-            'Entrez votre nom et prénom(s) tels sur votre pièce d\'identité',
+            'Entrez un numéro de téléphone mobile valide en suivant les instructions',
             true,
           );
         }
-      } else {
-        CustomAlert(
-          colorBg: Colors.white,
-          colorText: Colors.black,
-        ).alert(
-          context,
-          'Attention!',
-          'Entrez un numéro de téléphone mobile valide en suivant les instructions',
-          true,
-        );
       }
+    } else {
+      // selectionnez votre sexe indiquez  votre age (entre 16 et 99 ans)
+      CustomAlert(
+        colorBg: Colors.white,
+        colorText: Colors.black,
+      ).alert(
+        context,
+        'Désolé!',
+        'Sélectionnez votre sexe et indiquez votre âge (entre 16 et 99 ans)',
+        true,
+      );
     }
   }
 
@@ -364,9 +404,56 @@ Password: $_password1''',
                     label: 'Besoin d\'un code? Cliquez ici',
                     borderRadius: 50,
                     function: _redirectToApnList,
-                    bgColor: Colors.white.withOpacity(0.2),
+                    bgColor: Colors.transparent,
                     textColor: Colors.white,
-                    borderColor: Colors.redAccent.withOpacity(0.5),
+                    borderColor: Colors.redAccent.withOpacity(0),
+                  ),
+                if (isAgeAndSexSet == false)
+                  CustomCard(
+                    content: Column(
+                      children: [
+                        Text('Sélectionnez votre sexe'),
+                        CustomRadioButton(
+                          buttonValues: ['F', 'M'],
+                          buttonLables: ['Féminin', 'Masculin'],
+                          radioButtonValue: (value) {
+                            _setSex(value);
+                          },
+                          unSelectedColor: MyColors().primary.withOpacity(0.2),
+                          selectedColor: MyColors().success,
+                          selectedBorderColor: Colors.transparent,
+                          unSelectedBorderColor: Colors.transparent,
+                          enableShape: true,
+                          enableButtonWrap: true,
+                          buttonTextStyle: ButtonTextStyle(
+                            textStyle: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: MyFontFamily().family2,
+                              color: Colors.white,
+                            ),
+                          ),
+                          width: 120,
+                          elevation: 0,
+                        ),
+                        SizedBox(height: 8),
+                        Text(
+                          'Cliquez sur le (+) pour indiquer votre âge',
+                          textAlign: TextAlign.center,
+                        ),
+                        CustomNumberIncrement(
+                          defaultValue: 0,
+                          interval: 1,
+                          textColor: Color(0xff47b568),
+                          minValue: 16,
+                          maxValue: 99,
+                          callBack: (selectedAge) {
+                            setState(() {
+                              _age = selectedAge;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 if (isSponsorValid && _sponsorFullName != null)
                   Text(
@@ -377,7 +464,7 @@ Password: $_password1''',
                       fontSize: 16,
                     ),
                   ),
-                if (isCodeValid == false)
+                if (isCodeValid == false && isAgeAndSexSet == true)
                   CustomTextInput(
                     isObscure: false,
                     maxLines: 1,

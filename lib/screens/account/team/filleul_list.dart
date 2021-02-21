@@ -21,7 +21,8 @@ class DownlineList extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 9, horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 9, horizontal: 10),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -104,7 +105,7 @@ class DownlineList extends StatelessWidget {
         decoration: BoxDecoration(
           border: Border(
             bottom: BorderSide(
-              color: MyColors().primary.withOpacity(0.2),
+              color: MyColors().primary.withOpacity(0.1),
             ),
           ),
         ),

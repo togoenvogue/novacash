@@ -3,8 +3,8 @@ import 'package:easy_permission_validator/easy_permission_validator.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:flutter/services.dart';
 import 'package:get_version/get_version.dart';
-import 'package:carousel_pro/carousel_pro.dart';
 
+import '../../../widgets/common/home_carousel.dart';
 import '../../../widgets/home/home_static_button_list.dart';
 import '../../../screens/public/static/upgrade.dart';
 import '../../../models/config.dart';
@@ -58,7 +58,7 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
       });
       _getVersion();
       // get user permission
-      _permissionWithCustomPopup();
+      //_permissionWithCustomPopup();
     } else {
       // error
     }
@@ -120,16 +120,6 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
               children: [
                 SizedBox(height: 30),
                 Logo(),
-                /*Text(
-                  '#1 du pari en ligne en Afrique',
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: Colors.black.withOpacity(0.6),
-                    fontFamily: MyFontFamily().family2,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  textAlign: TextAlign.center,
-                ),*/
                 SizedBox(
                   height: 10,
                 ),
@@ -137,7 +127,7 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Text(
-                      'Une combinaison du Crowdfunding et de le Marketing Digital',
+                      'Une combinaison du Crowdfunding et du Marketing Digital',
                       style: TextStyle(
                         fontSize: 17,
                         color: Color(0xffc0edb4),
@@ -151,7 +141,7 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: Text(
-                    'Promotions, réductions spéciales, ventes falsh, offres d\'emplois et de stages ... tout le monde y gagne!',
+                    'Promotions, réductions, ventes falsh, offres d\'emplois et de stages ... tout le monde y gagne!',
                     style: TextStyle(
                       fontSize: 12,
                       color: MyColors().white,
@@ -161,29 +151,11 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
                     textAlign: TextAlign.center,
                   ),
                 ),
-                /*SizedBox(height: 5),
-                Text(
-                  'EN PARTENARIAT AVEC EDUCOACH BURKINA',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontFamily: MyFontFamily().family3,
-                    color: Colors.black.withOpacity(0.3),
-                  ),
-                ),*/
                 SizedBox(height: 8),
                 SizedBox(
-                  height: 250.0,
+                  height: 240.0,
                   width: MediaQuery.of(context).size.width,
-                  child: Carousel(
-                    images: [
-                      ExactAssetImage("assets/images/marketing-digital.jpg"),
-                      ExactAssetImage("assets/images/happy_man.jpg"),
-                      //NetworkImage('https://cdn-images-1.medium.com/max/2000/1*GqdzzfB_BHorv7V2NV7Jgg.jpeg'),
-                      ExactAssetImage("assets/images/award1.jpg"),
-                      ExactAssetImage("assets/images/award2.jpg"),
-                      ExactAssetImage("assets/images/benz.jpg"),
-                    ],
-                  ),
+                  child: HomeCarousel(),
                 ),
                 SizedBox(height: 4),
                 app != null

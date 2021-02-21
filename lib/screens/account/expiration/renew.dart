@@ -189,7 +189,10 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
 
   void _getUser() async {
     var uzr = await AuthService().getThisUser();
-    if (uzr.error == null) {
+    setState(() {
+      isLoading = false;
+    });
+    if (uzr != null && uzr.error == null) {
       setState(() {
         thisUser = uzr;
         _nextExpir = uzr.expiry > 0
@@ -234,7 +237,7 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Text(
-                'Le renouvellement de votre autoship vous permet de maintenir votre compte actif et recevoir les gains de 3 500 F à l\'infini',
+                'Le renouvellement de votre autoship maintient votre compte actif',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.white,
@@ -264,6 +267,11 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
                             label: 'Expiration',
                             value:
                                 '${DateHelper().formatTimeStamp(_nextExpir)}',
+                          ),
+                          CustomListSpaceBetwen(
+                            label: 'Votre solde',
+                            value:
+                                '${NumberHelper().formatNumber(thisUser.ewallet_balance)} FCFA',
                           ),
                           CustomTextInput(
                             isObscure: false,
@@ -323,6 +331,7 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
                 textColor: Colors.black,
               ),
             ),
+            SizedBox(height: 10),
           ],
         ),
       ),

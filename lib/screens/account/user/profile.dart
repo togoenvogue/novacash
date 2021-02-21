@@ -94,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           IconButton(
             tooltip: 'Changer mot de passe',
             icon: Icon(
-              Icons.lock_open,
+              Icons.lock,
               size: 30,
             ),
             onPressed: () {
@@ -124,18 +124,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 100,
                     ),
                     CustomCard(
+                      color: MyColors().bgColor.withOpacity(0.2),
                       content: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             children: [
-                              Text('Total gains'),
+                              Text(
+                                'Total gains',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               SizedBox(height: 3),
                               Text(
                                 '${NumberHelper().formatNumber(_thisUser.ewallet_total).toString()} F',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),
@@ -144,12 +148,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           Column(
                             children: [
-                              Text('Solde'),
+                              Text(
+                                'Solde',
+                                style: TextStyle(color: Colors.white),
+                              ),
                               SizedBox(height: 3),
                               Text(
                                 '${NumberHelper().formatNumber(_thisUser.ewallet_balance).toString()} F',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
                                   fontSize: 15,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -160,12 +167,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     CustomCard(
+                      color: MyColors().bgColor.withOpacity(0.2),
                       content: Column(
                         children: [
                           CustomListVertical(
                             label: 'Nom et prénom(s)',
                             value:
                                 _thisUser.firstName + ' ' + _thisUser.lastName,
+                            valueIsBold: true,
+                          ),
+                          CustomListVertical(
+                            label: 'Sexe et âge',
+                            value:
+                                '${_thisUser.sex == 'F' ? 'Féminin' : 'Masculin'}, ${_thisUser.age} ans',
                             valueIsBold: true,
                           ),
                           CustomHorizontalDiver(),
@@ -191,6 +205,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     CustomCard(
+                      color: MyColors().bgColor.withOpacity(0.2),
                       content: Column(
                         children: [
                           CustomListVertical(

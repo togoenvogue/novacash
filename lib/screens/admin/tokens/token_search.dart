@@ -7,7 +7,7 @@ import '../../../widgets/common/custom_card.dart';
 import '../../../widgets/common/custom_text_input.dart';
 import '../../../models/token.dart';
 import '../../../services/token.dart';
-import '../../../models/user.dart';
+//import '../../../models/user.dart';
 import '../../../screens/auth/login.dart';
 import '../../../services/user.dart';
 import '../../../widgets/common/custom_alert.dart';
@@ -23,7 +23,7 @@ class _TokenSearchScreenState extends State<TokenSearchScreen> {
   TokenModel record;
   String _token;
   bool isLoading = false;
-  UserModel _thisUser;
+  //UserModel _thisUser;
 
   void _getRecords({String token}) async {
     if (_token != null && _token.length >= 16) {
@@ -67,9 +67,9 @@ class _TokenSearchScreenState extends State<TokenSearchScreen> {
   void _getUser() async {
     var uzr = await AuthService().getThisUser();
     if (uzr.error == null) {
-      setState(() {
+      /*setState(() {
         _thisUser = uzr;
-      });
+      });*/
       // do any other stuff here
 
     } else if (uzr.error == 'AUTH_EXPIRED') {
@@ -173,7 +173,7 @@ class _TokenSearchScreenState extends State<TokenSearchScreen> {
                         isObscure: false,
                         maxLength: 16,
                         maxLines: 1,
-                        inputType: TextInputType.number,
+                        inputType: TextInputType.text,
                         labelText: 'Entrez le code à chercher',
                         helpText: 'Ex. 16135-75475-YRN7',
                         onChanged: (value) {
