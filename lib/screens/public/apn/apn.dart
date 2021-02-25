@@ -130,7 +130,7 @@ class _ApnScreenState extends State<ApnScreen> {
             SizedBox(height: 10),
 
             Text(
-              'Contactez-nous pour devenir un point focal',
+              'NB: 1 code = 7 000 F + 500 F de frais',
               style: TextStyle(
                 color: Color(0xffd4f7a6),
                 fontWeight: FontWeight.bold,

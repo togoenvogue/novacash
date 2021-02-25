@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../../screens/account/expiration/renew_crypto.dart';
+import '../../../screens/auth/login.dart';
 import '../../../screens/public/apn/apn.dart';
 import '../../../widgets/common/custom_text_input.dart';
 import '../../../helpers/common.dart';
@@ -115,6 +117,16 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
     );
   }
 
+  void _payWithCrypto() {
+    Navigator.of(context).pushReplacement(
+      CubePageRoute(
+        enterPage: AutoshipChoice(),
+        exitPage: AutoshipChoice(),
+        duration: const Duration(milliseconds: 300),
+      ),
+    );
+  }
+
   void _renewWithEwallet() async {
     if (thisUser.ewallet_balance >= _totalCost) {
       CustomAlert().loading(context: context, dismiss: false, isLoading: true);
@@ -187,6 +199,24 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
     }
   }
 
+  void _ewalletConfirm() {
+    CustomAlert(
+      colorBg: Colors.white,
+      colorText: Colors.black,
+    ).confirm(
+      cancelFn: () {},
+      cancelText: 'Non',
+      confirmFn: _renewWithEwallet,
+      content: Text(
+        'Voulez-vous vraiment payer votre autoship avec vos gains?',
+        textAlign: TextAlign.center,
+      ),
+      context: context,
+      submitText: 'Oui',
+      title: 'Confirmez',
+    );
+  }
+
   void _getUser() async {
     var uzr = await AuthService().getThisUser();
     setState(() {
@@ -199,6 +229,38 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
             ? 90 * 86400000 + uzr.expiry
             : 90 * 86400000 + DateTime.now().millisecondsSinceEpoch;
       });
+    } else if (uzr.error == 'AUTH_EXPIRED') {
+      CustomAlert(
+        colorBg: Colors.white,
+        colorText: Colors.black,
+      ).alert(
+        context,
+        'Accès refusé',
+        'Vous essayez d\'accéder à un espace sécurisé. Connectez-vous et essayez de nouveau',
+        false,
+      );
+
+      await Future.delayed(const Duration(seconds: 5));
+      Navigator.of(context).pop();
+      // redirect to login
+      Navigator.of(context).pushReplacement(
+        CubePageRoute(
+          enterPage: LoginScreen(),
+          exitPage: LoginScreen(),
+          duration: const Duration(milliseconds: 300),
+        ),
+      );
+    } else {
+      // show error
+      CustomAlert(
+        colorBg: Colors.white,
+        colorText: Colors.black,
+      ).alert(
+        context,
+        'Oops!',
+        uzr.error,
+        true,
+      );
     }
   }
 
@@ -306,7 +368,7 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
               child: CustomFlatButtonRounded(
                 label: 'Payer avec mes gains',
                 borderRadius: 50,
-                function: _renewWithEwallet,
+                function: _ewalletConfirm,
                 borderColor: Colors.transparent,
                 bgColor: MyColors().primary2,
                 textColor: Colors.black,
@@ -331,7 +393,18 @@ class _ExpirRenewScreenState extends State<ExpirRenewScreen> {
                 textColor: Colors.black,
               ),
             ),
-            SizedBox(height: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: CustomFlatButtonRounded(
+                label: 'Payer avec la crypto',
+                borderRadius: 50,
+                function: _payWithCrypto,
+                borderColor: Colors.transparent,
+                bgColor: MyColors().info,
+                textColor: Colors.white,
+              ),
+            ),
+            SizedBox(height: 20),
           ],
         ),
       ),

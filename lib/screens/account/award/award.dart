@@ -41,7 +41,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         description =
             'Avec seulement 50 personnes dans votre équipe, vous recevez un téléphone Android d\'une valeur maximale de 100 000 FCFA';
         condition = 50;
-        balance = thisUser.teamCount - 100;
+        balance = thisUser.teamCount - 50;
         valeur = 100000;
         effort = thisUser.teamCount;
         url = image1;
@@ -51,7 +51,7 @@ class _AwardsScreenState extends State<AwardsScreen> {
         description =
             'Avec 350 personnes dans votre équipe, vous vous qualifiez pour une moto d\'une valeur maximale de 700 000 FCFA';
         condition = 350;
-        balance = thisUser.teamCount - 900;
+        balance = thisUser.teamCount - 350;
         valeur = 700000;
         effort = thisUser.teamCount;
         url = image2;
@@ -60,8 +60,8 @@ class _AwardsScreenState extends State<AwardsScreen> {
       } else {
         description =
             'Recevez la voiture de votre choix d\'une valeur maximale de 5 millions avec seulement de 2 500 personnes dans votre équipe';
-        condition = 2500;
-        balance = thisUser.teamCount - 6000;
+        condition = 1500;
+        balance = thisUser.teamCount - 1500;
         valeur = 5000000;
         effort = thisUser.teamCount;
         url = image3;

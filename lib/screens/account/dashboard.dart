@@ -76,7 +76,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         // redirect
         await Future.delayed(const Duration(seconds: 5));
         Navigator.of(context).pop();
-        Navigator.of(context).pop();
+        //Navigator.of(context).pop();
         Navigator.of(context).pushReplacement(
           CubePageRoute(
             enterPage: HomeScreen(),
@@ -212,7 +212,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
-                    'Une combinaison du Crowdfunding et de le Marketing Digital',
+                    'Une combinaison du Crowdfunding et du Marketing Digital',
                     style: TextStyle(
                       fontSize: 17,
                       color: Color(0xffc0edb4),

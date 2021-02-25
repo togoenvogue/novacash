@@ -32,6 +32,7 @@ dependencies:
   flutter_simple_rating_bar: 0.0.3
   url_launcher: ^5.7.10
   flutter_countdown_timer: 1.4.0
+  circular_countdown_timer: ^0.0.8
   custom_radio_grouped_button: ^1.0.6+1
   flutter_open_whatsapp: ^0.1.2
   flutter_number_picker: ^0.0.8

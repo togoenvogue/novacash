@@ -11,6 +11,7 @@ class CountryService {
                       countryName
                       countryFlag
                       countryCode
+                      phoneNumberLength
                     }
                   }''';
 
@@ -40,6 +41,8 @@ class CountryService {
             countryCode: data['countryCode'] as int,
             countryMobileLength: data['countryMobileLength'] as int,
             countryName: data['countryName'] as String,
+            isApnOpened: data['isApnOpened'] as bool,
+            phoneNumberLength: data['phoneNumberLength'] as int,
             error: null,
           );
           objArray.add(obj);
@@ -56,6 +59,8 @@ class CountryService {
           countryCode: null,
           countryMobileLength: null,
           countryName: null,
+          isApnOpened: null,
+          phoneNumberLength: null,
           error: 'No data',
         );
         objArray.add(obj);
@@ -69,6 +74,8 @@ class CountryService {
         countryCode: null,
         countryMobileLength: null,
         countryName: null,
+        isApnOpened: null,
+        phoneNumberLength: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       objArray.add(obj);
@@ -85,6 +92,7 @@ class CountryService {
                       countryName
                       countryFlag
                       countryCode
+                      phoneNumberLength
                     }
                   }''';
 
@@ -115,6 +123,7 @@ class CountryService {
             countryMobileLength: data['countryMobileLength'] as int,
             countryName: data['countryName'] as String,
             isApnOpened: data['isApnOpened'] as bool,
+            phoneNumberLength: data['phoneNumberLength'] as int,
             error: null,
           );
           objArray.add(obj);
@@ -132,6 +141,7 @@ class CountryService {
           countryMobileLength: null,
           countryName: null,
           isApnOpened: null,
+          phoneNumberLength: null,
           error: 'No data',
         );
         objArray.add(obj);
@@ -146,6 +156,7 @@ class CountryService {
         countryMobileLength: null,
         countryName: null,
         isApnOpened: null,
+        phoneNumberLength: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       objArray.add(obj);

@@ -51,6 +51,12 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
         _minimToWithdraw = 3500;
       });
       _getMobileNetowks();
+    } else if (value == 'Bitcoin' || value == 'Ethereum') {
+      setState(() {
+        _minimToWithdraw = 5000;
+        _mobileNetworksLabels = [];
+        _mobileNetworksValues = [];
+      });
     } else {
       setState(() {
         _minimToWithdraw = 10000;
@@ -199,7 +205,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
   }
 
   void _submitConfirm() {
-    if (_thisUser.ewallet_balance > _amount) {
+    if (_thisUser.ewallet_balance >= _amount) {
       if (_amount >= _minimToWithdraw && _amount <= _maximumToWithdraw) {
         // check if the user phone number belongs to the network
         if (_selectedChannel == 'Mobile') {
@@ -360,7 +366,13 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                   ),
                 ),
               SizedBox(height: 10),
-              Text('NB: Le délai de traitement est de 24 à 72 heures ouvrées'),
+              Text(
+                'NB: Le délai de traitement est de 24 à 72 heures ouvrées sauf pour Bitcoin et Ethereum qui sont traités en moins de 30 minutes',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+                textAlign: TextAlign.center,
+              ),
               CustomCard(
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -484,7 +496,7 @@ class _WithdrawalAddScreenState extends State<WithdrawalAddScreen> {
                   _amount >= _minimToWithdraw)
                 CustomTextInputLeading(
                   labelText:
-                      'Sur quel numéro souhaitez-vous recevoir l\'argent? (ce numéro doit disposer d\'un compte Mobile Money!)',
+                      'Sur quel numéro souhaitez-vous recevoir l\'argent? (ce numéro doit disposer d\'un compte ${_mobileOperator.mobile_money_name}!)',
                   isObscure: false,
                   leadingText: _mobileOperator.countryCode.toString(),
                   maxLines: 1,

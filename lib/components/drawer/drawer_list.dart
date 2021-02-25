@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../screens/quiz/quiz.dart';
 import '../../screens/admin/tokens/tokens.dart';
 import '../../screens/auth/contract.dart';
 import '../../screens/account/user/settings.dart';
@@ -33,6 +34,11 @@ class DrawerList extends StatelessWidget {
         label: 'Préférences',
         imageUrl: 'assets/images/icon-settings.png',
         screen: UserSettingsScreen(),
+      ),
+      NavigationModel(
+        label: 'Nova Quiz',
+        imageUrl: 'assets/images/icon-quiz.png',
+        screen: QuizScreen(),
       ),
       NavigationModel(
         label: 'Autoship',

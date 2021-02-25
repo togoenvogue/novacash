@@ -5,8 +5,10 @@ import '../../widgets/common/custom_alert.dart';
 
 class AppVersion extends StatelessWidget {
   final AppConfigModel app;
+  final String internalVersion;
   AppVersion({
     this.app,
+    this.internalVersion,
   });
 
   @override
@@ -63,6 +65,7 @@ WhatsApp: ${app.phone1}""";
             ),
           ],
         ),
+        SizedBox(height: 15),
       ],
     );
   }

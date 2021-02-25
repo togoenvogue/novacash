@@ -21,6 +21,19 @@ import '../../services/user.dart';
 import '../../widgets/common/custom_alert.dart';
 
 class SignUpStep1Screen extends StatefulWidget {
+  final String cryptoCode;
+  final int countryCode;
+  final String countryFlag;
+  final String username;
+  @required
+  final int numberLength;
+  SignUpStep1Screen({
+    this.cryptoCode,
+    this.countryCode,
+    this.countryFlag,
+    this.numberLength,
+    this.username,
+  });
   @override
   _SignUpStep1ScreenState createState() => _SignUpStep1ScreenState();
 }
@@ -35,8 +48,9 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
   String _code;
   String _sponsorUsername;
   String _sponsorFullName;
-  int countryCode = 226;
-  String countryFlag = 'BF';
+  int countryCode;
+  int localNumberLength;
+  String countryFlag;
   int _age;
   String _sex;
   //bool isCodeParrainValid = false;
@@ -44,12 +58,18 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
   bool isCodeValid = false;
   bool isSponsorValid = false;
   bool isAgeAndSexSet = false;
+  bool isUsernameValid = false;
+  bool _codeReadOnly = true;
+  bool _usernameReadOnly = true;
+  bool _disableModal = true;
   final _usernameController = TextEditingController();
+  final _sponsorController = TextEditingController();
   final _emailController = TextEditingController();
   final _firstNameController = TextEditingController();
   final _lastNameController = TextEditingController();
   final _password1Controller = TextEditingController();
   final _password2Controller = TextEditingController();
+  dynamic _codeController = TextEditingController();
 
   void _setSex(String selectedSex) {
     setState(() {
@@ -67,12 +87,17 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
         });
   }
 
-  void _selectedCountry(dynamic selectedCountry, String selectedCountryFlag) {
+  void _selectedCountry(
+    dynamic selectedCountry,
+    String selectedCountryFlag,
+    int length,
+  ) {
     //print(selectedCountry);
-    //print(selectedCountryFlag);
+    //print(length);
     setState(() {
       countryCode = selectedCountry;
       countryFlag = selectedCountryFlag;
+      localNumberLength = length;
     });
     Navigator.of(context).pop();
   }
@@ -129,6 +154,7 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
       );
       // redirect after 5 seconds
       await Future.delayed(const Duration(seconds: 6));
+      Navigator.of(context).pop();
       Navigator.of(context).pop();
       Navigator.of(context).pushReplacement(
         CubePageRoute(
@@ -206,7 +232,7 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
           _code.length == 16 &&
           !isSponsorValid &&
           _sponsorUsername != null &&
-          _sponsorUsername.length == 11) {
+          _sponsorUsername.length >= 11) {
         // check on the sponsor name
         setState(() {
           isLoading = true;
@@ -264,10 +290,12 @@ class _SignUpStep1ScreenState extends State<SignUpStep1Screen> {
           );
         }
       } else if (isCodeValid && isSponsorValid) {
+        //print('signup_step1.dart');
         // code and sponsor is OK, process
         if ('$countryCode$_username' != null &&
             '$countryCode$_username'.length >= 11 &&
-            '$countryCode$_username'.length <= 12 &&
+            '$countryCode$_username'.length <=
+                countryCode.toString().length + localNumberLength &&
             !'$countryCode$_username'.startsWith('+') &&
             !'$countryCode$_username'.startsWith('00')) {
           if (_firstName != null &&
@@ -363,7 +391,7 @@ Mot de passe: $_password1''',
         colorText: Colors.black,
       ).alert(
         context,
-        'Désolé!',
+        'Attention!',
         'Sélectionnez votre sexe et indiquez votre âge (entre 16 et 99 ans)',
         true,
       );
@@ -375,6 +403,33 @@ Mot de passe: $_password1''',
     // TODO: implement initState
     super.initState();
     //_selectCountry();
+    //print(widget.countryCode);
+    //print(widget.username);
+    //print('widget.length: ${widget.numberLength}');
+    setState(() {
+      countryCode = widget.countryCode;
+      countryFlag = widget.countryFlag;
+      localNumberLength = widget.numberLength;
+      _usernameController.text = widget.username;
+      _username = '${widget.username}';
+      _sponsorController.text = '';
+      _codeController.text = widget.cryptoCode;
+
+      isSponsorValid = false;
+      if (widget.cryptoCode != null) {
+        _code = widget.cryptoCode;
+        _codeReadOnly = true;
+        _usernameReadOnly = true;
+        isUsernameValid = true;
+        isCodeValid = true;
+      } else {
+        _codeReadOnly = false;
+        _usernameReadOnly = true;
+        isUsernameValid = false;
+        isCodeValid = false;
+        _code = null;
+      }
+    });
   }
 
   @override
@@ -455,6 +510,15 @@ Mot de passe: $_password1''',
                       ],
                     ),
                   ),
+                //if (isCodeValid && isSponsorValid)
+                /*Text(
+                    _code,
+                    style: TextStyle(
+                      color: Color(0xffccffc4),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),*/
                 if (isSponsorValid && _sponsorFullName != null)
                   Text(
                     _sponsorFullName,
@@ -469,6 +533,8 @@ Mot de passe: $_password1''',
                     isObscure: false,
                     maxLines: 1,
                     maxLength: 16,
+                    readOnly: _codeReadOnly,
+                    controller: _codeController,
                     inputType: TextInputType.text,
                     labelText: 'Code de validation',
                     helpText: 'Ex: 16135-90376-7TZW',
@@ -478,19 +544,48 @@ Mot de passe: $_password1''',
                       });
                     },
                   ),
-                if (isCodeValid && !isSponsorValid)
+                if (isCodeValid &&
+                    !isSponsorValid &&
+                    _sex != null &&
+                    _age != null &&
+                    _age >= 16)
                   CustomTextInput(
                     isObscure: false,
                     maxLines: 1,
-                    maxLength: 11,
-                    inputType: TextInputType.text,
-                    controller: _usernameController,
+                    //maxLength: 11,
+                    inputType: TextInputType.number,
+                    controller: _sponsorController,
                     labelText:
-                        'Entrez le numéro de téléphone de votre parrain pour continuer (Ex: 22676555543) *',
+                        'Entrez le ID (numéro de téléphone) de votre parrain pour continuer (Ex: 22676555543) *',
                     helpText: 'Pas de parrain? Contactez-nous',
                     onChanged: (sp) {
                       setState(() {
                         _sponsorUsername = sp;
+                      });
+                    },
+                  ),
+                if (isSponsorValid &&
+                    isUsernameValid == false &&
+                    _sex != null &&
+                    _age != null)
+                  CustomTextInputLeadingAndIcon(
+                    icon: countryFlag,
+                    onTapFnc: _openCountryList,
+                    disableModal: _disableModal,
+                    leadingText: '+${countryCode.toString()}',
+                    isObscure: false,
+                    maxLength: localNumberLength,
+                    maxLines: 1,
+                    readOnly: _usernameReadOnly,
+                    controller: _usernameController,
+                    inputType: TextInputType.number,
+                    labelText:
+                        'Votre numéro de téléphone mobile qui vous servira de username *',
+                    hintText: '',
+                    helpText: 'Pas d\'espaces ni de tirets',
+                    onChanged: (value) {
+                      setState(() {
+                        _username = value;
                       });
                     },
                   ),
@@ -500,31 +595,12 @@ Mot de passe: $_password1''',
                     maxLines: 1,
                     maxLength: 50,
                     inputType: TextInputType.emailAddress,
-                    labelText: 'Votre adresse email',
+                    labelText: 'Votre adresse email*',
                     controller: _emailController,
                     helpText: 'Entrez une adresse valide',
                     onChanged: (value) {
                       setState(() {
                         _email = value;
-                      });
-                    },
-                  ),
-                if (isSponsorValid)
-                  CustomTextInputLeadingAndIcon(
-                    icon: countryFlag,
-                    onTap: _openCountryList,
-                    leadingText: '+${countryCode.toString()}',
-                    isObscure: false,
-                    maxLength: 8,
-                    maxLines: 1,
-                    inputType: TextInputType.number,
-                    labelText:
-                        'Entrez votre numéro de téléphone mobile qui vous servira de username *',
-                    hintText: '',
-                    helpText: 'Pas d\'espaces ni de tirets',
-                    onChanged: (value) {
-                      setState(() {
-                        _username = value;
                       });
                     },
                   ),

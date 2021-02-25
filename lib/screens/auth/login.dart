@@ -152,7 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 10),
                 CustomTextInput(
                   isObscure: false,
-                  maxLength: 11,
+                  //maxLength: 11,
                   maxLines: 1,
                   inputType: TextInputType.number,
                   labelText:

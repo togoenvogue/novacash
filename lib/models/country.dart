@@ -5,10 +5,12 @@ class CountryModel {
   final int countryCode;
   final int countryMobileLength;
   final bool isApnOpened;
+  final int phoneNumberLength;
   final String error;
 
   CountryModel({
     this.key,
+    this.phoneNumberLength,
     this.countryCode,
     this.countryFlag,
     this.countryName,

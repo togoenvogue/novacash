@@ -6,276 +6,6 @@ import '../models/reload.dart';
 
 class ReloadService {
   // ignore: missing_return
-  Future<ReloadModel> reloadWithEwallet({
-    @required String userKey,
-    @required dynamic amount,
-  }) async {
-    var body = '''mutation {
-                    depositEwalletCreate(userKey: "$userKey", amount: $amount) {
-                      _key
-                      timeStamp
-                      system
-                      account
-                      amountXOF
-                      channel
-                      amountCrypto
-                      txid
-                      userKey {
-                        _key
-                        username
-                        fullName
-                        phone
-                      }
-                    }
-                  }''';
-
-    var response = await http.post(
-      serverURL + '/api/graphql',
-      body: json.encode({'query': body}),
-      headers: {"Content-Type": "application/json"},
-    ).catchError((error) {
-      throw error;
-    });
-
-    //print(response.body);
-    if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      var data = jsonData['data']['depositEwalletCreate'];
-      //print(data);
-
-      if (data != null) {
-        ReloadModel obj = ReloadModel(
-          key: data['_key'] as String,
-          timeStamp: data['timeStamp'] as dynamic,
-          account: data['account'] as String,
-          amountCrypto: data['amountCrypto'] as dynamic,
-          amountXOF: data['amountXOF'] as dynamic,
-          channel: data['channel'] as String,
-          network: data['network'] as String,
-          status: data['status'] as String,
-          system: data['system'] as String,
-          txid: data['txid'] as String,
-          userKey: data['userKey'] as Object,
-          error: null,
-        );
-        return obj;
-      }
-      // end
-
-    } else {
-      // failed to get user details
-      ReloadModel obj = ReloadModel(
-        key: null,
-        timeStamp: null,
-        account: null,
-        amountCrypto: null,
-        amountXOF: null,
-        channel: null,
-        network: null,
-        status: null,
-        system: null,
-        txid: null,
-        userKey: null,
-        error: jsonDecode(response.body)['errors'][0]['message'],
-      );
-      return obj;
-    }
-  } // end reload ewallet
-
-  // get jackpot
-  // ignore: missing_return
-  Future<List<ReloadModel>> myReloads({
-    @required String userKey,
-    @required int month,
-    @required int year,
-  }) async {
-    var body = '''query {
-                    depositsByUserKey(
-                      userKey: "$userKey", month: $month, year: $year) {
-                      _key
-                      timeStamp
-                      system
-                      account
-                      amountXOF
-                      balanceBefore
-                      balanceAfter
-                      channel
-                      amountCrypto
-                      txid
-                      userKey {
-                        _key
-                        username
-                        fullName
-                        phone
-                      }
-                    }
-                  }''';
-
-    var response = await http.post(
-      serverURL + '/api/graphql',
-      body: json.encode({'query': body}),
-      headers: {"Content-Type": "application/json"},
-    ).catchError((error) {
-      //print('error > $error');
-      throw error;
-    });
-
-    //print(response.body);
-    if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      var jsonDataFinal = jsonData['data']['depositsByUserKey'];
-
-      //print(jsonDataFinal.length);
-      List<ReloadModel> objArray = [];
-      // loop through the result
-      if (jsonDataFinal != null && jsonDataFinal.length > 0) {
-        for (var data in jsonDataFinal) {
-          //print(data);
-          ReloadModel obj = ReloadModel(
-            key: data['_key'] as String,
-            timeStamp: data['timeStamp'] as dynamic,
-            account: data['account'] as String,
-            amountCrypto: data['amountCrypto'] as dynamic,
-            amountXOF: data['amountXOF'] as dynamic,
-            balanceAfter: data['balanceAfter'] as dynamic,
-            balanceBefore: data['balanceBefore'] as dynamic,
-            channel: data['channel'] as String,
-            network: data['network'] as String,
-            status: data['status'] as String,
-            system: data['system'] as String,
-            txid: data['txid'] as String,
-            userKey: data['userKey'] as Object,
-            error: null,
-          );
-          objArray.add(obj);
-        }
-        // end for in loop
-        return objArray;
-      } else {
-        // no record found
-        //print('GOT HERE');
-        List<ReloadModel> objArray = [];
-        ReloadModel obj = ReloadModel(
-          key: null,
-          timeStamp: null,
-          account: null,
-          amountCrypto: null,
-          amountXOF: null,
-          balanceAfter: null,
-          balanceBefore: null,
-          channel: null,
-          network: null,
-          status: null,
-          system: null,
-          txid: null,
-          userKey: null,
-          error: 'No data',
-        );
-        objArray.add(obj);
-        return objArray;
-      }
-    } else {
-      List<ReloadModel> objArray = [];
-      ReloadModel obj = ReloadModel(
-        key: null,
-        timeStamp: null,
-        account: null,
-        amountCrypto: null,
-        amountXOF: null,
-        balanceAfter: null,
-        balanceBefore: null,
-        channel: null,
-        network: null,
-        status: null,
-        system: null,
-        txid: null,
-        userKey: null,
-        error: jsonDecode(response.body)['errors'][0]['message'],
-      );
-      objArray.add(obj);
-      return objArray;
-    }
-  } // end mes depots
-
-  // get crypto networks
-  Future<List<CryptoNetworkModel>> getCryptoNetworks() async {
-    var body = '''query {
-                    cryptoGetAvailableNetworks {
-                      _key
-                      name
-                      currency
-                      total_sent
-                      total_received
-                      isActive
-                    }
-                  }''';
-
-    var response = await http.post(
-      serverURL + '/api/graphql',
-      body: json.encode({'query': body}),
-      headers: {"Content-Type": "application/json"},
-    ).catchError((error) {
-      //print('error > $error');
-      throw error;
-    });
-
-    //print(response.body);
-    if (response.statusCode == 200) {
-      var jsonData = jsonDecode(response.body);
-      var jsonDataFinal = jsonData['data']['cryptoGetAvailableNetworks'];
-
-      //print(jsonDataFinal.length);
-      List<CryptoNetworkModel> objArray = [];
-      // loop through the result
-      if (jsonDataFinal != null && jsonDataFinal.length > 0) {
-        for (var data in jsonDataFinal) {
-          //print(data);
-          CryptoNetworkModel obj = CryptoNetworkModel(
-            key: data['_key'] as String,
-            currency: data['currency'] as String,
-            isActive: data['isActive'] as bool,
-            name: data['name'] as String,
-            total_received: data['total_received'] as dynamic,
-            total_sent: data['total_sent'] as dynamic,
-            error: null,
-          );
-          objArray.add(obj);
-        }
-        // end for in loop
-        return objArray;
-      } else {
-        // no record found
-        //print('GOT HERE');
-        List<CryptoNetworkModel> objArray = [];
-        CryptoNetworkModel obj = CryptoNetworkModel(
-          key: null,
-          currency: null,
-          isActive: null,
-          name: null,
-          total_received: null,
-          total_sent: null,
-          error: 'No data',
-        );
-        objArray.add(obj);
-        return objArray;
-      }
-    } else {
-      List<CryptoNetworkModel> objArray = [];
-      CryptoNetworkModel obj = CryptoNetworkModel(
-        key: null,
-        currency: null,
-        isActive: null,
-        name: null,
-        total_received: null,
-        total_sent: null,
-        error: jsonDecode(response.body)['errors'][0]['message'],
-      );
-      objArray.add(obj);
-      return objArray;
-    }
-  } // end get crypto networks
-
-  // ignore: missing_return
   Future<CryptoPayinModel> cryptoPayinCreate({
     @required String userKey,
     @required String currency,
@@ -304,7 +34,7 @@ class ReloadService {
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
                       }
                     }
                   }''';
@@ -370,10 +100,20 @@ class ReloadService {
     }
   } // end payin
 
-  // ignore: missing_return
-  Future<CryptoPayinModel> payinPending({@required String userKey}) async {
-    var body = '''query {
-                    payinPending(userKey: "$userKey") {
+// ignore: missing_return
+  Future<CryptoPayinModel> cryptoPayinCreateUsername({
+    @required String username,
+    @required String currency,
+    @required dynamic amount,
+    @required type,
+  }) async {
+    var body = '''mutation {
+                    payinCreateWithUsername(
+                      amountXOF: $amount, 
+                      currency: "$currency", 
+                      username: "$username",
+                      type: "$type"
+                      ) {
                       _key
                       timeStamp
                       usageStamp
@@ -388,10 +128,105 @@ class ReloadService {
                       status
                       systemAddress
                       currency
+                      username
+                    }
+                  }''';
+
+    var response = await http.post(
+      serverURL + '/api/graphql',
+      body: json.encode({'query': body}),
+      headers: {"Content-Type": "application/json"},
+    ).catchError((error) {
+      throw error;
+    });
+
+    //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var data = jsonData['data']['payinCreateWithUsername'];
+      //print(data);
+
+      if (data != null) {
+        CryptoPayinModel obj = CryptoPayinModel(
+          key: data['_key'] as String,
+          timeStamp: data['timeStamp'] as dynamic,
+          amountCrypto: data['amountCrypto'] as dynamic,
+          amountXOF: data['amountXOF'] as dynamic,
+          status: data['status'] as String,
+          txid: data['txid'] as String,
+          username: data['username'] as String,
+          amountPaid: data['amountPaid'] as dynamic,
+          confirmations: data['confirmations'] as int,
+          currency: data['currency'] as String,
+          fees: data['fees'] as dynamic,
+          fromAddress: data['fromAddress'] as String,
+          rateXOF: data['rateXOF'] as dynamic,
+          systemAddress: data['systemAddress'] as String,
+          usageStamp: data['usageStamp'] as dynamic,
+          error: null,
+        );
+        return obj;
+      }
+      // end
+
+    } else {
+      // failed to get user details
+      CryptoPayinModel obj = CryptoPayinModel(
+        key: null,
+        timeStamp: null,
+        amountCrypto: null,
+        amountXOF: null,
+        status: null,
+        txid: null,
+        username: null,
+        amountPaid: null,
+        confirmations: null,
+        currency: null,
+        fees: null,
+        fromAddress: null,
+        rateXOF: null,
+        systemAddress: null,
+        usageStamp: null,
+        error: jsonDecode(response.body)['errors'][0]['message'],
+      );
+      return obj;
+    }
+  }
+  // end payin with username
+
+  // ignore: missing_return
+  Future<CryptoPayinModel> payinPending({
+    @required String userKey,
+    @required String currency,
+    @required String type,
+  }) async {
+    var body = '''query {
+                    payinPending(
+                      userKey: "$userKey",
+                      currency: "$currency",
+                      type: "$type"
+                      ) {
+                      _key
+                      timeStamp
+                      usageStamp
+                      confirmations
+                      amountCrypto
+                      currency
+                      amountXOF
+                      rateXOF
+                      fees
+                      amountPaid
+                      txid
+                      status
+                      systemAddress
+                      currency
+                      username
+                      token
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
+                        lastName
                       }
                     }
                   }''';
@@ -418,6 +253,7 @@ class ReloadService {
           status: data['status'] as String,
           txid: data['txid'] as String,
           userKey: data['userKey'] as Object,
+          username: data['username'] as String,
           amountPaid: data['amountPaid'] as dynamic,
           confirmations: data['confirmations'] as int,
           currency: data['currency'] as String,
@@ -426,6 +262,189 @@ class ReloadService {
           rateXOF: data['rateXOF'] as dynamic,
           systemAddress: data['systemAddress'] as String,
           usageStamp: data['usageStamp'] as dynamic,
+          token: data['token'] as String,
+          error: null,
+        );
+        return obj;
+      }
+      // end
+
+    } else {
+      // failed to get user details
+      CryptoPayinModel obj = CryptoPayinModel(
+        key: null,
+        timeStamp: null,
+        amountCrypto: null,
+        amountXOF: null,
+        token: null,
+        status: null,
+        txid: null,
+        userKey: null,
+        username: null,
+        amountPaid: null,
+        confirmations: null,
+        currency: null,
+        fees: null,
+        fromAddress: null,
+        rateXOF: null,
+        systemAddress: null,
+        usageStamp: null,
+        error: jsonDecode(response.body)['errors'][0]['message'],
+      );
+      return obj;
+    }
+  }
+
+  // ignore: missing_return
+  Future<CryptoPayinModel> payin({@required String searchString}) async {
+    var body = '''query {
+                    payin(searchString: "$searchString") {
+                      _key
+                      timeStamp
+                      usageStamp
+                      confirmations
+                      amountCrypto
+                      currency
+                      amountXOF
+                      rateXOF
+                      fees
+                      amountPaid
+                      txid
+                      status
+                      systemAddress
+                      currency
+                      username
+                      token
+                      userKey {
+                        _key
+                        username
+                        firstName
+                        lastName
+                      }
+                    }
+                  }''';
+
+    var response = await http.post(
+      serverURL + '/api/graphql',
+      body: json.encode({'query': body}),
+      headers: {"Content-Type": "application/json"},
+    ).catchError((error) {
+      throw error;
+    });
+
+    //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var data = jsonData['data']['payin'];
+
+      if (data != null) {
+        CryptoPayinModel obj = CryptoPayinModel(
+          key: data['_key'] as String,
+          timeStamp: data['timeStamp'] as dynamic,
+          amountCrypto: data['amountCrypto'] as dynamic,
+          amountXOF: data['amountXOF'] as dynamic,
+          status: data['status'] as String,
+          txid: data['txid'] as String,
+          userKey: data['userKey'] as Object,
+          username: data['username'] as String,
+          amountPaid: data['amountPaid'] as dynamic,
+          confirmations: data['confirmations'] as int,
+          currency: data['currency'] as String,
+          fees: data['fees'] as dynamic,
+          fromAddress: data['fromAddress'] as String,
+          rateXOF: data['rateXOF'] as dynamic,
+          systemAddress: data['systemAddress'] as String,
+          usageStamp: data['usageStamp'] as dynamic,
+          token: data['token'] as String,
+          error: null,
+        );
+        return obj;
+      }
+      // end
+
+    } else {
+      // failed to get user details
+      CryptoPayinModel obj = CryptoPayinModel(
+        key: null,
+        timeStamp: null,
+        amountCrypto: null,
+        amountXOF: null,
+        token: null,
+        status: null,
+        txid: null,
+        userKey: null,
+        username: null,
+        amountPaid: null,
+        confirmations: null,
+        currency: null,
+        fees: null,
+        fromAddress: null,
+        rateXOF: null,
+        systemAddress: null,
+        usageStamp: null,
+        error: jsonDecode(response.body)['errors'][0]['message'],
+      );
+      return obj;
+    }
+  }
+  // end payin
+
+  // ignore: missing_return
+  Future<CryptoPayinModel> payinVerifyAndGenerateToken(
+      {@required String address}) async {
+    var body = '''query {
+                    payinCheckAndGenerateToken(address: "$address") {
+                      _key
+                      timeStamp
+                      usageStamp
+                      confirmations
+                      amountCrypto
+                      currency
+                      amountXOF
+                      rateXOF
+                      fees
+                      amountPaid
+                      txid
+                      status
+                      systemAddress
+                      currency
+                      username
+                      token
+                    }
+                  }''';
+
+    var response = await http.post(
+      serverURL + '/api/graphql',
+      body: json.encode({'query': body}),
+      headers: {"Content-Type": "application/json"},
+    ).catchError((error) {
+      throw error;
+    });
+
+    //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var data = jsonData['data']['payinCheckAndGenerateToken'];
+
+      if (data != null) {
+        CryptoPayinModel obj = CryptoPayinModel(
+          key: data['_key'] as String,
+          timeStamp: data['timeStamp'] as dynamic,
+          amountCrypto: data['amountCrypto'] as dynamic,
+          amountXOF: data['amountXOF'] as dynamic,
+          status: data['status'] as String,
+          txid: data['txid'] as String,
+          userKey: data['userKey'] as Object,
+          username: data['username'] as String,
+          amountPaid: data['amountPaid'] as dynamic,
+          confirmations: data['confirmations'] as int,
+          currency: data['currency'] as String,
+          fees: data['fees'] as dynamic,
+          fromAddress: data['fromAddress'] as String,
+          rateXOF: data['rateXOF'] as dynamic,
+          systemAddress: data['systemAddress'] as String,
+          usageStamp: data['usageStamp'] as dynamic,
+          token: data['token'] as String,
           error: null,
         );
         return obj;
@@ -441,7 +460,102 @@ class ReloadService {
         amountXOF: null,
         status: null,
         txid: null,
+        token: null,
         userKey: null,
+        username: null,
+        amountPaid: null,
+        confirmations: null,
+        currency: null,
+        fees: null,
+        fromAddress: null,
+        rateXOF: null,
+        systemAddress: null,
+        usageStamp: null,
+        error: jsonDecode(response.body)['errors'][0]['message'],
+      );
+      return obj;
+    }
+  } // end verify payin payment
+
+  // ignore: missing_return
+  Future<CryptoPayinModel> payinVerifyAndRenewAutoship({
+    @required String address,
+    @required userKey,
+  }) async {
+    var body = '''query {
+                    payinCheckAndRenewAutoship(
+                      address: "$address",
+                      userKey: "$userKey"
+                      ) {
+                      _key
+                      timeStamp
+                      usageStamp
+                      confirmations
+                      amountCrypto
+                      currency
+                      amountXOF
+                      rateXOF
+                      fees
+                      amountPaid
+                      txid
+                      status
+                      systemAddress
+                      currency
+                      username
+                      token
+                    }
+                  }''';
+
+    var response = await http.post(
+      serverURL + '/api/graphql',
+      body: json.encode({'query': body}),
+      headers: {"Content-Type": "application/json"},
+    ).catchError((error) {
+      throw error;
+    });
+
+    //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var data = jsonData['data']['payinCheckAndRenewAutoship'];
+
+      if (data != null) {
+        CryptoPayinModel obj = CryptoPayinModel(
+          key: data['_key'] as String,
+          timeStamp: data['timeStamp'] as dynamic,
+          amountCrypto: data['amountCrypto'] as dynamic,
+          amountXOF: data['amountXOF'] as dynamic,
+          status: data['status'] as String,
+          txid: data['txid'] as String,
+          userKey: data['userKey'] as Object,
+          username: data['username'] as String,
+          amountPaid: data['amountPaid'] as dynamic,
+          confirmations: data['confirmations'] as int,
+          currency: data['currency'] as String,
+          fees: data['fees'] as dynamic,
+          fromAddress: data['fromAddress'] as String,
+          rateXOF: data['rateXOF'] as dynamic,
+          systemAddress: data['systemAddress'] as String,
+          usageStamp: data['usageStamp'] as dynamic,
+          token: data['token'] as String,
+          error: null,
+        );
+        return obj;
+      }
+      // end
+
+    } else {
+      // failed to get user details
+      CryptoPayinModel obj = CryptoPayinModel(
+        key: null,
+        timeStamp: null,
+        amountCrypto: null,
+        amountXOF: null,
+        status: null,
+        txid: null,
+        token: null,
+        userKey: null,
+        username: null,
         amountPaid: null,
         confirmations: null,
         currency: null,
@@ -455,6 +569,7 @@ class ReloadService {
       return obj;
     }
   }
+  // and verity and renew autoship
 
   // end payin pending
   // ignore: missing_return
@@ -478,10 +593,12 @@ class ReloadService {
                       status
                       systemAddress
                       currency
+                      username
                       userKey {
                         _key
                         username
-                        fullName
+                        firstName
+                        lastName
                       }
                     }
                   }''';

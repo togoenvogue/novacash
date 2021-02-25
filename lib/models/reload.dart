@@ -73,6 +73,8 @@ class CryptoPayinModel {
   final String fromAddress;
   final String currency;
   final dynamic userKey;
+  final String username;
+  final String token;
   final String status;
   final String error;
 
@@ -92,6 +94,8 @@ class CryptoPayinModel {
     this.txid,
     this.usageStamp,
     this.userKey,
+    this.username,
+    this.token,
     this.error,
   });
 }

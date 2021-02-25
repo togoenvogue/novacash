@@ -472,6 +472,38 @@ class AuthService {
     }
   }
 
+  // ignore: missing_return
+  Future<bool> isUsernameFree({String username}) async {
+    //print(username);
+    var body = '''query {
+                    userExists(username: "$username")
+                  }''';
+
+    var response = await http.post(
+      serverURL + '/api/graphql',
+      body: json.encode({'query': body}),
+      headers: {"Content-Type": "application/json"},
+    ).catchError((error) {
+      throw error;
+    });
+
+    //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var jsonDataFinal = jsonData['data']['userExists'];
+
+      if (jsonDataFinal == true) {
+        return true;
+      } else {
+        return false;
+      }
+    } else {
+      // failed to get user details
+      return false;
+    }
+  }
+  // end isUsernameFree
+
 // log out
   Future<UserModel> logout({String key}) async {
     var prefs = await SharedPreferences.getInstance();
@@ -1099,13 +1131,14 @@ class AuthService {
     var prefs = await SharedPreferences.getInstance();
     //var token = prefs.getString('jwtoken') ?? null;
     String userKey = prefs.getString('userKey') ?? null;
+
     //print(prefs.getInt('authExpir'));
     bool isAuth = prefs.getInt('authExpir') != null &&
             prefs.getInt('authExpir') > DateTime.now().millisecondsSinceEpoch
         ? true
         : false;
 
-    if (isAuth && userKey != null) {
+    if (isAuth == true && userKey != null) {
       var body = '''query {
                   userByKey(_key: "$userKey") {
                     _key
@@ -1626,8 +1659,8 @@ class AuthService {
     String userKey,
     bool option,
   }) async {
-    print(userKey);
-    print(option);
+    //print(userKey);
+    //print(option);
 
     var body = '''mutation{
                     userAcceptConditions
@@ -3767,7 +3800,7 @@ class AuthService {
       var jsonData = jsonDecode(response.body);
       var jsonDataFinal = jsonData['data']['searchMember'];
 
-      print(jsonDataFinal.length);
+      //print(jsonDataFinal.length);
       List<UserModel> objArray = [];
       // loop through the result
       if (jsonDataFinal != null && jsonDataFinal.length > 0) {

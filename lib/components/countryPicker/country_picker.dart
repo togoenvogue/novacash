@@ -35,8 +35,9 @@ class _CountryPickerState extends State<CountryPicker> {
     }
   }
 
-  void _countryCode(dynamic selectedCountryCode, String selectedCountryFlag) {
-    widget.selectedCountry(selectedCountryCode, selectedCountryFlag);
+  void _countryCode(
+      dynamic selectedCountryCode, String selectedCountryFlag, int length) {
+    widget.selectedCountry(selectedCountryCode, selectedCountryFlag, length);
   }
 
   @override

@@ -15,10 +15,11 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
   final int maxLength;
   final dynamic maxLines;
   final TextInputType inputType;
-  final Function onTap;
+  final Function onTapFnc;
   final Function onChanged;
   final TextEditingController controller;
   final String leadingText;
+  final bool disableModal;
 
   CustomTextInputLeadingAndIcon({
     this.key,
@@ -31,11 +32,12 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
     this.inputType,
     this.maxLength,
     @required this.maxLines,
-    this.onTap,
+    this.onTapFnc,
     this.onChanged,
     this.controller,
     this.readOnly = false,
     this.leadingText,
+    this.disableModal = false,
   });
 
   @override
@@ -64,7 +66,11 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                 children: [
                   Container(
                     child: InkWell(
-                      onTap: onTap,
+                      onTap: () {
+                        if (disableModal == false) {
+                          onTapFnc();
+                        }
+                      },
                       splashColor: Colors.blue,
                       child: FadeInImage(
                         placeholder:
@@ -94,7 +100,11 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                 ],
               ),
               InkWell(
-                onTap: onTap,
+                onTap: () {
+                  if (disableModal == false) {
+                    onTapFnc();
+                  }
+                },
                 splashColor: Colors.blue,
                 child: Container(
                   child: Text(

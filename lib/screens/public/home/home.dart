@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:easy_permission_validator/easy_permission_validator.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:flutter/services.dart';
 import 'package:get_version/get_version.dart';
 
+import '../../../screens/auth/signup_choice.dart';
 import '../../../widgets/common/home_carousel.dart';
 import '../../../widgets/home/home_static_button_list.dart';
 import '../../../screens/public/static/upgrade.dart';
 import '../../../models/config.dart';
 import '../../../services/config.dart';
-import '../../../widgets/common/custom_alert.dart';
 import '../../../widgets/home/version.dart';
 import '../../../widgets/common/custom_flat_button_rounded.dart';
 import '../../../styles/styles.dart';
 import '../../../widgets/common/logo.dart';
 import '../../../screens/auth/login.dart';
-import '../../../screens/auth/signup_step1.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -24,31 +22,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   AppConfigModel app;
-
-  _permissionWithCustomPopup() async {
-    EasyPermissionValidator permissionValidator = EasyPermissionValidator(
-      context: context,
-      appName: '${app.name}',
-    );
-    await permissionValidator.phone().then((_callPermissionResult) {
-      // print('_callPermissionResult: $_callPermissionResult');
-      if (_callPermissionResult == false) {
-        //if ('_callPermissionResult' == 'false') {
-        CustomAlert(
-          colorBg: Colors.white,
-          colorText: MyColors().primary,
-        ).alert(
-          context,
-          'Permissions',
-          """Vous devez autoriser ${app.name} à accéder à certaines fonctionnalités de votre téléphone pour pouvoir l\'utiliser
-          
-Fermez l'application, puis relancez-la et accordez les permissions requises""",
-          false,
-        );
-      }
-    });
-    // phone state
-  }
+  String appVersion;
 
   void _getConfigs() async {
     var result = await AppService().app();
@@ -57,8 +31,6 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
         app = result;
       });
       _getVersion();
-      // get user permission
-      //_permissionWithCustomPopup();
     } else {
       // error
     }
@@ -70,12 +42,15 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
       //print(app.app_ios_store);
       // Platform messages may fail, so we use a try/catch PlatformException.
       try {
-        //platformVersion = await GetVersion.appID; // dev.novalead.novabets
-        //platformVersion = await GetVersion.appName; // NovaBets
+        //platformVersion = await GetVersion.appID; // dev.novalead.novacash
+        //platformVersion = await GetVersion.appName; // NovaCash
         //platformVersion = await GetVersion.platformVersion; // iOS 14.4
         await GetVersion.platformVersion;
 
         platformVersion = await GetVersion.projectVersion; // iOS 14.4
+        setState(() {
+          appVersion = platformVersion;
+        });
         //print(platformVersion);
         if (platformVersion != app.version_current) {
           Navigator.of(context).pushReplacement(
@@ -195,8 +170,8 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
                     function: () {
                       Navigator.of(context).push(
                         CubePageRoute(
-                          enterPage: SignUpStep1Screen(),
-                          exitPage: SignUpStep1Screen(),
+                          enterPage: SignupChoice(),
+                          exitPage: SignupChoice(),
                           duration: const Duration(milliseconds: 300),
                         ),
                       );
@@ -208,10 +183,13 @@ Fermez l'application, puis relancez-la et accordez les permissions requises""",
                   ),
                 ),
                 SizedBox(height: 5),
-                if (app != null)
+                if (app != null && appVersion != null)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: AppVersion(app: app),
+                    child: AppVersion(
+                      app: app,
+                      internalVersion: appVersion,
+                    ),
                   ),
               ],
             ),

@@ -7,7 +7,11 @@ import '../../widgets/common/custom_horizontal_diver.dart';
 class CountryPickerList extends StatefulWidget {
   final CountryModel country;
   final Function selectedCountry;
-  CountryPickerList({this.country, this.selectedCountry});
+
+  CountryPickerList({
+    this.country,
+    this.selectedCountry,
+  });
 
   @override
   _CountryPickerListState createState() => _CountryPickerListState();
@@ -21,6 +25,7 @@ class _CountryPickerListState extends State<CountryPickerList> {
         widget.selectedCountry(
           widget.country.countryCode,
           widget.country.countryFlag,
+          widget.country.phoneNumberLength,
         );
       },
       splashColor: Colors.white,
