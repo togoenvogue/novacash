@@ -118,9 +118,14 @@ class TokenService {
   Future<TokenModel> tokenCreate({
     @required String adminKey,
     @required int quantity,
+    @required dynamic amount,
   }) async {
     var body = '''mutation {
-                    tokenCreate(adminKey: "$adminKey", quantity: $quantity) {
+                    tokenCreate(
+                      adminKey: "$adminKey", 
+                      quantity: $quantity,
+                      unitAmount: $amount,
+                    ) {
                       _key
                       amount
                       token

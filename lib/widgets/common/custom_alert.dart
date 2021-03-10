@@ -53,7 +53,7 @@ class CustomAlert {
             ),
             titlePadding: EdgeInsets.only(
               top: 15.0,
-              bottom: 3.0,
+              bottom: 10.0,
               left: 15.0,
               right: 15.0,
             ),

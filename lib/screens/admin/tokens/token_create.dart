@@ -24,8 +24,16 @@ class TokenCreateScreen extends StatefulWidget {
 class _TokenCreateScreenState extends State<TokenCreateScreen> {
   UserModel thisUser;
   bool isLoading;
-  dynamic _amount = 7000;
+  dynamic _amount;
+  dynamic _unitAmount;
   int _quantity = 1;
+
+  void _setUnitAmount(String value) {
+    setState(() {
+      _unitAmount = int.parse(value);
+      _amount = int.parse(value);
+    });
+  }
 
   void _getUser() async {
     var uzr = await AuthService().getThisUser();
@@ -71,6 +79,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
     var result = await TokenService().tokenCreate(
       adminKey: thisUser.key,
       quantity: _quantity,
+      amount: _unitAmount,
     );
     Navigator.of(context).pop(); // wave off the loading spinner
     if (result != null && result.error == null) {
@@ -80,7 +89,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
       ).alert(
         context,
         'Succès!',
-        'Vous venez de générer $_quantity codes d\'une valeur de $_amount FCFA!',
+        'Vous venez de générer $_quantity Tokens (Codes) d\'une valeur de $_amount FCFA!',
         false,
       );
       await Future.delayed(const Duration(seconds: 4));
@@ -117,10 +126,15 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
         cancelFn: () {},
         cancelText: 'Non',
         confirmFn: _submit,
-        content: Text(
-          'Les $_quantity codes vous coûteront $_amount FCFA. Voulez-vous vraiment les générer ?',
-          textAlign: TextAlign.center,
-        ),
+        content: _quantity != null && _quantity > 1
+            ? Text(
+                'Les $_quantity Tokens (Codes) vous coûteront $_amount F. Voulez-vous vraiment les générer ?',
+                textAlign: TextAlign.center,
+              )
+            : Text(
+                '$_quantity Token vous coûtera $_amount F. Voulez-vous vraiment le générer ?',
+                textAlign: TextAlign.center,
+              ),
         context: context,
         submitText: 'Oui',
         title: 'Confirmez!',
@@ -132,7 +146,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
       ).alert(
         context,
         'Attention!',
-        'Vous ne disposez pas de fonds nécessaires pour générer $_quantity codes',
+        'Vous ne disposez pas de fonds nécessaires pour générer $_quantity Tokens (Codes)',
         true,
       );
     }
@@ -141,7 +155,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
   void _selectedAmount(int quantity) {
     setState(() {
       _quantity = quantity;
-      _amount = _quantity * 7000;
+      _amount = _quantity * _unitAmount;
     });
   }
 
@@ -156,7 +170,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Générer un code',
+          'Générer un Token (Code)',
           style: MyStyles().appBarTextStyle,
         ),
         backgroundColor: MyColors().bgColor,
@@ -173,7 +187,7 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
                 //fit: BoxFit.cover,
               ),
               //decoration: BoxDecoration(color: Colors.green),
-              height: 70,
+              height: 50,
               //width: double.infinity,
             ),
             Padding(
@@ -187,19 +201,20 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
                 textAlign: TextAlign.center,
               ),
             ),
-            SizedBox(height: 12),
+            // SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: CustomCard(
                 content: thisUser != null
                     ? Column(
                         children: [
+                          Text('Sélectionnez la valeur du code à générer'),
                           CustomRadioButton(
-                            buttonValues: ['1', '2', '5', '10'],
-                            buttonLables: ['1', '2', '5', '10'],
-                            defaultSelected: '1',
+                            buttonValues: ['5000', '7000'],
+                            buttonLables: ['5 000 F', '7 000 F'],
+                            //defaultSelected: '1',
                             radioButtonValue: (value) {
-                              _selectedAmount(int.parse(value));
+                              _setUnitAmount(value);
                             },
                             unSelectedColor:
                                 MyColors().bgColor.withOpacity(0.2),
@@ -214,31 +229,64 @@ class _TokenCreateScreenState extends State<TokenCreateScreen> {
                                 fontFamily: MyFontFamily().family2,
                               ),
                             ),
-                            width: 50,
+                            width: 100,
                             elevation: 0,
                           ),
-                          CustomListSpaceBetwen(
-                            label: 'Nombre de codes',
-                            value: '${NumberHelper().formatNumber(_quantity)}',
-                          ),
-                          CustomHorizontalDiver(),
-                          CustomListSpaceBetwen(
-                            label: 'Montant à débiter',
-                            value:
-                                '${NumberHelper().formatNumber(_amount)} FCFA',
-                          ),
-                          CustomHorizontalDiver(),
-                          CustomListSpaceBetwen(
-                            label: 'Solde avant',
-                            value:
-                                '${thisUser.isSupport ? NumberHelper().formatNumber(thisUser.credits_balance) : NumberHelper().formatNumber(thisUser.ewallet_balance)} FCFA',
-                          ),
-                          CustomHorizontalDiver(),
-                          CustomListSpaceBetwen(
-                            label: 'Solde après',
-                            value:
-                                '${thisUser.isSupport ? NumberHelper().formatNumber(thisUser.credits_balance - _amount) : NumberHelper().formatNumber(thisUser.ewallet_balance - _amount)} FCFA',
-                          ),
+                          if (_unitAmount != null) SizedBox(height: 15),
+                          if (_unitAmount != null)
+                            Text('Sélectionnez le nombre de codes à générer'),
+                          if (_unitAmount != null)
+                            CustomRadioButton(
+                              buttonValues: ['1', '2', '5', '10'],
+                              buttonLables: ['1', '2', '5', '10'],
+                              defaultSelected: '1',
+                              radioButtonValue: (value) {
+                                _selectedAmount(int.parse(value));
+                              },
+                              unSelectedColor:
+                                  MyColors().bgColor.withOpacity(0.2),
+                              selectedColor:
+                                  MyColors().bgColor.withOpacity(0.8),
+                              selectedBorderColor: Colors.transparent,
+                              unSelectedBorderColor: Colors.transparent,
+                              enableShape: true,
+                              enableButtonWrap: true,
+                              buttonTextStyle: ButtonTextStyle(
+                                textStyle: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: MyFontFamily().family2,
+                                ),
+                              ),
+                              width: 50,
+                              elevation: 0,
+                            ),
+                          if (_unitAmount != null)
+                            CustomListSpaceBetwen(
+                              label: 'Nombre de codes',
+                              value:
+                                  '${NumberHelper().formatNumber(_quantity)}',
+                            ),
+                          if (_unitAmount != null) CustomHorizontalDiver(),
+                          if (_unitAmount != null)
+                            CustomListSpaceBetwen(
+                              label: 'Montant à débiter',
+                              value:
+                                  '${NumberHelper().formatNumber(_amount)} FCFA',
+                            ),
+                          if (_unitAmount != null) CustomHorizontalDiver(),
+                          if (_unitAmount != null)
+                            CustomListSpaceBetwen(
+                              label: 'Solde avant',
+                              value:
+                                  '${thisUser.isSupport ? NumberHelper().formatNumber(thisUser.credits_balance) : NumberHelper().formatNumber(thisUser.ewallet_balance)} FCFA',
+                            ),
+                          if (_unitAmount != null) CustomHorizontalDiver(),
+                          if (_unitAmount != null)
+                            CustomListSpaceBetwen(
+                              label: 'Solde après',
+                              value:
+                                  '${thisUser.isSupport ? NumberHelper().formatNumber(thisUser.credits_balance - _amount) : NumberHelper().formatNumber(thisUser.ewallet_balance - _amount)} FCFA',
+                            ),
                         ],
                       )
                     : Center(

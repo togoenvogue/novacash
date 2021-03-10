@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:month_picker_dialog/month_picker_dialog.dart';
 
 import '../../../styles/styles.dart';
 import '../../../helpers/common.dart';
@@ -15,14 +16,15 @@ class AdminWithdrawalsScreen extends StatefulWidget {
 class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
   bool isLoading = false;
   int _selectedDate;
+  var toMonth;
+  var toYear;
   List<WithdrawalModel> records = [];
 
-  void _getRecords({int day, int month, int year}) async {
+  void _getRecords({int month, int year}) async {
     setState(() {
       isLoading = true;
     });
-    var result = await UssdService()
-        .mobileWithdrawals(day: day, month: month, year: year);
+    var result = await UssdService().adminWithdrawals(month: month, year: year);
     setState(() {
       isLoading = false;
     });
@@ -38,7 +40,7 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
   }
 
   void _openDatePicker() {
-    showDatePicker(
+    showMonthPicker(
       context: context,
       locale: const Locale("fr", "FR"),
       initialDate: DateTime.now(),
@@ -50,14 +52,13 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
       } else {
         var year = int.parse(value.toString().substring(0, 4));
         var month = int.parse(value.toString().substring(5, 7));
-        var day = int.parse(value.toString().substring(8, 10));
 
         setState(() {
           _selectedDate = DateTime.parse(value.toString())
               .millisecondsSinceEpoch; // 1609718400000
           isLoading = true;
         });
-        _getRecords(day: day, month: month, year: year);
+        _getRecords(month: month, year: year);
       }
     });
   }
@@ -68,9 +69,9 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
     var date = new DateTime.now();
     var year = int.parse(date.toString().substring(0, 4));
     var month = int.parse(date.toString().substring(5, 7));
-    var day = int.parse(date.toString().substring(8, 10));
+    //var day = int.parse(date.toString().substring(8, 10));
     _selectedDate = DateTime.now().millisecondsSinceEpoch;
-    _getRecords(day: day, month: month, year: year);
+    _getRecords(month: month, year: year);
   }
 
   @override
@@ -80,7 +81,7 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
         title: Text(
           _selectedDate == null
               ? 'Demandes de retrait'
-              : DateHelper().formatTimeStamp(_selectedDate),
+              : DateHelper().formatTimeStampShort(_selectedDate),
           style: MyStyles().appBarTextStyle,
         ),
         backgroundColor: MyColors().bgColor,
@@ -128,7 +129,8 @@ class _AdminWithdrawalsScreenState extends State<AdminWithdrawalsScreen> {
                 )
               : EmptyFolder(
                   isLoading: isLoading,
-                  message: 'Aucune demande de retrait',
+                  message:
+                      'Aucune demande de retrait au mois de ${DateHelper().formatTimeStampShort(_selectedDate)}',
                 ),
         ),
       ),

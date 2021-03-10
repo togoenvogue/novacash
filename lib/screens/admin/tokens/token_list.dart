@@ -52,7 +52,7 @@ class TokenList extends StatelessWidget {
                           '${token.token}',
                           style: TextStyle(
                             color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),

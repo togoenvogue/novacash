@@ -86,7 +86,6 @@ class _ApnScreenState extends State<ApnScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getCountries();
   }
@@ -113,7 +112,7 @@ class _ApnScreenState extends State<ApnScreen> {
                 'assets/images/icon-location.png',
               ),
               //decoration: BoxDecoration(color: Colors.green),
-              height: 70,
+              height: 50,
               //width: double.infinity,
             ),
             SizedBox(
@@ -121,7 +120,7 @@ class _ApnScreenState extends State<ApnScreen> {
             ),
             //Logo(),
             Text(
-              'Pour acheter un code d\'activation, prenez contact avec l\'un de nos points focaux',
+              'Pour acheter un Token (Code d\'activation), prenez contact avec l\'un de nos points focaux',
               style: TextStyle(
                 color: Colors.white,
               ),
@@ -130,10 +129,10 @@ class _ApnScreenState extends State<ApnScreen> {
             SizedBox(height: 10),
 
             Text(
-              'NB: 1 code = 7 000 F + 500 F de frais',
+              'Important: Pour un Token de 5 000F ou 7 000F, vous devez ajouter les frais de 500F',
               style: TextStyle(
                 color: Color(0xffd4f7a6),
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.normal,
               ),
               textAlign: TextAlign.center,
             ),
@@ -152,7 +151,7 @@ class _ApnScreenState extends State<ApnScreen> {
                           'Sélectionnez un pays',
                           style: TextStyle(
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.normal,
                           ),
                         ),
                       ),
@@ -212,7 +211,7 @@ class _ApnScreenState extends State<ApnScreen> {
 
             selectedCountryName != null
                 ? Container(
-                    height: MediaQuery.of(context).size.height - 380,
+                    height: MediaQuery.of(context).size.height - 425,
                     child: ApnList(
                       records: apnList,
                       countryName: selectedCountryName,

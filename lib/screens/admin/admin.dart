@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:platform_device_id/platform_device_id.dart';
-import 'package:telephony/telephony.dart';
 
+import '../../screens/admin/users/apn.dart';
+import '../../screens/admin/users/users.dart';
 import '../../models/user.dart';
-import '../../screens/admin/tokens/tokens.dart';
 import '../../screens/admin/withdrawals/withdrawals.dart';
 import '../../widgets/common/custom_flat_button_rounded.dart';
 import '../../models/config.dart';
@@ -20,7 +20,6 @@ class AdminHomeScreen extends StatefulWidget {
 class _AdminHomeScreenState extends State<AdminHomeScreen> {
   AppConfigModel app;
 
-  final Telephony telephony = Telephony.instance;
   var _deviceId;
 
   void _getDeviceId() async {
@@ -32,7 +31,6 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getDeviceId();
   }
@@ -59,17 +57,20 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
             children: [
               SelectableText(
                 '$_deviceId',
+                style: TextStyle(
+                  color: Colors.white,
+                ),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 10),
               CustomFlatButtonRounded(
-                label: 'Codes de validation',
+                label: 'Liste des utilisateurs',
                 borderRadius: 50,
                 function: () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
                     CubePageRoute(
-                      enterPage: TokensScreen(),
-                      exitPage: TokensScreen(),
+                      enterPage: AdminUsersScreen(),
+                      exitPage: AdminUsersScreen(),
                       duration: const Duration(milliseconds: 300),
                     ),
                   );
@@ -82,7 +83,39 @@ class _AdminHomeScreenState extends State<AdminHomeScreen> {
                 label: 'Demandes de retrait',
                 borderRadius: 50,
                 function: () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
+                    CubePageRoute(
+                      enterPage: AdminWithdrawalsScreen(),
+                      exitPage: AdminWithdrawalsScreen(),
+                      duration: const Duration(milliseconds: 300),
+                    ),
+                  );
+                },
+                borderColor: Colors.transparent,
+                bgColor: Colors.green.withOpacity(0.6),
+                textColor: Colors.white,
+              ),
+              CustomFlatButtonRounded(
+                label: 'Points focaux',
+                borderRadius: 50,
+                function: () {
+                  Navigator.of(context).push(
+                    CubePageRoute(
+                      enterPage: AdminApnScreen(),
+                      exitPage: AdminApnScreen(),
+                      duration: const Duration(milliseconds: 300),
+                    ),
+                  );
+                },
+                borderColor: Colors.transparent,
+                bgColor: Colors.green.withOpacity(0.6),
+                textColor: Colors.white,
+              ),
+              CustomFlatButtonRounded(
+                label: 'Awards',
+                borderRadius: 50,
+                function: () {
+                  Navigator.of(context).push(
                     CubePageRoute(
                       enterPage: AdminWithdrawalsScreen(),
                       exitPage: AdminWithdrawalsScreen(),

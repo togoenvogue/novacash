@@ -74,7 +74,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getUser();
   }
@@ -120,8 +119,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       avatar: widget.userObj.picture != null
                           ? widget.userObj.picture
                           : null,
-                      width: 100,
-                      height: 100,
+                      width: 80,
+                      height: 80,
                     ),
                     CustomCard(
                       color: MyColors().bgColor.withOpacity(0.2),
@@ -140,7 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 '${NumberHelper().formatNumber(_thisUser.ewallet_total).toString()} F',
                                 style: TextStyle(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                   fontSize: 15,
                                 ),
                               ),
@@ -158,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.normal,
                                 ),
                               ),
                             ],
@@ -174,53 +173,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             label: 'Nom et prénom(s)',
                             value:
                                 _thisUser.firstName + ' ' + _thisUser.lastName,
-                            valueIsBold: true,
+                            valueIsBold: false,
                           ),
                           CustomListVertical(
                             label: 'Sexe et âge',
                             value:
                                 '${_thisUser.sex == 'F' ? 'Féminin' : 'Masculin'}, ${_thisUser.age} ans',
-                            valueIsBold: true,
+                            valueIsBold: false,
                           ),
                           CustomHorizontalDiver(),
                           CustomListVertical(
                             label: 'Téléphone (username)',
                             value: _thisUser.phone.toString(),
-                            valueIsBold: true,
+                            valueIsBold: false,
                           ),
                           CustomHorizontalDiver(),
                           CustomListVertical(
                             label: 'Adresse email',
                             value: _thisUser.email,
-                            valueIsBold: true,
+                            valueIsBold: false,
                           ),
-                          CustomHorizontalDiver(),
-                          CustomListVertical(
-                            label: 'Expiration',
-                            value:
-                                DateHelper().formatTimeStamp(_thisUser.expiry),
-                            valueIsBold: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomCard(
-                      color: MyColors().bgColor.withOpacity(0.2),
-                      content: Column(
-                        children: [
-                          CustomListVertical(
-                            label: 'Votre parrain',
-                            value: _thisUser.sponsorKey['firstName'] +
-                                ' ' +
-                                _thisUser.sponsorKey['lastName'],
-                            valueIsBold: true,
-                          ),
-                          CustomHorizontalDiver(),
-                          CustomListVertical(
-                            label: 'Téléphone (username)',
-                            value: '+${_thisUser.sponsorKey['username']}',
-                            valueIsBold: true,
-                          ),
+                          if (_thisUser.novaCashCore == true)
+                            CustomHorizontalDiver(),
+                          if (_thisUser.novaCashCore == true)
+                            CustomListVertical(
+                              label: 'Expiration',
+                              value: DateHelper()
+                                  .formatTimeStamp(_thisUser.expiry),
+                              valueIsBold: false,
+                            ),
                         ],
                       ),
                     ),

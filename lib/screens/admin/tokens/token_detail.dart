@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../../styles/styles.dart';
 import '../../../widgets/common/custom_alert.dart';
 import '../../../helpers/common.dart';
 import '../../../widgets/common/custom_horizontal_diver.dart';
@@ -53,6 +54,7 @@ class TokenDetail extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
+                fontFamily: MyFontFamily().family2,
               ),
               textAlign: TextAlign.center,
             ),

@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart'; 
+import 'package:flutter/material.dart';
 
 class CustomFlatButtonRounded extends StatelessWidget {
   final String label;
@@ -7,6 +7,7 @@ class CustomFlatButtonRounded extends StatelessWidget {
   final Color bgColor;
   final Color textColor;
   final Color borderColor;
+  final bool isBold;
 
   CustomFlatButtonRounded({
     this.bgColor,
@@ -15,6 +16,7 @@ class CustomFlatButtonRounded extends StatelessWidget {
     this.function,
     this.label,
     this.borderColor = Colors.white,
+    this.isBold = false,
   });
 
   @override
@@ -44,9 +46,8 @@ class CustomFlatButtonRounded extends StatelessWidget {
             label,
             style: TextStyle(
               color: textColor,
-              fontFamily: 'MarkPro',
               fontSize: 15,
-              fontWeight: FontWeight.bold,
+              fontWeight: isBold == true ? FontWeight.bold : FontWeight.normal,
             ),
           ),
           shape: RoundedRectangleBorder(

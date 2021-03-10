@@ -13,6 +13,7 @@ class AppService {
                       company
                       email
                       website
+                      telegram
                       phone1
                       phone2
                       version_previous
@@ -34,6 +35,8 @@ class AppService {
                       sum_phone
                       sum_moto
                       sum_car
+                      free_coin_amount
+                      free_coin_limit
                     }
                   }''';
 
@@ -58,6 +61,7 @@ class AppService {
           company: data['company'] as String,
           auth_devices: data['auth_devices'],
           email: data['email'] as String,
+          telegram: data['telegram'] as String,
           website: data['website'] as String,
           phone1: data['phone1'] as String,
           phone2: data['phone2'] as String,
@@ -78,6 +82,8 @@ class AppService {
           sum_phone: data['sum_phone'] as dynamic,
           sum_reserve: data['sum_reserve'] as dynamic,
           sum_tgv: data['sum_tgv'] as dynamic,
+          free_coin_amount: data['free_coin_amount'] as dynamic,
+          free_coin_limit: data['free_coin_limit'] as int,
           error: null,
         );
         return obj;
@@ -88,6 +94,7 @@ class AppService {
       // failed to get user details
       AppConfigModel obj = AppConfigModel(
         key: null,
+        telegram: null,
         name: null,
         company: null,
         email: null,
@@ -112,6 +119,8 @@ class AppService {
         sum_phone: null,
         sum_reserve: null,
         sum_tgv: null,
+        free_coin_amount: null,
+        free_coin_limit: null,
         error: jsonDecode(response.body)['errors'][0]['message'],
       );
       return obj;

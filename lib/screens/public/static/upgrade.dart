@@ -50,7 +50,7 @@ class _UpgradeScreenState extends State<UpgradeScreen> {
               Text(
                 'Nouvelle version $appName',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                   color: MyColors().primary,
                   fontSize: 16,
                 ),

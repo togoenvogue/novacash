@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:blinking_text/blinking_text.dart';
 import 'package:cube_transition/cube_transition.dart';
 
+import '../../services/p2p.dart';
 import '../../widgets/common/home_carousel.dart';
 import '../../widgets/home/home_static_button_list.dart';
 import '../../models/config.dart';
@@ -17,6 +18,8 @@ import '../../models/user.dart';
 import '../../config/configuration.dart';
 import '../../screens/public/home/home.dart';
 import '../../services/user.dart';
+import 'matrix_p2p_silver/transaction/approve.dart';
+import 'matrix_p2p_silver/transaction/notify.dart';
 
 class DashboardScreen extends StatefulWidget {
   final UserModel userObj;
@@ -30,6 +33,36 @@ class _DashboardScreenState extends State<DashboardScreen> {
   AppConfigModel app;
   bool isLoading = false;
 
+  void _getPending() async {
+    var result = await P2PService().p2pSilverLatestPending(
+      userKey: widget.userObj.key,
+    );
+    if (result != null && result.error == null && result.key != null) {
+      // redirect
+
+      if (result.fromKey['_key'] == widget.userObj.key) {
+        Navigator.of(context).pop();
+        Navigator.of(context).push(
+          CubePageRoute(
+            enterPage: P2PTransactionNotifyScreen(don: result),
+            exitPage: P2PTransactionNotifyScreen(don: result),
+            duration: const Duration(milliseconds: 300),
+          ),
+        );
+      } else {
+        // approve
+        Navigator.of(context).pop();
+        Navigator.of(context).push(
+          CubePageRoute(
+            enterPage: P2PTransactionApproveScreen(don: result),
+            exitPage: P2PTransactionApproveScreen(don: result),
+            duration: const Duration(milliseconds: 300),
+          ),
+        );
+      }
+    }
+  }
+
   void _getConfigs() async {
     var result = await AppService().app();
     if (result != null && result.error == null) {
@@ -41,9 +74,11 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getConfigs();
+    if (widget.userObj != null && widget.userObj.novaCashP2PSilver == true) {
+      _getPending();
+    }
   }
 
   @override
@@ -53,17 +88,18 @@ class _DashboardScreenState extends State<DashboardScreen> {
       setState(() {
         isLoading = true;
       });
-      CustomAlert()
-          .loading(context: context, dismiss: false, isLoading: isLoading);
+      CustomAlert().loading(
+        context: context,
+        dismiss: false,
+        isLoading: isLoading,
+      );
       var result = await AuthService().logout(key: widget.userObj.key);
       setState(() {
         isLoading = false;
       });
       Navigator.of(context).pop();
-
       if (result.error == null) {
         // bye bye sound
-
         CustomAlert(
           colorBg: Colors.white,
           colorText: Colors.black,
@@ -95,10 +131,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return Scaffold(
       drawer: Theme(
         data: Theme.of(context).copyWith(
-          canvasColor: Color(0xFF26ab83),
+          canvasColor: Color(0xFF178a66),
         ),
         child: Drawer(
-          child: MainDrawer(userObj: widget.userObj),
+          child: DrawerMain(userObj: widget.userObj),
         ),
       ),
       appBar: AppBar(
@@ -108,15 +144,15 @@ class _DashboardScreenState extends State<DashboardScreen> {
           children: [
             Image.network(
               '$flagUrl/${widget.userObj.countryFlag.toLowerCase()}.png',
-              height: 20,
+              height: 16,
             ),
             SizedBox(width: 9),
             Text(
-              widget.userObj.username,
+              '+${widget.userObj.username}',
               style: TextStyle(
                 color: Colors.white,
-                fontFamily: MyFontFamily().family3,
-                fontSize: 26,
+                fontFamily: MyFontFamily().family1,
+                fontSize: 16,
               ),
             ),
           ],
@@ -195,7 +231,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
               ),
               widget.userObj.expiry > 0
                   ? Text(
-                      'Expiration: ${DateHelper().formatTimeStampFull(widget.userObj.expiry)}',
+                      'Expir: ${DateHelper().formatTimeStamp(widget.userObj.expiry)}',
                       style: TextStyle(
                         color: MyColors().success,
                         fontSize: 14,
@@ -212,12 +248,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: Text(
-                    'Une combinaison du Crowdfunding et du Marketing Digital',
+                    'Crowdfunding + Marketing Digital',
                     style: TextStyle(
                       fontSize: 17,
                       color: Color(0xffc0edb4),
-                      fontFamily: MyFontFamily().family2,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: MyFontFamily().family1,
+                      fontWeight: FontWeight.normal,
                     ),
                     textAlign: TextAlign.center,
                   ),
@@ -226,12 +262,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
               Container(
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                 child: Text(
-                  'Promotions, réductions, ventes falsh, offres d\'emplois et de stages ... tout le monde y gagne!',
+                  'Promotions, réductions, ventes flash, offres d\'emplois et de stages ... tout le monde y gagne!',
                   style: TextStyle(
                     fontSize: 12,
                     color: MyColors().white,
-                    fontFamily: MyFontFamily().family2,
-                    fontWeight: FontWeight.bold,
+                    fontFamily: MyFontFamily().family1,
+                    fontWeight: FontWeight.normal,
                   ),
                   textAlign: TextAlign.center,
                 ),

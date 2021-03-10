@@ -86,7 +86,7 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                     ),
                     height: 25,
                     //padding: EdgeInsets.symmetric(horizontal: 6),
-                    /* decoration: BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(width: 1, color: Colors.white),
                         top: BorderSide(width: 1, color: Colors.white),
@@ -94,7 +94,7 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                         right: BorderSide(width: 1, color: Colors.white),
                       ),
                       borderRadius: BorderRadius.circular(0),
-                    ),*/
+                    ),
                   ),
                   SizedBox(height: 18),
                 ],
@@ -110,13 +110,12 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                   child: Text(
                     leadingText,
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: 20,
                       fontWeight: FontWeight.normal,
-                      fontFamily: MyFontFamily().family2,
                       color: MyColors().primary,
                     ),
                   ),
-                  height: 60,
+                  height: 45,
                   padding: EdgeInsets.symmetric(horizontal: 6),
                 ),
               ),
@@ -159,7 +158,7 @@ class CustomTextInputLeadingAndIcon extends StatelessWidget {
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
                         width: 1,
-                        color: Color(0xff5A73CB),
+                        color: Colors.black.withOpacity(0.3),
                       ),
                       borderRadius: BorderRadius.circular(borderRadius),
                     ),

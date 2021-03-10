@@ -256,4 +256,109 @@ class WithdrawService {
     }
   }
   // end my withdrawals
+
+  // close withdrawal
+  // ignore: missing_return
+  Future<WithdrawalModel> withdrawalClose({
+    @required String key,
+    @required String txid,
+    @required String note,
+  }) async {
+    var body = '''mutation {
+                    withdrawalClose(
+                      key: "$key", 
+                      txid: "$txid",
+                      note: """$note""" 
+                      ) {
+                      _key
+                      timeStamp
+                      channel
+                      mobileMoney
+                      account
+                      amountCrypto
+                      amount
+                      txid
+                      balance_before
+                      balance_after
+                      status
+                      firstName
+                      lastName
+                      city
+                      country
+                      countryCode
+                      isLocal
+                      userKey {
+                        _key
+                        username
+                        firstName
+                        lastName
+                        phone
+                      }
+                    }
+                  }''';
+
+    var response = await http.post(
+      serverURL + '/api/graphql',
+      body: json.encode({'query': body}),
+      headers: {"Content-Type": "application/json"},
+    ).catchError((error) {
+      throw error;
+    });
+
+    //print(response.body);
+    if (response.statusCode == 200) {
+      var jsonData = jsonDecode(response.body);
+      var data = jsonData['data']['withdrawalClose'];
+      //print(data);
+
+      if (data != null) {
+        WithdrawalModel obj = WithdrawalModel(
+          key: data['_key'] as String,
+          timeStamp: data['timeStamp'] as dynamic,
+          account: data['account'] as String,
+          channel: data['channel'] as String,
+          mobileMoney: data['mobileMoney'] as String,
+          status: data['status'] as String,
+          amount: data['amount'] as dynamic,
+          amountCrypto: data['amountCrypto'] as dynamic,
+          txid: data['txid'] as String,
+          countryCode: data['countryCode'] as int,
+          isLocal: data['isLocal'] as bool,
+          userKey: data['userKey'] as Object,
+          city: data['city'] as String,
+          country: data['country'] as String,
+          firstName: data['firstName'] as String,
+          lastName: data['lastName'] as String,
+          error: null,
+        );
+        return obj;
+      }
+      // end
+
+    } else {
+      // failed to get user details
+      WithdrawalModel obj = WithdrawalModel(
+        key: null,
+        timeStamp: null,
+        account: null,
+        channel: null,
+        countryCode: null,
+        isLocal: null,
+        mobileMoney: null,
+        status: null,
+        amount: null,
+        amountCrypto: null,
+        txid: null,
+        userKey: null,
+        city: null,
+        country: null,
+        firstName: null,
+        lastName: null,
+        error: jsonDecode(response.body)['errors'][0]['message'],
+      );
+      return obj;
+    }
+  }
+  // end close withdrawal
+
 }

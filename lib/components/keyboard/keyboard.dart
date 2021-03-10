@@ -15,21 +15,13 @@ class VirtualKeyBoard extends StatelessWidget {
     this.keyFnc,
     this.excludeZero,
     this.title,
-    this.crossAxisCount = 8,
+    this.crossAxisCount = 5,
     this.color = const Color(0xff404A6B),
   });
   @override
   Widget build(BuildContext context) {
     double keyBoardHeight;
-    if (keyCount > 0 && keyCount <= 8) {
-      keyBoardHeight = 35;
-    } else if (keyCount > 8 && keyCount <= 16) {
-      keyBoardHeight = 80;
-    } else if (keyCount > 16 && keyCount <= 32) {
-      keyBoardHeight = 130;
-    } else {
-      keyBoardHeight = 130;
-    }
+    keyBoardHeight = 145;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
       child: Container(
@@ -43,9 +35,9 @@ class VirtualKeyBoard extends StatelessWidget {
                 title.toString(),
                 style: TextStyle(
                   color: Colors.white,
-                  fontFamily: MyFontFamily().family2,
+                  fontFamily: MyFontFamily().family1,
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
                 textAlign: TextAlign.center,
               ),

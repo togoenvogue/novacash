@@ -3,6 +3,7 @@ class AppConfigModel {
   final String name;
   final String company;
   final String email;
+  final String telegram;
   final String website;
   final String phone1;
   final String phone2;
@@ -43,9 +44,14 @@ class AppConfigModel {
   final dynamic sum_moto;
   // ignore: non_constant_identifier_names
   final dynamic sum_car;
+  final dynamic free_coin_amount; // ignore: non_constant_identifier_names
+  final int free_coin_limit; // ignore: non_constant_identifier_names
 
   AppConfigModel({
     this.company,
+    this.telegram,
+    this.free_coin_amount, // ignore: non_constant_identifier_names
+    this.free_coin_limit, // ignore: non_constant_identifier_names
     this.desc,
     this.email,
     this.error,

@@ -156,7 +156,7 @@ class _TokenSearchScreenState extends State<TokenSearchScreen> {
                   //fit: BoxFit.cover,
                 ),
                 //decoration: BoxDecoration(color: Colors.green),
-                height: 70,
+                height: 50,
                 //width: double.infinity,
               ),
               SizedBox(height: 10),

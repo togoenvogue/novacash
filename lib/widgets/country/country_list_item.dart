@@ -41,7 +41,7 @@ class CountryListItem extends StatelessWidget {
             ),
             child: Image.network(
                 '$flagUrl/${country.countryFlag.toLowerCase()}.png'),
-            height: 35,
+            height: 30,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -50,7 +50,7 @@ class CountryListItem extends StatelessWidget {
               Text(
                 country.countryName,
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
               //Text('Cliquez sur choisir'),
@@ -64,9 +64,12 @@ class CountryListItem extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 12.0),
                   child: CustomButton(
-                    buttonRadius: 50,
+                    buttonRadius: 10,
                     color: Colors.white,
-                    textStyle: TextStyle(color: MyColors().info),
+                    textStyle: TextStyle(
+                      color: MyColors().info,
+                      fontSize: 12,
+                    ),
                     borderColor: MyColors().info,
                     text: 'Choisir',
                     onPressed: () {

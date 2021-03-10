@@ -167,14 +167,12 @@ class UssdService {
   // end send new message to the server
 
   // get pending withdrawals
-  Future<List<WithdrawalModel>> mobileWithdrawals({
-    @required int day,
+  Future<List<WithdrawalModel>> adminWithdrawals({
     @required int month,
     @required int year,
   }) async {
     var body = '''query {
-                    withdrawalsMobile(
-                      day: $day,
+                    adminWithdrawals(
                       month: $month, 
                       year: $year) {
                       _key
@@ -218,7 +216,7 @@ class UssdService {
     //print(response.body);
     if (response.statusCode == 200) {
       var jsonData = jsonDecode(response.body);
-      var jsonDataFinal = jsonData['data']['withdrawalsMobile'];
+      var jsonDataFinal = jsonData['data']['adminWithdrawals'];
 
       //print(jsonDataFinal.length);
       List<WithdrawalModel> objArray = [];

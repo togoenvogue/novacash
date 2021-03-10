@@ -12,7 +12,7 @@ class ApnListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 85,
+      height: 70,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(width: 1, color: Colors.black.withOpacity(0.1)),
@@ -49,8 +49,8 @@ class ApnListItem extends StatelessWidget {
             ),
             child: Image.network(
               apn.picture,
-              width: 65,
-              height: 65,
+              width: 45,
+              height: 45,
               fit: BoxFit.cover,
             ),
           ),
@@ -62,7 +62,7 @@ class ApnListItem extends StatelessWidget {
               Text(
                 '${apn.firstName} ${apn.lastName}',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                   color: Colors.white,
                 ),
               ),
@@ -71,16 +71,16 @@ class ApnListItem extends StatelessWidget {
                 '+${apn.username}',
                 style: TextStyle(
                   color: Colors.yellow,
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.normal,
                 ),
               ),
-              SizedBox(height: 3),
-              Text(
+              // SizedBox(height: 3),
+              /*Text(
                 apn.email,
                 style: TextStyle(
                   color: Colors.white.withOpacity(0.6),
                 ),
-              ),
+              ),*/
             ],
           ),
           Expanded(

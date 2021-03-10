@@ -56,7 +56,6 @@ class _ReviewScreenState extends State<ReviewScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getRecords();
   }

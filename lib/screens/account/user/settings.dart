@@ -125,7 +125,6 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getCategories();
   }
@@ -154,7 +153,7 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                 child: Image.asset(
                   'assets/images/icon-settings.png',
                 ),
-                height: 70,
+                height: 50,
               ),
               SizedBox(height: 6),
               Padding(
@@ -163,14 +162,14 @@ class _UserSettingsScreenState extends State<UserSettingsScreen> {
                   'Vous devez sélectionner 3 domaines minimum dont vous souhaitez recevoir des alertes (notifications mail ou SMS)',
                   style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
                   textAlign: TextAlign.center,
                 ),
               ),
               SizedBox(height: 10),
               Container(
-                height: MediaQuery.of(context).size.height - 320,
+                height: MediaQuery.of(context).size.height - 300,
                 child:
                     records != null && records.length > 0 && isLoading == false
                         ? ListView.builder(

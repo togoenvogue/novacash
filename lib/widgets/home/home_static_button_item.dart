@@ -61,8 +61,8 @@ class HomeStaticButtonItem extends StatelessWidget {
             Text(
               label,
               style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontFamily: MyFontFamily().family2,
+                fontWeight: FontWeight.normal,
+                fontFamily: MyFontFamily().family1,
                 color: MyColors().primary,
                 fontSize: 12,
               ),

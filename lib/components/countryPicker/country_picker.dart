@@ -42,28 +42,25 @@ class _CountryPickerState extends State<CountryPicker> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getCountries();
   }
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Container(
-        height: 500,
-        child: records != null && records.length == 0
-            ? EmptyFolder(isLoading: isLoading)
-            : ListView.builder(
-                itemBuilder: (ctx, index) {
-                  return CountryPickerList(
-                    country: records[index],
-                    selectedCountry: _countryCode,
-                  );
-                },
-                itemCount: records.length,
-              ),
-      ),
+    return Container(
+      height: 400,
+      child: records != null && records.length == 0
+          ? EmptyFolder(isLoading: isLoading)
+          : ListView.builder(
+              itemBuilder: (ctx, index) {
+                return CountryPickerList(
+                  country: records[index],
+                  selectedCountry: _countryCode,
+                );
+              },
+              itemCount: records.length,
+            ),
     );
   }
 }

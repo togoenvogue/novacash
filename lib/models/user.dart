@@ -1,37 +1,10 @@
 class UserModel {
   final String key;
   final dynamic timeStamp;
+  final dynamic nextQuizPlay;
   final dynamic expiry;
-  final dynamic pronoExpiry;
   final bool isDemoAccount;
   final dynamic nextToWithdraw;
-  final dynamic sponsorKey;
-  final dynamic linkedTo;
-  final dynamic level1;
-  final dynamic level2;
-  final dynamic level3;
-  final dynamic level4;
-  final dynamic level5;
-  final dynamic level6;
-  final dynamic level7;
-  final dynamic level8;
-  final dynamic level9;
-  final dynamic level10;
-  final dynamic level11;
-  final dynamic level12;
-  final dynamic level13;
-  final dynamic level14;
-  final dynamic level15;
-  final dynamic level16;
-  final dynamic level17;
-  final dynamic level18;
-  final dynamic level19;
-  final dynamic level20;
-  final int level1Count;
-  final int teamCount;
-  final int totalSponsored;
-  final dynamic bulkId;
-  final dynamic nextBulkId;
   final String email;
   final String username;
   final dynamic phone;
@@ -66,6 +39,8 @@ class UserModel {
   // ignore: non_constant_identifier_names
   final dynamic credits_balance;
   // ignore: non_constant_identifier_names
+  final dynamic ewallet_p2p;
+  // ignore: non_constant_identifier_names
   final dynamic credits_total;
   final bool gadget1Qualified;
   final bool gadget2Qualified;
@@ -73,17 +48,32 @@ class UserModel {
   final bool gadget1Given;
   final bool gadget2Given;
   final bool gadget3Given;
+  final bool novaCashCore;
+  final bool novaCashP2PSilver;
+  final bool novaCashP2PGold;
+  final bool novaCashP2PRuby;
   final List<dynamic> categories;
   final String error;
   final String sex;
   final int age;
+  // ignore: non_constant_identifier_names
+  final String channel_mobile1;
+  // ignore: non_constant_identifier_names
+  final String channel_mobile2;
+  final String channel_mobile3;
+  // ignore: non_constant_identifier_names
+  final String channel_cash; // ignore: non_constant_identifier_names
+  final String channel_btc; // ignore: non_constant_identifier_names
+  final String channel_eth; // ignore: non_constant_identifier_names
+  final String channel_pm; // ignore: non_constant_identifier_names
+  final String channel_py; // ignore: non_constant_identifier_names
+  final String channel_pp; // ignore: non_constant_identifier_names
 
   UserModel({
     this.age,
     this.sex,
     this.key,
     this.authExpir,
-    this.bulkId,
     this.conditionsAccepted,
     this.countryCode,
     this.countryFlag,
@@ -99,6 +89,8 @@ class UserModel {
     this.ewallet_balance,
     // ignore: non_constant_identifier_names
     this.ewallet_total,
+    // ignore: non_constant_identifier_names
+    this.ewallet_p2p,
     this.expiry,
     this.firstName,
     this.gadget1Given,
@@ -116,30 +108,6 @@ class UserModel {
     this.isSupport,
     this.lastLogin,
     this.lastName,
-    this.level1,
-    this.level10,
-    this.level11,
-    this.level12,
-    this.level13,
-    this.level14,
-    this.level15,
-    this.level16,
-    this.level17,
-    this.level18,
-    this.level19,
-    this.level1Count,
-    this.level2,
-    this.level20,
-    this.level3,
-    this.level4,
-    this.level5,
-    this.level6,
-    this.level7,
-    this.level8,
-    this.level9,
-    this.linkedTo,
-    this.loginRef,
-    this.nextBulkId,
     this.nextToWithdraw,
     this.password,
     this.passwordReset,
@@ -147,15 +115,26 @@ class UserModel {
     this.phoneVerificationCode,
     this.phoneVerified,
     this.picture,
-    this.pronoExpiry,
     this.resetStamp,
-    this.sponsorKey,
-    this.teamCount,
     this.timeStamp,
     this.token,
-    this.totalSponsored,
     this.username,
     this.whatsApp,
     this.categories,
+    this.loginRef,
+    this.novaCashCore,
+    this.novaCashP2PGold,
+    this.novaCashP2PRuby,
+    this.novaCashP2PSilver,
+    this.nextQuizPlay,
+    this.channel_btc, // ignore: non_constant_identifier_names
+    this.channel_cash, // ignore: non_constant_identifier_names
+    this.channel_eth, // ignore: non_constant_identifier_names
+    this.channel_mobile1, // ignore: non_constant_identifier_names
+    this.channel_mobile2, // ignore: non_constant_identifier_names
+    this.channel_mobile3, // ignore: non_constant_identifier_names
+    this.channel_pm, // ignore: non_constant_identifier_names
+    this.channel_py, // ignore: non_constant_identifier_names
+    this.channel_pp, // ignore: non_constant_identifier_names
   });
 }

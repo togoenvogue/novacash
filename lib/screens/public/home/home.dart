@@ -3,7 +3,7 @@ import 'package:cube_transition/cube_transition.dart';
 import 'package:flutter/services.dart';
 import 'package:get_version/get_version.dart';
 
-import '../../../screens/auth/signup_choice.dart';
+import '../../auth/signup_choice.dart';
 import '../../../widgets/common/home_carousel.dart';
 import '../../../widgets/home/home_static_button_list.dart';
 import '../../../screens/public/static/upgrade.dart';
@@ -51,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
         setState(() {
           appVersion = platformVersion;
         });
-        //print(platformVersion);
+        //print('platformVersion: $platformVersion');
+        //print('app.version_current: ${app.version_current}');
         if (platformVersion != app.version_current) {
           Navigator.of(context).pushReplacement(
             CubePageRoute(
@@ -102,12 +103,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 20.0),
                     child: Text(
-                      'Une combinaison du Crowdfunding et du Marketing Digital',
+                      'Crowdfunding + Marketing Digital',
                       style: TextStyle(
                         fontSize: 17,
                         color: Color(0xffc0edb4),
-                        fontFamily: MyFontFamily().family2,
-                        fontWeight: FontWeight.bold,
+                        fontFamily: MyFontFamily().family1,
+                        fontWeight: FontWeight.normal,
                       ),
                       textAlign: TextAlign.center,
                     ),
@@ -116,12 +117,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 Container(
                   padding: EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                   child: Text(
-                    'Promotions, réductions, ventes falsh, offres d\'emplois et de stages ... tout le monde y gagne!',
+                    'Promotions, réductions, ventes flash, offres d\'emplois et de stages ... tout le monde y gagne!',
                     style: TextStyle(
                       fontSize: 12,
                       color: MyColors().white,
-                      fontFamily: MyFontFamily().family2,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: MyFontFamily().family1,
+                      fontWeight: FontWeight.normal,
                     ),
                     textAlign: TextAlign.center,
                   ),

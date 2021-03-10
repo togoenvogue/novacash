@@ -39,7 +39,6 @@ class _CustomNumberIncrementState extends State<CustomNumberIncrement> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     setState(() {
       _number = widget.defaultValue;

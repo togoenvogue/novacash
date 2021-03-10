@@ -40,9 +40,6 @@ class CustomTextInput extends StatelessWidget {
       content: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
-          SizedBox(
-            height: 5,
-          ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: Text(
@@ -70,13 +67,17 @@ class CustomTextInput extends StatelessWidget {
                 color: Colors.grey,
               ),
               hintText: hintText,
-              hintStyle: MyStyles().textInputContent,
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.normal,
+                color: Colors.black.withOpacity(0.3),
+                fontSize: 13,
+              ),
               helperText: helpText,
               helperStyle: MyStyles().hint,
               contentPadding: EdgeInsets.only(
-                top: 6.0,
-                bottom: 4.0,
-                left: 18.0,
+                top: 1.0,
+                bottom: 1.0,
+                left: 15.0,
                 right: 15.0,
               ),
               enabledBorder: OutlineInputBorder(

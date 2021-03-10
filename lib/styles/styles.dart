@@ -40,21 +40,20 @@ class MyStyles {
   );
 
   final textInputLabel = const TextStyle(
-    fontFamily: 'MarkPro',
     color: Colors.white,
     fontSize: 14,
-    fontWeight: FontWeight.bold,
+    fontWeight: FontWeight.normal,
+    fontFamily: 'Aeonik',
   );
 
   final textInputContent = const TextStyle(
-    fontFamily: 'MarkPro',
     color: Colors.black,
-    fontSize: 18,
-    fontWeight: FontWeight.bold,
+    fontSize: 16,
+    fontWeight: FontWeight.normal,
+    fontFamily: 'Aeonik',
   );
 
   final hint = const TextStyle(
-    fontFamily: 'MarkPro',
     color: Color(0xffffffff),
     fontSize: 12,
     fontWeight: FontWeight.normal,
@@ -63,5 +62,6 @@ class MyStyles {
   final appBarTextStyle = const TextStyle(
     color: Colors.white,
     fontWeight: FontWeight.normal,
+    fontSize: 19,
   );
 }

@@ -129,7 +129,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                 child: Image.asset(
                   'assets/images/icon-autoship.png',
                 ),
-                height: 70,
+                height: 50,
               ),
               SizedBox(height: 10),
               CustomTextInput(

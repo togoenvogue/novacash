@@ -46,17 +46,17 @@ class _CountryPickerListState extends State<CountryPickerList> {
                           '$flagUrl/${widget.country.countryFlag.toLowerCase()}.png',
                         ),
                 ),
-                width: 40,
+                width: 35,
               ),
               SizedBox(width: 5),
               Container(
                 child: Text(
                   '+${widget.country.countryCode.toString()}',
                   style: TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.normal,
                   ),
                 ),
-                width: 55,
+                width: 45,
               ),
               Container(
                 child: Text(

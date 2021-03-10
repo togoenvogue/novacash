@@ -41,7 +41,6 @@ class _MessageInboxScreenState extends State<MessageInboxScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if (widget.userKey != null) {
       _getRecords(userKey: widget.userKey);

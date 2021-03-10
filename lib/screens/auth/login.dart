@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/ButtonTextStyle.dart';
+import 'package:custom_radio_grouped_button/CustomButtons/CustomRadioButton.dart';
 import 'package:cube_transition/cube_transition.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../widgets/common/custom_card.dart';
 import '../../screens/account/user/settings.dart';
 import '../../services/user.dart';
 import '../../screens/auth/contract.dart';
@@ -26,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String password;
   bool isLoading = false;
   bool savePassword = true;
+  String matrixToLoad;
 
   void _login() async {
     if (username != null &&
@@ -51,39 +55,43 @@ class _LoginScreenState extends State<LoginScreen> {
           var prefs = await SharedPreferences.getInstance();
           prefs.setString('savedPassword', password);
           prefs.setString('savedUsername', username);
-        } else {
-          var prefs = await SharedPreferences.getInstance();
-          prefs.setString('savedPassword', '');
-          prefs.setString('savedUsername', '');
-        }
+          prefs.setString('MATRIXX', matrixToLoad);
 
-        if (result.conditionsAccepted == true) {
-          if (result != null && result.categories.length >= 3) {
-            Navigator.of(context).pushReplacement(
-              CubePageRoute(
-                enterPage: DashboardScreen(userObj: result),
-                exitPage: DashboardScreen(userObj: result),
-                duration: const Duration(milliseconds: 300),
-              ),
-            );
+          if (result.conditionsAccepted == true) {
+            if (result != null && result.categories.length >= 1) {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacement(
+                CubePageRoute(
+                  enterPage: DashboardScreen(userObj: result),
+                  exitPage: DashboardScreen(userObj: result),
+                  duration: const Duration(milliseconds: 300),
+                ),
+              );
+            } else {
+              Navigator.of(context).pop();
+              Navigator.of(context).pushReplacement(
+                CubePageRoute(
+                  enterPage: UserSettingsScreen(user: result),
+                  exitPage: UserSettingsScreen(user: result),
+                  duration: const Duration(milliseconds: 300),
+                ),
+              );
+            }
           } else {
+            // redirect to conditions
             Navigator.of(context).pushReplacement(
               CubePageRoute(
-                enterPage: UserSettingsScreen(user: result),
-                exitPage: UserSettingsScreen(user: result),
+                enterPage: UserContractScreen(user: result),
+                exitPage: UserContractScreen(user: result),
                 duration: const Duration(milliseconds: 300),
               ),
             );
           }
         } else {
-          // redirect to conditions
-          Navigator.of(context).pushReplacement(
-            CubePageRoute(
-              enterPage: UserContractScreen(user: result),
-              exitPage: UserContractScreen(user: result),
-              duration: const Duration(milliseconds: 300),
-            ),
-          );
+          var prefs = await SharedPreferences.getInstance();
+          prefs.setString('savedPassword', '');
+          prefs.setString('savedUsername', '');
+          prefs.setString('MATRIXX', '');
         }
       } else {
         CustomAlert(
@@ -122,7 +130,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getCachedCredentials();
   }
@@ -150,70 +157,107 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(height: 10),
                 Logo(),
                 SizedBox(height: 10),
-                CustomTextInput(
-                  isObscure: false,
-                  //maxLength: 11,
-                  maxLines: 1,
-                  inputType: TextInputType.number,
-                  labelText:
-                      'Entrez votre numéro de tél. mobile en commençant par l\'indicatif du pays',
-                  //hintText: 'Ex: 22678990966',
-                  helpText: 'Evitez 00 ou le signe + devant',
-                  controller: _savedUsername,
-                  onChanged: (value) {
-                    setState(() {
-                      username = value;
-                    });
-                  },
-                ),
-                CustomTextInput(
-                  isObscure: true,
-                  maxLines: 1,
-                  maxLength: 20,
-                  inputType: TextInputType.number,
-                  labelText: 'Entrez votre mot de passe $appName',
-                  helpText: 'Entre 6 et 20 chiffres',
-                  controller: _savedPassword,
-                  onChanged: (value) {
-                    setState(() {
-                      password = value;
-                    });
-                  },
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Checkbox(
-                      value: savePassword,
-                      onChanged: (bool value) {
-                        setState(() {
-                          savePassword = value;
-                        });
-                      },
-                      focusColor: Colors.yellowAccent,
-                      activeColor: Colors.white,
-                      checkColor: Colors.green,
-                      hoverColor: Colors.white,
-                    ),
-                    Text(
-                      'Cocher pour enregistrer vos infos',
-                      style: TextStyle(
-                        color: Colors.white,
+                CustomCard(
+                  content: Column(
+                    children: [
+                      Text('Sélectionnez une matrice à charger'),
+                      SizedBox(height: 7),
+                      CustomRadioButton(
+                        buttonLables: ['PREMIUM', 'P2P SILVER'],
+                        buttonValues: ['PREMIUM', 'P2PSILVER'],
+                        radioButtonValue: (value) {
+                          setState(() {
+                            matrixToLoad = value;
+                          });
+                        },
+                        unSelectedColor: Colors.black.withOpacity(0.1),
+                        selectedColor: Colors.green.withOpacity(0.8),
+                        selectedBorderColor: Colors.transparent,
+                        unSelectedBorderColor: Colors.black.withOpacity(0.1),
+                        enableShape: true,
+                        enableButtonWrap: true,
+                        buttonTextStyle: ButtonTextStyle(
+                          textStyle: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            fontFamily: MyFontFamily().family1,
+                            color: Colors.white,
+                            fontSize: 13,
+                          ),
+                        ),
+                        width: 125,
+                        elevation: 0,
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-                SizedBox(height: 10),
-                CustomFlatButtonRounded(
-                  label: 'Connexion',
-                  borderRadius: 50,
-                  function: () {
-                    _login();
-                  },
-                  borderColor: Colors.transparent,
-                  bgColor: Colors.green.withOpacity(0.6),
-                  textColor: Colors.white,
-                ),
+                if (matrixToLoad != null)
+                  CustomTextInput(
+                    isObscure: false,
+                    //maxLength: 11,
+                    maxLines: 1,
+                    inputType: TextInputType.number,
+                    labelText:
+                        'Entrez votre numéro de tél. mobile en commençant par l\'indicatif du pays',
+                    //hintText: 'Ex: 22678990966',
+                    helpText: 'Evitez 00 ou le signe + devant',
+                    controller: _savedUsername,
+                    onChanged: (value) {
+                      setState(() {
+                        username = value;
+                      });
+                    },
+                  ),
+                if (matrixToLoad != null)
+                  CustomTextInput(
+                    isObscure: true,
+                    maxLines: 1,
+                    maxLength: 20,
+                    inputType: TextInputType.number,
+                    labelText: 'Entrez votre mot de passe $appName',
+                    helpText: 'Entre 6 et 20 chiffres',
+                    controller: _savedPassword,
+                    onChanged: (value) {
+                      setState(() {
+                        password = value;
+                      });
+                    },
+                  ),
+                if (matrixToLoad != null)
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Checkbox(
+                        value: savePassword,
+                        onChanged: (bool value) {
+                          setState(() {
+                            savePassword = value;
+                          });
+                        },
+                        focusColor: Colors.yellowAccent,
+                        activeColor: Colors.white,
+                        checkColor: Colors.green,
+                        hoverColor: Colors.white,
+                      ),
+                      Text(
+                        'Cocher pour enregistrer vos infos',
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                    ],
+                  ),
+                if (matrixToLoad != null) SizedBox(height: 10),
+                if (matrixToLoad != null)
+                  CustomFlatButtonRounded(
+                    label: 'Connexion',
+                    borderRadius: 50,
+                    function: () {
+                      _login();
+                    },
+                    borderColor: Colors.transparent,
+                    bgColor: Colors.green.withOpacity(0.6),
+                    textColor: Colors.white,
+                  ),
                 CustomFlatButtonRounded(
                   label: 'Mot de passe perdu? Cliquez ici',
                   borderRadius: 50,
@@ -230,6 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   textColor: MyColors().primary,
                   borderColor: Colors.transparent,
                 ),
+                SizedBox(height: 20),
               ],
             ),
           ),

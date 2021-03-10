@@ -117,7 +117,6 @@ class _PasswordResetScreenState extends State<PasswordResetScreen> {
               SizedBox(height: 5),
               CustomTextInput(
                 isObscure: false,
-                maxLength: 11,
                 maxLines: 1,
                 inputType: TextInputType.number,
                 labelText:

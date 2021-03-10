@@ -48,6 +48,17 @@ class ExpirationService {
           error: null,
         );
         return obj;
+      } else {
+        ExpirationModel obj = ExpirationModel(
+          key: null,
+          timeStamp: null,
+          amount: null,
+          days: null,
+          expiry: null,
+          userKey: null,
+          error: jsonDecode(response.body)['errors'][0]['message'],
+        );
+        return obj;
       }
       // end
 
@@ -111,9 +122,18 @@ class ExpirationService {
           error: null,
         );
         return obj;
+      } else {
+        ExpirationModel obj = ExpirationModel(
+          key: null,
+          timeStamp: null,
+          amount: null,
+          days: null,
+          expiry: null,
+          userKey: null,
+          error: jsonDecode(response.body)['errors'][0]['message'],
+        );
+        return obj;
       }
-      // end
-
     } else {
       // failed to get user details
       ExpirationModel obj = ExpirationModel(

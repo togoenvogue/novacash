@@ -22,7 +22,7 @@ class _UserSettingsListState extends State<UserSettingsList> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 15),
+            padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 10),
             child: Row(
               children: [
                 Expanded(
@@ -30,8 +30,8 @@ class _UserSettingsListState extends State<UserSettingsList> {
                     widget.category.category,
                     style: TextStyle(
                       color: Colors.white,
-                      fontFamily: MyFontFamily().family2,
-                      fontSize: 16,
+                      fontFamily: MyFontFamily().family1,
+                      fontSize: 15,
                     ),
                   ),
                 ),
@@ -50,17 +50,17 @@ class _UserSettingsListState extends State<UserSettingsList> {
                       });
                     },
                   ),
-                  width: 40,
+                  width: 35,
                 ),
               ],
             ),
-          )
+          ),
         ],
       ),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
-            color: Colors.white.withOpacity(0.15),
+            color: Colors.white.withOpacity(0.10),
             width: 1,
           ),
         ),

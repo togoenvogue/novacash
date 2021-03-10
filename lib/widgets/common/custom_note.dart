@@ -3,49 +3,38 @@ import '../../styles/styles.dart';
 
 class CustomNote extends StatelessWidget {
   final String message;
+  @required
   final Color color;
+  @required
+  final Color textColor;
   final IconData icon;
-  CustomNote({this.icon, this.message, this.color});
+  CustomNote({
+    this.icon,
+    this.message,
+    this.color,
+    this.textColor,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 25,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              icon,
-              size: 30,
-              color: color,
-            ),
+    return Container(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(15, 8, 15, 12),
+        child: Text(
+          message,
+          style: TextStyle(
+            color: textColor,
+            fontFamily: MyFontFamily().family1,
+            fontSize: 14,
           ),
+          textAlign: TextAlign.center,
         ),
-        Expanded(
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 9,
-                  vertical: 3,
-                ),
-                child: Text(
-                  message,
-                  style: TextStyle(
-                    color: color,
-                    fontFamily: MyFontFamily().family2,
-                    fontSize: 15,
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
+      ),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: color,
+      ),
     );
   }
 }

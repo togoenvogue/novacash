@@ -23,7 +23,6 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -36,7 +35,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: themeColor,
         visualDensity: VisualDensity.adaptivePlatformDensity,
-        fontFamily: MyFontFamily().family2,
+        fontFamily: MyFontFamily().family1,
         backgroundColor: MyColors().bgColor,
         textTheme: TextTheme(
           bodyText1: TextStyle(

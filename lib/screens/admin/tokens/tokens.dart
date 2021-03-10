@@ -58,7 +58,7 @@ class _TokensScreenState extends State<TokensScreen> {
       context: context,
       locale: const Locale("fr", "FR"),
       initialDate: DateTime.now(),
-      firstDate: DateTime(2020),
+      firstDate: DateTime(2021),
       lastDate: DateTime.now(),
     ).then((value) {
       if (value == null) {
@@ -214,14 +214,14 @@ class _TokensScreenState extends State<TokensScreen> {
                   //fit: BoxFit.cover,
                 ),
                 //decoration: BoxDecoration(color: Colors.green),
-                height: 70,
+                height: 50,
                 //width: double.infinity,
               ),
               _thisUser != null && _thisUser.isSupport
                   ? Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        'Cliquez sur l\'icône (+) pour générer des codes de validation avec votre compte master',
+                        'Cliquez sur l\'icône (+) pour générer des Tokens (Codes) avec votre compte master',
                         style: TextStyle(
                           color: Colors.white,
                         ),
@@ -231,7 +231,7 @@ class _TokensScreenState extends State<TokensScreen> {
                   : Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
-                        'Cliquez sur l\'icône (+) pour générer des codes de validation avec vos gains',
+                        'Cliquez sur l\'icône (+) pour générer des Tokens (Codes) de validation avec vos gains',
                         style: TextStyle(
                           color: Colors.white,
                         ),

@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ussd/ussd.dart';
 
-import '../../../screens/account/expiration/renew.dart';
-import '../../../services/ussd.dart';
+import '../../../screens/admin/withdrawals/withdrawal_detail.dart';
 import '../../../helpers/common.dart';
 import '../../../styles/styles.dart';
 import '../../../widgets/common/custom_flat_button_rounded.dart';
@@ -20,32 +18,13 @@ class AdminWithdrawalList extends StatefulWidget {
 }
 
 class _AdminWithdrawalListState extends State<AdminWithdrawalList> {
-  void _callUSSD({String key}) async {
-    setState(() {
-      isLoading = true;
-    });
-    // get the withdrawal
-    var result = await UssdService().getWithdrawal(key: key);
-
-    if (result != null && result.error == null) {
-      if (result.status == 'Pending') {
-        if (result.mobileMoney == 'OrangeMoney') {
-          //print(key);
-          final String ussdCode = result.isLocal == true
-              ? '*144*2*1*${result.account}*${result.amount}#'
-              : '*144*2*2*${result.account}*${result.amount}#';
-          Ussd.runUssd(ussdCode);
-        } else {
-          //print(key);
-          final String ussdCode = result.isLocal == true
-              ? '*555*2*1*${result.account}*${result.amount}#'
-              : '*555*2*2*${result.account}*${result.amount}#';
-          Ussd.runUssd(ussdCode);
-        }
-      } else {}
-    } else {
-      // error
-    }
+  void _openDetailModal({BuildContext ctx, WithdrawalModel retrait}) {
+    showModalBottomSheet(
+      context: ctx,
+      builder: (_) {
+        return AdminWithdrawalDetail(retrait: retrait);
+      },
+    );
   }
 
   @override
@@ -57,11 +36,6 @@ class _AdminWithdrawalListState extends State<AdminWithdrawalList> {
           CustomListSpaceBetwen(
             label: 'Date',
             value: '${DateHelper().formatTimeStampFull(widget.wdl.timeStamp)}',
-          ),
-          CustomHorizontalDiver(),
-          CustomListSpaceBetwen(
-            label: 'Withdrawal Key',
-            value: '${widget.wdl.key}',
           ),
           CustomHorizontalDiver(),
           CustomListSpaceBetwen(
@@ -82,25 +56,36 @@ class _AdminWithdrawalListState extends State<AdminWithdrawalList> {
           ),
           CustomHorizontalDiver(),
           CustomListSpaceBetwen(
-            label: 'Cpte',
-            value:
-                '(+${widget.wdl.countryCode}) ${widget.wdl.account} /${widget.wdl.mobileMoney}',
+            label: 'Channel',
+            value: '${widget.wdl.channel}',
           ),
           CustomHorizontalDiver(),
           SizedBox(height: 7),
           widget.wdl.status == 'Pending'
               ? CustomFlatButtonRounded(
-                  label: 'Payer (${widget.wdl.mobileMoney})',
+                  label: 'Attente de paiement',
                   borderRadius: 50,
                   function: () {
-                    _callUSSD(key: widget.wdl.key);
+                    _openDetailModal(
+                      ctx: context,
+                      retrait: widget.wdl,
+                    );
                   },
-                  bgColor: widget.wdl.mobileMoney == 'OrangeMoney'
-                      ? MyColors().warning
-                      : MyColors().primary,
+                  bgColor: MyColors().warning,
                   textColor: Colors.white,
                 )
-              : Text('Payé: ${widget.wdl.txid}'),
+              : CustomFlatButtonRounded(
+                  label: 'Déjà payé',
+                  borderRadius: 50,
+                  function: () {
+                    _openDetailModal(
+                      ctx: context,
+                      retrait: widget.wdl,
+                    );
+                  },
+                  bgColor: MyColors().success,
+                  textColor: Colors.white,
+                ),
         ],
       ),
     );
